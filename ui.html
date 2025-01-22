@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Font Themes</title>
+  </head>
+  <body>
+    <ul>
+      <li data-tab-target="#tab1">Find Font</li>
+      <li data-tab-target="#tab2">Font Family</li>
+      <li data-tab-target="#tab3">All Font Themes</li>
+    </ul>
+    <div class="tab-content">
+      <div id="tab1" data-tab-content>
+        <div>
+          <label for="text-box">
+            What feeling does the font need to have?</label
+          >
+          <textarea name="text-box" id="text-box"></textarea>
+        </div>
+        <div>
+          <label for="radio-buttons">How many fonts do you want to pair?</label>
+          <input type="radio" id="one" name="radio" value="1" />
+          <label for="one">1</label>
+          <input type="radio" id="two" name="radio" value="2" />
+          <label for="two">2</label>
+          <input type="radio" id="three" name="radio" value="3" />
+          <label for="three">3</label>
+        </div>
+        <button>Find Font</button>
+      </div>
+      <div id="tab2" data-tab-content>
+        <div>
+          <div>
+            <h3>Professional but friendly and approcahable</h3>
+            <h6>Jan 18, 2024</h6>
+            <p>
+              This paragraph is how these fonts look when paired together. You
+              can edit this text by clicking on it and typing. Below are all the
+              font weight variations for each typeface.
+            </p>
+          </div>
+          <div>
+            <div class="row">
+              <div class="column">Row 1, Column 1</div>
+              <div class="column">Row 1, Column 2</div>
+              <div class="column">Row 1, Column 3</div>
+            </div>
+            <div class="row">
+              <div class="column">Row 2, Column 1</div>
+              <div class="column">Row 2, Column 2</div>
+              <div class="column">Row 2, Column 3</div>
+            </div>
+            <div class="row">
+              <div class="column">Row 2, Column 1</div>
+              <div class="column">Row 2, Column 2</div>
+              <div class="column">Row 2, Column 3</div>
+            </div>
+            <div>
+              <button>Use Font</button>
+              <button>Save font</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="tab3" data-tab-content>
+        <div class="row">
+          <h5>Font Theme Name 1</h5>
+          <div class="column">Row 1, Column 1</div>
+          <div class="column">Row 1, Column 2</div>
+          <div class="column">Row 1, Column 3</div>
+        </div>
+        <div class="row">
+          <h5>Font Theme Name 1</h5>
+          <div class="column">Row 2, Column 1</div>
+          <div class="column">Row 2, Column 2</div>
+          <div class="column">Row 2, Column 3</div>
+        </div>
+        <div class="row">
+          <h5>Font Theme Name 1</h5>
+          <div class="column">Row 2, Column 1</div>
+          <div class="column">Row 2, Column 2</div>
+          <div class="column">Row 2, Column 3</div>
+        </div>
+        <div>
+          <button>Use Font</button>
+          <button>Save font</button>
+        </div>
+      </div>
+    </div>
+    <script src="ui.js"></script>
+  </body>
+</html>
