@@ -3,93 +3,672 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Font Themes</title>
+    <title>Font Plugin</title>
+    <style>
+      /* Reset Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-size: 14px;
+        color: #333;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      #container {
+        display: flex;
+        height: 100%;
+        width: 100%;
+      }
+
+      #sidebar {
+        width: 200px; /* Reduce width to avoid pushing content */
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-right: 1px solid #ddd;
+        overflow-y: auto;
+        box-sizing: border-box; /* Include padding in the width calculation */
+      }
+
+      #sidebar h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      #sidebar p {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      #sidebar hr {
+        margin: 10px 0;
+        border: none;
+        border-top: 1px solid #ccc;
+      }
+
+      #main {
+        flex: 1; /* Take up the remaining space */
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        padding: 20px;
+        box-sizing: border-box; /* Include padding in the width calculation */
+        width: calc(
+          100% - 200px
+        ); /* Adjust width dynamically based on sidebar */
+      }
+
+      .tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .tab {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: #666; /* Inactive tab color */
+      }
+
+      .tab.active {
+        background-color: #fff;
+        border-bottom: 2px solid black;
+        color: black; /* Active tab color */
+        font-weight: bold;
+      }
+
+      .content {
+        display: none;
+        padding-top: 20px;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .content.active {
+        display: block;
+      }
+
+      .content h1 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .content p {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      .font-preview {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .font-column {
+        width: 48%;
+      }
+
+      .font-column h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .font-weight {
+        font-size: 12px;
+        font-weight: bold;
+        margin: 5px 0;
+      }
+
+      .font-sample {
+        font-size: 14px;
+        margin: 5px 0 10px;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 20px;
+      }
+
+      button {
+        padding: 10px;
+        border: none;
+        background-color: black;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        flex: 1;
+        margin: 0 10px;
+      }
+
+      button:hover {
+        background-color: #333;
+      }
+
+      /* Prevent horizontal scrolling for the entire content */
+      #find-font {
+        overflow-x: hidden; /* Disable horizontal scrolling */
+        width: 100%; /* Ensure it takes up the full width of its container */
+        box-sizing: border-box; /* Include padding and borders in width calculation */
+      }
+
+      /* Ensure the textarea fits within the parent */
+      #font-feeling {
+        width: 100%; /* Responsive to parent container */
+        max-width: 100%; /* Prevent overflow beyond parent */
+        height: 50px;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        resize: none; /* Disable manual resizing */
+        box-sizing: border-box; /* Include padding and borders in width */
+      }
+
+      /* Radio button container */
+      .font-pair-options {
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Vertical spacing between radio options */
+        margin-bottom: 20px;
+        width: 100%; /* Ensure no horizontal overflow */
+        box-sizing: border-box;
+      }
+
+      /* Ensure each radio button label fits neatly */
+      .font-pair-options label {
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px; /* Space between radio button and label text */
+        word-wrap: break-word; /* Ensure text wraps if it overflows */
+      }
+
+      /* Style for the button */
+      #find-font-button {
+        background-color: black;
+        color: white;
+        font-size: 14px;
+        padding: 10px;
+        border: none;
+        border-radius: 30px; /* Rounded button */
+        cursor: pointer;
+        width: 100%; /* Button spans the full width of its container */
+        max-width: 100%; /* Prevent overflow */
+        box-sizing: border-box; /* Include padding and borders in width */
+      }
+
+      #find-font-button:hover {
+        background-color: #333; /* Darker background on hover */
+      }
+      p[contenteditable]:focus {
+        outline: none; /* Remove default focus outline */
+        border: 1px solid #ccc; /* Add a light border */
+        border-radius: 4px; /* Optional: Rounded corners */
+        padding: 5px; /* Optional: Inner padding for better spacing */
+        background-color: #f9f9f9; /* Optional: Subtle background color */
+      }
+
+      /* General content wrapper styles to prevent overflow */
+      .content {
+        width: 100%; /* Ensure content spans the container */
+        max-width: 100%; /* Prevent horizontal overflow */
+        box-sizing: border-box; /* Include padding and borders in width */
+        padding: 10px; /* Optional padding */
+      }
+      /* General styles for the font categories */
+      .font-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Wrap font cards if necessary */
+        gap: 10px; /* Add spacing between font cards */
+        margin: 20px 0;
+      }
+
+      .font-card {
+        flex: 1;
+        min-width: 150px; /* Minimum size for small screens */
+        max-width: 30%; /* Limit width to avoid overflowing */
+        padding: 10px;
+        text-align: center;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .font-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .font-card h3 {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .font-card p {
+        font-size: 14px;
+        /* Remove the outlined box around the body text */
+        margin: 5px 0;
+        border: none; /* Ensure no border is applied */
+        padding: 0; /* Remove any padding */
+        background: none; /* Remove background color, if any */
+        box-shadow: none; /* Remove any shadow effects */
+      }
+
+      /* Ensure the buttons container fits within the parent */
+      .button-container {
+        display: flex;
+        justify-content: space-between; /* Spread buttons evenly */
+        margin-top: 20px;
+        width: 100%; /* Ensure it spans the full width of the parent */
+        padding: 0; /* Remove extra padding */
+        gap: 10px; /* Add spacing between buttons */
+        box-sizing: border-box; /* Include padding and borders in width calculations */
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+      }
+
+      /* Ensure buttons fit within the container */
+      .button-container button {
+        flex: 1; /* Distribute buttons evenly */
+        padding: 10px;
+        border: none;
+        background-color: black;
+        color: white;
+        font-size: 14px;
+        border-radius: 30px;
+        cursor: pointer;
+        max-width: calc(
+          50% - 10px
+        ); /* Ensure buttons don’t exceed the container width */
+        box-sizing: border-box; /* Include padding and borders in width */
+      }
+
+      /* Prevent horizontal overflow on the main content area */
+      #main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        width: 100%; /* Ensure it spans the full width */
+        box-sizing: border-box; /* Include padding in width calculations */
+        overflow-x: hidden; /* Eliminate horizontal scrolling */
+      }
+
+      /* Button hover effect */
+      .button-container button:hover {
+        background-color: #333;
+      }
+    </style>
   </head>
   <body>
-    <ul>
-      <li data-tab-target="#tab1">Find Font</li>
-      <li data-tab-target="#tab2">Font Family</li>
-      <li data-tab-target="#tab3">All Font Themes</li>
-    </ul>
-    <div class="tab-content">
-      <div id="tab1" data-tab-content>
-        <div>
-          <label for="text-box">
-            What feeling does the font need to have?</label
+    <div id="container">
+      <!-- Sidebar -->
+      <div id="sidebar">
+        <h2>Saved Fonts</h2>
+        <p>Saved fonts and font pairs will appear in this sidebar.</p>
+        <hr />
+        <p>
+          Click on a saved font to view the font family and add the font
+          directly to your Figma file.
+        </p>
+      </div>
+
+      <!-- Main Content -->
+      <div id="main">
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab" id="find-font-tab">Find Font</button>
+          <button class="tab active" id="font-family-tab">Font Family</button>
+          <button class="tab" id="all-font-categories-tab">
+            All Font Categories
+          </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content" id="find-font" style="display: none">
+          <h2>What feeling does your font need to have?</h2>
+          <textarea
+            id="font-feeling"
+            placeholder="Example: Professional, but friendly and approachable."
+          ></textarea>
+
+          <h2>How many fonts do you want to pair?</h2>
+          <div class="font-pair-options">
+            <label> <input type="radio" name="font-pair" value="1" /> 1 </label>
+            <label> <input type="radio" name="font-pair" value="2" /> 2 </label>
+            <label> <input type="radio" name="font-pair" value="3" /> 3 </label>
+          </div>
+
+          <button id="find-font-button">Find Font</button>
+        </div>
+
+        <!-- font family tab content -->
+        <div class="content" id="font-family" style="display: block">
+          <h1>Professional, but Friendly and Approachable</h1>
+          <p class="date">Jan 18, 2024</p>
+          <p contenteditable="true">
+            This paragraph is how these fonts look when paired together. You can
+            edit this text by clicking on it and typing. Below are all the font
+            weight variations for each typeface.
+          </p>
+          <div class="font-preview">
+            <div class="font-column">
+              <h3>Epilogue</h3>
+              <p class="font-weight">Thin</p>
+              <p class="font-sample">
+                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+              </p>
+              <p class="font-weight">Extra Light</p>
+              <p class="font-sample">
+                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+              </p>
+            </div>
+            <div class="font-column">
+              <h3>Inter</h3>
+              <p class="font-weight">Thin</p>
+              <p class="font-sample">
+                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+              </p>
+              <p class="font-weight">Extra Light</p>
+              <p class="font-sample">
+                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+              </p>
+            </div>
+          </div>
+          <!-- Buttons -->
+          <div class="button-container">
+            <button id="use-font">Use Font</button>
+            <button id="save-font">Save for Later</button>
+          </div>
+        </div>
+
+        <!-- All Font Themes -->
+        <div class="content" id="all-font-categories" style="display: none">
+          <h2>Professional, Approachable, Fun</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Lato">
+              <h3>Lato</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Open Sans">
+              <h3>Open Sans</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Poppins">
+              <h3>Poppins</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+
+          <h2>Modern, Sleek, Minimal</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Montserrat">
+              <h3>Montserrat</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Helvetica Neue">
+              <h3>Helvetica Neue</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Futura">
+              <h3>Futura</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+
+          <h2>Elegant, Luxury, High-end</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Baskerville">
+              <h3>Baskerville</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Playfair Display">
+              <h3>Playfair Display</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+          <h2>Elegant, Luxury, High-end</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Baskerville">
+              <h3>Baskerville</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Playfair Display">
+              <h3>Playfair Display</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+          <h2>Elegant, Luxury, High-end</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Baskerville">
+              <h3>Baskerville</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Playfair Display">
+              <h3>Playfair Display</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+          <h2>Elegant, Luxury, High-end</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Baskerville">
+              <h3>Baskerville</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Playfair Display">
+              <h3>Playfair Display</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+          <h2>Elegant, Luxury, High-end</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Baskerville">
+              <h3>Baskerville</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Playfair Display">
+              <h3>Playfair Display</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            </div>
+          </div>
+
+          <!-- Buttons (Initially Hidden) -->
+          <div
+            class="button-container"
+            id="action-buttons"
+            style="display: none"
           >
-          <textarea name="text-box" id="text-box"></textarea>
-        </div>
-        <div>
-          <label for="radio-buttons">How many fonts do you want to pair?</label>
-          <input type="radio" id="one" name="radio" value="1" />
-          <label for="one">1</label>
-          <input type="radio" id="two" name="radio" value="2" />
-          <label for="two">2</label>
-          <input type="radio" id="three" name="radio" value="3" />
-          <label for="three">3</label>
-        </div>
-        <button>Find Font</button>
-      </div>
-      <div id="tab2" data-tab-content>
-        <div>
-          <div>
-            <h3>Professional but friendly and approcahable</h3>
-            <h6>Jan 18, 2024</h6>
-            <p>
-              This paragraph is how these fonts look when paired together. You
-              can edit this text by clicking on it and typing. Below are all the
-              font weight variations for each typeface.
-            </p>
+            <button id="use-font">Use Font</button>
+            <button id="save-font">Save for Later</button>
           </div>
-          <div>
-            <div class="row">
-              <div class="column">Row 1, Column 1</div>
-              <div class="column">Row 1, Column 2</div>
-              <div class="column">Row 1, Column 3</div>
-            </div>
-            <div class="row">
-              <div class="column">Row 2, Column 1</div>
-              <div class="column">Row 2, Column 2</div>
-              <div class="column">Row 2, Column 3</div>
-            </div>
-            <div class="row">
-              <div class="column">Row 2, Column 1</div>
-              <div class="column">Row 2, Column 2</div>
-              <div class="column">Row 2, Column 3</div>
-            </div>
-            <div>
-              <button>Use Font</button>
-              <button>Save font</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="tab3" data-tab-content>
-        <div class="row">
-          <h5>Font Theme Name 1</h5>
-          <div class="column">Row 1, Column 1</div>
-          <div class="column">Row 1, Column 2</div>
-          <div class="column">Row 1, Column 3</div>
-        </div>
-        <div class="row">
-          <h5>Font Theme Name 1</h5>
-          <div class="column">Row 2, Column 1</div>
-          <div class="column">Row 2, Column 2</div>
-          <div class="column">Row 2, Column 3</div>
-        </div>
-        <div class="row">
-          <h5>Font Theme Name 1</h5>
-          <div class="column">Row 2, Column 1</div>
-          <div class="column">Row 2, Column 2</div>
-          <div class="column">Row 2, Column 3</div>
-        </div>
-        <div>
-          <button>Use Font</button>
-          <button>Save font</button>
         </div>
       </div>
     </div>
-    <script src="ui.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".tab");
+        const contents = document.querySelectorAll(".content");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // Remove 'active' class from all tabs
+            tabs.forEach((t) => t.classList.remove("active"));
+
+            // Add 'active' class to the clicked tab
+            this.classList.add("active");
+
+            // Hide all content sections
+            contents.forEach((content) => (content.style.display = "none"));
+
+            // Show the corresponding content section
+            const contentId = this.id.replace("-tab", "");
+            const targetContent = document.getElementById(contentId);
+            if (targetContent) {
+              targetContent.style.display = "block";
+            }
+          });
+        });
+
+        // Use Font Button
+        document
+          .getElementById("use-font")
+          .addEventListener("click", function () {
+            parent.postMessage(
+              { pluginMessage: { type: "use-font", fontFamily: "Epilogue" } },
+              "*"
+            );
+          });
+
+        // Save Font Button
+        document
+          .getElementById("save-font")
+          .addEventListener("click", function () {
+            parent.postMessage({ pluginMessage: { type: "save-font" } }, "*");
+          });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all font cards and buttons container
+        const fontCards = document.querySelectorAll(".font-card");
+        const actionButtons = document.getElementById("action-buttons");
+
+        fontCards.forEach((card) => {
+          card.addEventListener("click", function () {
+            // Highlight the selected font card
+            fontCards.forEach((c) => c.classList.remove("selected"));
+            this.classList.add("selected");
+
+            // Show the buttons
+            actionButtons.style.display = "flex";
+          });
+        });
+
+        // Use Font Button
+        document
+          .getElementById("use-font")
+          .addEventListener("click", function () {
+            const selectedFont = document.querySelector(".font-card.selected");
+            if (selectedFont) {
+              const fontName = selectedFont.dataset.font;
+              parent.postMessage(
+                { pluginMessage: { type: "use-font", fontFamily: fontName } },
+                "*"
+              );
+            }
+          });
+
+        // Save Font Button
+        document
+          .getElementById("save-font")
+          .addEventListener("click", function () {
+            const selectedFont = document.querySelector(".font-card.selected");
+            if (selectedFont) {
+              const fontName = selectedFont.dataset.font;
+              parent.postMessage(
+                { pluginMessage: { type: "save-font", fontFamily: fontName } },
+                "*"
+              );
+            }
+          });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Get all font cards and buttons container
+        const fontCards = document.querySelectorAll(".font-card");
+        const actionButtons = document.getElementById("action-buttons");
+
+        // Function to deselect font cards and hide buttons
+        function hideButtons() {
+          fontCards.forEach((card) => card.classList.remove("selected"));
+          actionButtons.style.display = "none";
+        }
+
+        // Add click event to each font card
+        fontCards.forEach((card) => {
+          card.addEventListener("click", function (event) {
+            event.stopPropagation(); // Prevent click from propagating to the document
+            // Highlight the selected font card
+            fontCards.forEach((c) => c.classList.remove("selected"));
+            this.classList.add("selected");
+
+            // Show the buttons
+            actionButtons.style.display = "flex";
+          });
+        });
+
+        // Add click event to the document to hide buttons when clicking outside
+        document.addEventListener("click", function () {
+          hideButtons();
+        });
+
+        // Prevent buttons from hiding if clicked
+        actionButtons.addEventListener("click", function (event) {
+          event.stopPropagation();
+        });
+
+        // Use Font Button
+        document
+          .getElementById("use-font")
+          .addEventListener("click", function () {
+            const selectedFont = document.querySelector(".font-card.selected");
+            if (selectedFont) {
+              const fontName = selectedFont.dataset.font;
+              parent.postMessage(
+                { pluginMessage: { type: "use-font", fontFamily: fontName } },
+                "*"
+              );
+            }
+          });
+
+        // Save Font Button
+        document
+          .getElementById("save-font")
+          .addEventListener("click", function () {
+            const selectedFont = document.querySelector(".font-card.selected");
+            if (selectedFont) {
+              const fontName = selectedFont.dataset.font;
+              parent.postMessage(
+                { pluginMessage: { type: "save-font", fontFamily: fontName } },
+                "*"
+              );
+            }
+          });
+      });
+    </script>
   </body>
 </html>
