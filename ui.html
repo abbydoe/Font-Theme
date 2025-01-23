@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Font Plugin</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css"
+    />
+
     <style>
       /* Reset Styles */
       * {
@@ -22,6 +27,12 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        background-color: #ffffff;
+        color: #000000;
+      }
+      body.dark-mode {
+        background-color: #1a1a1a;
+        color: #ffffff;
       }
 
       #container {
@@ -42,6 +53,13 @@
       #sidebar h2 {
         font-size: 16px;
         margin-bottom: 10px;
+      }
+      .switch_label {
+        color: #000000;
+      }
+
+      .switch_label.dark-mode {
+        color: #ffffff;
       }
 
       #sidebar p {
@@ -328,6 +346,11 @@
           Click on a saved font to view the font family and add the font
           directly to your Figma file.
         </p>
+        <!-- Switch -->
+        <div class="switch">
+          <input class="switch__toggle" type="checkbox" id="dark-mode-on" />
+          <label class="switch__label" for="dark-mode-on">Dark Mode</label>
+        </div>
       </div>
 
       <!-- Main Content -->
