@@ -334,6 +334,12 @@
       .button-container button:hover {
         background-color: #333;
       }
+
+      fieldset {
+        border: none;
+        padding: 0;
+        margin: 0;
+      }
     </style>
   </head>
   <body>
@@ -359,7 +365,9 @@
         <!-- Tabs -->
         <div class="tabs">
           <button class="tab" id="find-font-tab">Find Font</button>
-          <button class="tab active" id="font-family-tab">Font Family</button>
+          <button class="tab active" data-tab="tab2" id="font-family-tab">
+            Font Family
+          </button>
           <button class="tab" id="all-font-categories-tab">
             All Font Categories
           </button>
@@ -370,15 +378,25 @@
           <h2>What feeling does your font need to have?</h2>
           <textarea
             id="font-feeling"
+            type="vibe"
             placeholder="Example: Professional, but friendly and approachable."
           ></textarea>
 
-          <h2>How many fonts do you want to pair?</h2>
-          <div class="font-pair-options">
-            <label> <input type="radio" name="font-pair" value="1" /> 1 </label>
-            <label> <input type="radio" name="font-pair" value="2" /> 2 </label>
-            <label> <input type="radio" name="font-pair" value="3" /> 3 </label>
-          </div>
+          <fieldset class="font-pair-options">
+            <legend>How many fonts do you want to pair?</legend>
+            <label>
+              <input type="radio" id="pairing1" name="fontPairing" value="1" />
+              1
+            </label>
+            <label>
+              <input type="radio" id="pairing2" name="fontPairing" value="2" />
+              2
+            </label>
+            <label>
+              <input type="radio" id="pairing3" name="fontPairing" value="3" />
+              3
+            </label>
+          </fieldset>
 
           <div class="button-container find-font-button">
             <button id="find-font">Find Font</button>
@@ -577,7 +595,61 @@
         body.addEventListener("click", function () {
           document.body.classList.toggle("dark");
           if (sidebar) sidebar.classList.toggle("dark");
+          parent.postMessage;
         });
+
+        // Find Font Button
+
+        const findFontButton = document.getElementById("find-font");
+
+        findFontButton.addEventListener("click", () => {
+          const vibe = document.getElementById("font-feeling").value.trim();
+          const fontPairing = document
+            .querySelector('input[name="fontPairing"]:checked')
+            ?.value?.trim();
+
+          console.log("Button clicked!");
+          console.log("Vibe:", vibe, "Font Pairing:", fontPairing);
+
+          // Validate inputs
+          if (!vibe || !fontPairing) {
+            alert(
+              "Please provide a vibe and select the number of font pairings."
+            );
+            return;
+          }
+
+          // Create request body
+          const body = { vibe, fontPairing };
+          console.log("Request body:", body);
+
+          // Send data to the parent
+          parent.postMessage(
+            { pluginMessage: { type: "find-font", vibe, fontPairing } },
+            "*"
+          );
+        });
+
+        // Handle font-found response from the plugin
+        window.onmessage = (event) => {
+          const { type, fontFamily, secondaryFont, tertiaryFont } =
+            event.data.pluginMessage;
+
+          if (type === "font-found") {
+            // Switch to Tab 2
+            document.querySelector("[data-tab='tab2']");
+
+            // Display Font Pairing in Tab 2
+            const fontResultDiv = document.getElementById("font-result");
+            fontResultDiv.innerHTML = `
+          <div class="font-preview">
+            <h1 style="font-family: '${fontFamily}', sans-serif;">This is the Header: ${fontFamily}</h1>
+            <b style="font-family: '${secondaryFont}', serif;">This is the body text. You can click here to edit the text. : ${secondaryFont}</b>
+            <h6 style="font-family: '${secondaryFont}', serif;">Tertiary Font: ${tertiaryFont}</h6>
+          </div>
+        `;
+          }
+        };
 
         // Use Font Button
         document
