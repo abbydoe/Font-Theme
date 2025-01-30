@@ -315,6 +315,30 @@
         overflow-x: hidden; /* Eliminate horizontal scrolling */
       }
 
+      .options {
+        display: flex;
+        align-items: start;
+        flex-wrap: wrap;
+        gap: 16px;
+        list-style-type: none;
+        margin: 20px 0;
+      }
+
+      .options li {
+        flex: 1;
+        display:inline-block
+      }
+      .content {
+  display: none; /* Hide all content by default */
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.content.active {
+  display: block; /* Show only active content */
+}
+
+
       /* Button hover effect */
       .button-container button:hover {
         background-color: #333;
@@ -349,16 +373,16 @@
       <div id="main">
         <!-- Tabs -->
         <div class="tabs">
-          <button class="tab" id="find-font-tab">Find Font</button>
+          <button class="tab" id="find-font-tab">Search Font Theme</button>
           <button class="tab active" data-tab="tab2" id="font-family-tab">
-            Font Family
+            Results
           </button>
           <button class="tab" id="all-font-categories-tab">
-            All Font Categories
+            All Font Themes
           </button>
         </div>
 
-        <!-- Content -->
+        <!-- Find Font Content -->
         <div class="content" id="find-font" style="display: none">
           <h2>What feeling does your font need to have?</h2>
           <textarea
@@ -384,49 +408,216 @@
           </fieldset>
 
           <div class="button-container find-font-button">
-            <button id="find-font">Find Font</button>
+            <button id="find-font-btn">Find Font</button>
           </div>
         </div>
 
-        <!-- font family tab content -->
+        <!-- Results tab content -->
         <div class="content" id="font-family" style="display: block">
-          <h1>Professional, but Friendly and Approachable</h1>
-          <p class="date">Jan 18, 2024</p>
-          <p contenteditable="true">
-            This paragraph is how these fonts look when paired together. You can
-            edit this text by clicking on it and typing. Below are all the font
-            weight variations for each typeface.
-          </p>
-          <div class="font-preview">
-            <div class="font-column">
-              <h3>Epilogue</h3>
-              <p class="font-weight">Thin</p>
-              <p class="font-sample">
-                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+          <div>
+            <ul class="options" style="display: block">
+              <li> <button class="option active" data-target="option1-content">Option 1</button> </li>
+              <li><button class="option" data-target="option2-content">Option 2</button></li> 
+              <li><button class="option" data-target="option3-content">Option 3</button> </li>
+              <li>
+                <button class="option" data-target="option4-content">Option 4</button>
+              </li>
+              <li>
+                <button class="option" data-target="option5-content">Option 5</button>
+              </li>
+            </ul>
+            <div id="option1-content" class="option-content active" >
+              <h1>Professional, but Friendly and Approachable</h1>
+              <p class="date">Jan 18, 2024</p>
+              <p contenteditable="true">
+                This paragraph is how these fonts look when paired together. You can
+                edit this text by clicking on it and typing. Below are all the font
+                weight variations for each typeface.
               </p>
-              <p class="font-weight">Extra Light</p>
-              <p class="font-sample">
-                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
-              </p>
+              <div class="font-preview">
+                <div class="font-column">
+                  <h3>Epilogue</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+                <div class="font-column">
+                  <h3>Inter</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="button-container">
+                <button id="use-font">Use Font</button>
+                <button id="save-font">Save for Later</button>
+              </div>
             </div>
-            <div class="font-column">
-              <h3>Inter</h3>
-              <p class="font-weight">Thin</p>
-              <p class="font-sample">
-                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+            <div id="option2-content" class="option-content">
+              <h1>Option 2 content</h1>
+              <p class="date">Jan 18, 2024</p>
+              <p contenteditable="true">
+                This paragraph is how these fonts look when paired together. You can
+                edit this text by clicking on it and typing. Below are all the font
+                weight variations for each typeface.
               </p>
-              <p class="font-weight">Extra Light</p>
-              <p class="font-sample">
-                AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+              <div class="font-preview">
+                <div class="font-column">
+                  <h3>Epilogue</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+                <div class="font-column">
+                  <h3>Inter</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="button-container">
+                <button id="use-font">Use Font</button>
+                <button id="save-font">Save for Later</button>
+              </div>
+            </div>
+            <div id="option3-content" class="option-content">
+              <h1>Option 3 Content</h1>
+              <p class="date">Jan 18, 2024</p>
+              <p contenteditable="true">
+                This paragraph is how these fonts look when paired together. You can
+                edit this text by clicking on it and typing. Below are all the font
+                weight variations for each typeface.
               </p>
+              <div class="font-preview">
+                <div class="font-column">
+                  <h3>Epilogue</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+                <div class="font-column">
+                  <h3>Inter</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="button-container">
+                <button id="use-font">Use Font</button>
+                <button id="save-font">Save for Later</button>
+              </div>
+            </div>
+            <div id="option4-content" class="option-content">
+              <h1>Option 4 content</h1>
+              <p class="date">Jan 18, 2024</p>
+              <p contenteditable="true">
+                This paragraph is how these fonts look when paired together. You can
+                edit this text by clicking on it and typing. Below are all the font
+                weight variations for each typeface.
+              </p>
+              <div class="font-preview">
+                <div class="font-column">
+                  <h3>Epilogue</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+                <div class="font-column">
+                  <h3>Inter</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="button-container">
+                <button id="use-font">Use Font</button>
+                <button id="save-font">Save for Later</button>
+              </div>
+            </div>
+            <div id="option5-content" class="option-content">
+              <h1>Option 5 content</h1>
+              <p class="date">Jan 18, 2024</p>
+              <p contenteditable="true">
+                This paragraph is how these fonts look when paired together. You can
+                edit this text by clicking on it and typing. Below are all the font
+                weight variations for each typeface.
+              </p>
+              <div class="font-preview">
+                <div class="font-column">
+                  <h3>Epilogue</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+                <div class="font-column">
+                  <h3>Inter</h3>
+                  <p class="font-weight">Thin</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                  <p class="font-weight">Extra Light</p>
+                  <p class="font-sample">
+                    AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
+                  </p>
+                </div>
+              </div>
+              <!-- Buttons -->
+              <div class="button-container">
+                <button id="use-font">Use Font</button>
+                <button id="save-font">Save for Later</button>
+              </div>
             </div>
           </div>
-          <!-- Buttons -->
-          <div class="button-container">
-            <button id="use-font">Use Font</button>
-            <button id="save-font">Save for Later</button>
-          </div>
-        </div>
+         
 
         <!-- All Font Themes -->
         <div class="content" id="all-font-categories" style="display: none">
@@ -574,6 +765,32 @@
             }
           });
         });
+
+        const optionButtons = document.querySelectorAll(".option");
+  const optionContents = document.querySelectorAll(".option-content");
+
+  optionButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      // Remove 'active' class from all buttons
+      optionButtons.forEach((btn) => btn.classList.remove("active"));
+
+      // Add 'active' class to the clicked button
+      this.classList.add("active");
+
+      // Hide all option content sections
+      optionContents.forEach((content) => (content.style.display = "none"));
+
+      // Show the corresponding option content section
+      const targetId = this.getAttribute("data-target");
+      const targetContent = document.getElementById(targetId);
+      if (targetContent) {
+        targetContent.style.display = "block";
+      }
+    });
+  });
+
+
+
         //Toggle Switch
         const body = document.getElementById("dark-mode-on");
         const sidebar = document.getElementById("sidebar");
@@ -584,56 +801,59 @@
 
         // Find Font Button
 
-        const findFontButton = document.getElementById("find-font");
+        const findFontButton = document.getElementById("find-font-btn");
 
         findFontButton.addEventListener("click", () => {
           const vibe = document.getElementById("font-feeling").value.trim();
-          const fontPairing = document
-            .querySelector('input[name="fontPairing"]:checked')
-            ?.value?.trim();
+          const fontPairing = 2; // Hardcoded value
 
-          console.log("Button clicked!");
-          console.log("Vibe:", vibe, "Font Pairing:", fontPairing);
+          // console.log("Button clicked!");
+          // console.log("Vibe:", vibe, "Font Pairing:", fontPairing);
 
-          // Validate inputs
-          if (!vibe || !fontPairing) {
-            alert(
-              "Please provide a vibe and select the number of font pairings."
-            );
+          // Validate input
+          if (!vibe) {
+            alert("Please enter a vibe before finding font pairings.");
             return;
           }
 
-          // Create request body
-          const body = { vibe, fontPairing };
-          console.log("Request body:", body);
-
-          // Send data to the parent
+          // Send message to parent
+          // parent.postMessage({ type: "font-font", text: vibe }, "*");
           parent.postMessage(
             { pluginMessage: { type: "find-font", vibe, fontPairing } },
             "*"
           );
+
+          // // Create request body
+          // const body = { vibe, fontPairing };
+          // console.log("Request body:", body);
+
+          // // Send data to the parent
+          // parent.postMessage(
+          //   { pluginMessage: { type: "find-font", vibe, fontPairing } },
+          //   "*"
+          // );
         });
 
         // Handle font-found response from the plugin
-        window.onmessage = (event) => {
-          const { type, fontFamily, secondaryFont, tertiaryFont } =
-            event.data.pluginMessage;
+        // window.onmessage = (event) => {
+        //   const { type, fontFamily, secondaryFont, tertiaryFont } =
+        //     event.data.pluginMessage;
 
-          if (type === "font-found") {
-            // Switch to Tab 2
-            document.querySelector("[data-tab='tab2']");
+        //   if (type === "font-found") {
+        //     // Switch to Tab 2
+        //     document.querySelector("[data-tab='tab2']");
 
-            // Display Font Pairing in Tab 2
-            const fontResultDiv = document.getElementById("font-result");
-            fontResultDiv.innerHTML = `
-          <div class="font-preview">
-            <h1 style="font-family: '${fontFamily}', sans-serif;">This is the Header: ${fontFamily}</h1>
-            <b style="font-family: '${secondaryFont}', serif;">This is the body text. You can click here to edit the text. : ${secondaryFont}</b>
-            <h6 style="font-family: '${secondaryFont}', serif;">Tertiary Font: ${tertiaryFont}</h6>
-          </div>
-        `;
-          }
-        };
+        //     // Display Font Pairing in Tab 2
+        //     const fontResultDiv = document.getElementById("font-result");
+        //     fontResultDiv.innerHTML = `
+        //   <div class="font-preview">
+        //     <h1 style="font-family: '${fontFamily}', sans-serif;">This is the Header: ${fontFamily}</h1>
+        //     <b style="font-family: '${secondaryFont}', serif;">This is the body text. You can click here to edit the text. : ${secondaryFont}</b>
+        //     <h6 style="font-family: '${secondaryFont}', serif;">Tertiary Font: ${tertiaryFont}</h6>
+        //   </div>
+        // `;
+        //   }
+        // };
 
         // Use Font Button
         document
