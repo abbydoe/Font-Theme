@@ -53,7 +53,6 @@
         width: 200px; /* Reduce width to avoid pushing content */
         background-color: #f4f4f4;
         padding: 20px;
-        border-right: 1px solid #ddd;
         overflow-y: auto;
         box-sizing: border-box; /* Include padding in the width calculation */
       }
@@ -77,6 +76,7 @@
       .tabs {
         display: flex;
         border-bottom: 1px solid #ddd;
+       
       }
 
       .tab {
@@ -159,6 +159,8 @@
         color: #ffffff;
       }
 
+     
+
       button {
         padding: 10px;
         border: none;
@@ -202,7 +204,7 @@
         gap: 10px; /* Vertical spacing between radio options */
         margin-bottom: 20px;
         width: 100%; /* Ensure no horizontal overflow */
-        box-sizing: border-box;
+        border-bottom: #666;
       }
 
       /* Ensure each radio button label fits neatly */
@@ -315,6 +317,8 @@
         overflow-x: hidden; /* Eliminate horizontal scrolling */
       }
 
+
+
       .options {
         display: flex;
         align-items: start;
@@ -326,24 +330,56 @@
 
       .options li {
         flex: 1;
-        display:inline-block
+        display:inline-block;
+      }
+      .option-content {
+    display: none; /* Hide all content by default */
+}
+
+.option-content.active {
+    display: block; /* Show only active content */
+}
+
+.find-font-content {
+  display: block;
+}
+
+
+
+      button.option {
+        background-color: transparent;
+        color: #666;
+        border-bottom: 2px solid #ccc;
+        margin-left: 8px;
+        margin-right: 24px;
+        padding-left: 0%;
+    
+      }
+      button.option-active {
+        background-color: transparent;
+        color: #666;
+        border-bottom: 2px solid #ccc;
+        margin-left: 8px;
+        margin-right: 24px;
+        padding-left: 0%;
+        font-weight: bold;
+    
       }
       .content {
   display: none; /* Hide all content by default */
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
 }
+
 
 .content.active {
   display: block; /* Show only active content */
 }
 
-
       /* Button hover effect */
       .button-container button:hover {
         background-color: #333;
       }
-
       fieldset {
         border: none;
         padding: 0;
@@ -373,8 +409,8 @@
       <div id="main">
         <!-- Tabs -->
         <div class="tabs">
-          <button class="tab" id="find-font-tab">Search Font Theme</button>
-          <button class="tab active" data-tab="tab2" id="font-family-tab">
+          <button class="tab active" id="find-font-tab">Search Font Theme</button>
+          <button class="tab" data-tab="tab2" id="font-family-tab">
             Results
           </button>
           <button class="tab" id="all-font-categories-tab">
@@ -383,7 +419,7 @@
         </div>
 
         <!-- Find Font Content -->
-        <div class="content" id="find-font" style="display: none">
+        <div class="content active" id="find-font" style="display: block">
           <h2>What feeling does your font need to have?</h2>
           <textarea
             id="font-feeling"
@@ -413,7 +449,7 @@
         </div>
 
         <!-- Results tab content -->
-        <div class="content" id="font-family" style="display: block">
+        <div class="content" id="font-family" style="display: none">
           <div>
             <ul class="options" style="display: block">
               <li> <button class="option active" data-target="option1-content">Option 1</button> </li>
@@ -427,7 +463,7 @@
               </li>
             </ul>
             <div id="option1-content" class="option-content active" >
-              <h1>Professional, but Friendly and Approachable</h1>
+              <h1 class="Heading">Professional, but Friendly and Approachable</h1>
               <p class="date">Jan 18, 2024</p>
               <p contenteditable="true">
                 This paragraph is how these fonts look when paired together. You can
@@ -742,29 +778,62 @@
       </div>
     </div>
     <script>
+      
       document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll(".tab");
         const contents = document.querySelectorAll(".content");
+//         const defaultTabId = "find-font-tab"; // ID of the tab button
+//     const defaultContentId = "find-font"; // ID of the content to display
 
-        tabs.forEach((tab) => {
-          tab.addEventListener("click", function () {
-            // Remove 'active' class from all tabs
+// // Set "Search Font Theme" tab as active
+// document.getElementById(defaultTabId)?.classList.add("active");
+
+// Add event listeners for tab clicks
+    tabs.forEach((tab) => {
+        tab.addEventListener("click", function () {
+            // Remove 'active' class from all tabs and hide all content sections
             tabs.forEach((t) => t.classList.remove("active"));
+            // contents.forEach((content) => (content.style.display = "none"));
 
             // Add 'active' class to the clicked tab
             this.classList.add("active");
 
-            // Hide all content sections
+            // Get the content ID from data-tab OR manually map tab ID to content
             contents.forEach((content) => (content.style.display = "none"));
-
-            // Show the corresponding content section
             const contentId = this.id.replace("-tab", "");
             const targetContent = document.getElementById(contentId);
+
             if (targetContent) {
-              targetContent.style.display = "block";
+                targetContent.style.display = "block";
+            } else {
+                console.warn(`No content found for tab: ${this.id}`);
             }
-          });
         });
+    });
+});
+
+
+// document.getElementById(defaultContentId)?.style.display = "block";
+//         tabs.forEach((tab) => {
+//           tab.addEventListener("click", function () {
+          
+
+            
+
+//             // Add 'active' class to the clicked tab
+//             this.classList.add("active");
+
+//             // Hide all content sections
+//             contents.forEach((content) => (content.style.display = "none"));
+
+//             // Show the corresponding content section
+//             const contentId = this.id.replace("-tab", "");
+//             const targetContent = document.getElementById(contentId);
+//             if (targetContent) {
+//               targetContent.style.display = "block";
+//             }
+//           });
+//         });
 
         const optionButtons = document.querySelectorAll(".option");
   const optionContents = document.querySelectorAll(".option-content");
@@ -871,7 +940,7 @@
           .addEventListener("click", function () {
             parent.postMessage({ pluginMessage: { type: "save-font" } }, "*");
           });
-      });
+      
       document.addEventListener("DOMContentLoaded", function () {
         // Get all font cards and buttons container
         const fontCards = document.querySelectorAll(".font-card");
