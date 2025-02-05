@@ -99,7 +99,7 @@
       }
 
       .content {
-        display: none;
+        display: block;
         padding-top: 20px;
         overflow-y: auto;
         flex: 1;
@@ -398,6 +398,9 @@
           Click on a saved font to view the font family and add the font
           directly to your Figma file.
         </p>
+        <div id="saved-fonts">
+
+        </div>
         <!-- Switch -->
         <div class="switch">
           <input class="switch__toggle" type="checkbox" id="dark-mode-on" />
@@ -449,17 +452,17 @@
         </div>
 
         <!-- Results tab content -->
-        <div class="content" id="font-family" style="display: none">
+        <div class="content" id="font-family" >
           <div>
             <ul class="options" style="display: block">
-              <li> <button class="option active" data-target="option1-content">Option 1</button> </li>
-              <li><button class="option" data-target="option2-content">Option 2</button></li> 
-              <li><button class="option" data-target="option3-content">Option 3</button> </li>
+              <li> <button id ="option1" class="option active" data-target="option1-content">Option 1</button> </li>
+              <li><button id="option2" class="option" data-target="option2-content">Option 2</button></li> 
+              <li><button id="option3" class="option" data-target="option3-content">Option 3</button> </li>
               <li>
-                <button class="option" data-target="option4-content">Option 4</button>
+                <button id="option4" class="option" data-target="option4-content">Option 4</button>
               </li>
               <li>
-                <button class="option" data-target="option5-content">Option 5</button>
+                <button id="option5" class="option" data-target="option5-content">Option 5</button>
               </li>
             </ul>
             <div id="option1-content" class="option-content active" >
@@ -496,7 +499,7 @@
               </div>
               <!-- Buttons -->
               <div class="button-container">
-                <button id="use-font">Use Font</button>
+                <button id="use-font">Create Text Style</button>
                 <button id="save-font">Save for Later</button>
               </div>
             </div>
@@ -534,7 +537,7 @@
               </div>
               <!-- Buttons -->
               <div class="button-container">
-                <button id="use-font">Use Font</button>
+                <button id="use-font">Create Text Style</button>
                 <button id="save-font">Save for Later</button>
               </div>
             </div>
@@ -572,7 +575,7 @@
               </div>
               <!-- Buttons -->
               <div class="button-container">
-                <button id="use-font">Use Font</button>
+                <button id="use-font">Create Text Style</button>
                 <button id="save-font">Save for Later</button>
               </div>
             </div>
@@ -610,7 +613,7 @@
               </div>
               <!-- Buttons -->
               <div class="button-container">
-                <button id="use-font">Use Font</button>
+                <button id="use-font">Create Text Style</button>
                 <button id="save-font">Save for Later</button>
               </div>
             </div>
@@ -648,132 +651,130 @@
               </div>
               <!-- Buttons -->
               <div class="button-container">
-                <button id="use-font">Use Font</button>
+                <button id="use-font">Create Text Style</button>
                 <button id="save-font">Save for Later</button>
               </div>
             </div>
           </div>
-         
+      </div>
+       <!-- All Font Themes Content -->
+       <div class="content" id="all-font-categories" >
+        <h2>Professional, Approachable, Fun</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Lato">
+            <h3>Lato</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Open Sans">
+            <h3>Open Sans</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Poppins">
+            <h3>Poppins</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
 
-        <!-- All Font Themes -->
-        <div class="content" id="all-font-categories" style="display: none">
-          <h2>Professional, Approachable, Fun</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Lato">
-              <h3>Lato</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Open Sans">
-              <h3>Open Sans</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Poppins">
-              <h3>Poppins</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
+        <h2>Modern, Sleek, Minimal</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Montserrat">
+            <h3>Montserrat</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
           </div>
+          <div class="font-card" data-font="Helvetica Neue">
+            <h3>Helvetica Neue</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Futura">
+            <h3>Futura</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
 
-          <h2>Modern, Sleek, Minimal</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Montserrat">
-              <h3>Montserrat</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Helvetica Neue">
-              <h3>Helvetica Neue</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Futura">
-              <h3>Futura</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
+        <h2>Elegant, Luxury, High-end</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Baskerville">
+            <h3>Baskerville</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
           </div>
+          <div class="font-card" data-font="Playfair Display">
+            <h3>Playfair Display</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Cormorant">
+            <h3>Cormorant</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
+        <h2>Elegant, Luxury, High-end</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Baskerville">
+            <h3>Baskerville</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Playfair Display">
+            <h3>Playfair Display</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Cormorant">
+            <h3>Cormorant</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
+        <h2>Elegant, Luxury, High-end</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Baskerville">
+            <h3>Baskerville</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Playfair Display">
+            <h3>Playfair Display</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Cormorant">
+            <h3>Cormorant</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
+        <h2>Elegant, Luxury, High-end</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Baskerville">
+            <h3>Baskerville</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Playfair Display">
+            <h3>Playfair Display</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Cormorant">
+            <h3>Cormorant</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
+        <h2>Elegant, Luxury, High-end</h2>
+        <div class="font-row">
+          <div class="font-card" data-font="Baskerville">
+            <h3>Baskerville</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Playfair Display">
+            <h3>Playfair Display</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+          <div class="font-card" data-font="Cormorant">
+            <h3>Cormorant</h3>
+            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+          </div>
+        </div>
 
-          <h2>Elegant, Luxury, High-end</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Baskerville">
-              <h3>Baskerville</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Playfair Display">
-              <h3>Playfair Display</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-          </div>
-          <h2>Elegant, Luxury, High-end</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Baskerville">
-              <h3>Baskerville</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Playfair Display">
-              <h3>Playfair Display</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-          </div>
-          <h2>Elegant, Luxury, High-end</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Baskerville">
-              <h3>Baskerville</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Playfair Display">
-              <h3>Playfair Display</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-          </div>
-          <h2>Elegant, Luxury, High-end</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Baskerville">
-              <h3>Baskerville</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Playfair Display">
-              <h3>Playfair Display</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-          </div>
-          <h2>Elegant, Luxury, High-end</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Baskerville">
-              <h3>Baskerville</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Playfair Display">
-              <h3>Playfair Display</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            </div>
-          </div>
-
-          <!-- Buttons (Initially Hidden) -->
-          <div
-            class="button-container"
-            id="action-buttons"
-            style="display: none"
-          >
-            <button id="use-font">Use Font</button>
-            <button id="save-font">Save for Later</button>
-          </div>
+        <!-- Buttons (Initially Hidden) -->
+        <div
+          class="button-container"
+          id="action-buttons"
+          style="display: none"
+        >
+          <button id="use-font">Use Font</button>
+          <button id="save-font">Save for Later</button>
         </div>
       </div>
     </div>
@@ -924,68 +925,111 @@
         //   }
         // };
 
-        // Use Font Button
-        document
-          .getElementById("use-font")
-          .addEventListener("click", function () {
-            parent.postMessage(
-              { pluginMessage: { type: "use-font", fontFamily: "Epilogue" } },
-              "*"
-            );
-          });
+        // // Use Font Button
+        // document
+        //   .getElementById("use-font")
+        //   .addEventListener("click", function () {
+        //     parent.postMessage(
+        //       { pluginMessage: { type: "use-font", fontFamily: "Epilogue" } },
+        //       "*"
+        //     );
+        //   });
 
         // Save Font Button
-        document
-          .getElementById("save-font")
-          .addEventListener("click", function () {
-            parent.postMessage({ pluginMessage: { type: "save-font" } }, "*");
-          });
+       // Listen for messages from the Figma Plugin Backend
+window.onmessage = (event) => {
+  const { type, fontPairs } = event.data;
+
+  if (type === "font-results") {
+    displayFontPairingsInOptions(fontPairs);
+  }
+};
+
+// Function to Display Font Pairings in Each Option Tab
+function displayFontPairingsInOptions(fontPairs) {
+  const maxOptions = 5;
+
+  for (let i = 0; i < maxOptions; i++) {
+    let optionContent = document.getElementById(`option${i + 1}-content`); // Get corresponding content div
+    if (!optionContent) continue;
+
+    let pair = fontPairs[i];
+
+    // Clear previous content
+    optionContent.innerHTML = "";
+
+    // Create heading
+    let heading = document.createElement("h2");
+    heading.textContent = "Heading Example";
+    heading.style.fontFamily = pair.font1;
+    heading.style.fontWeight = "bold";
+
+    // Create subheading if there is a third font
+    let subheading;
+    if (pair.font3) {
+      subheading = document.createElement("h3");
+      subheading.textContent = "Subheading Example";
+      subheading.style.fontFamily = pair.font2;
+      subheading.style.fontWeight = "600";
+    }
+
+    // Create body text
+    let body = document.createElement("p");
+    body.textContent =
+      "This is an example paragraph demonstrating the font pairing.";
+    body.style.fontFamily = pair.font2 || pair.font3 || pair.font1;
+    body.style.fontWeight = "normal";
+
+
+    // Append elements to the Option Content div
+    optionContent.appendChild(heading);
+    if (subheading) optionContent.appendChild(subheading);
+    optionContent.appendChild(body);
+    optionContent.appendChild(saveButton);
+  }
+}
+
+// Function to Save Font Pair to Sidebar
+function saveFontPair(optionNumber, fontPair) {
+  let sidebar = document.getElementById("saved-fonts"); // Get the sidebar container
+  if (!sidebar) return;
+
+  // Create a container for the saved font pair
+  let savedItem = document.createElement("div");
+  savedItem.classList.add("saved-font-pair");
+
+  // Add option number as heading
+  let optionHeading = document.createElement("h3");
+  optionHeading.textContent = `Option ${optionNumber}`;
+  savedItem.appendChild(optionHeading);
+
+  // Add font pair names
+  let fontNames = document.createElement("p");
+  fontNames.textContent = fontPair.font3
+    ? `${fontPair.font1} & ${fontPair.font2} & ${fontPair.font3}`
+    : `${fontPair.font1} & ${fontPair.font2}`;
+  savedItem.appendChild(fontNames);
+
+  // Append to sidebar
+  sidebar.appendChild(savedItem);
+}
+
+        /// Use Font Button
+        // document
+        //   .getElementById("use-font")
+        //   .addEventListener("click", function () {
+        //     const selectedFont = document.querySelector(".font-card.selected");
+        //     if (selectedFont) {
+        //       const fontName = selectedFont.dataset.font;
+        //       parent.postMessage(
+        //         { pluginMessage: { type: "use-font", fontFamily: fontName } },
+        //         "*"
+        //       );
+        //     }
+        //   });
+          
+       
       
-      document.addEventListener("DOMContentLoaded", function () {
-        // Get all font cards and buttons container
-        const fontCards = document.querySelectorAll(".font-card");
-        const actionButtons = document.getElementById("action-buttons");
-
-        fontCards.forEach((card) => {
-          card.addEventListener("click", function () {
-            // Highlight the selected font card
-            fontCards.forEach((c) => c.classList.remove("selected"));
-            this.classList.add("selected");
-
-            // Show the buttons
-            actionButtons.style.display = "flex";
-          });
-        });
-
-        // Use Font Button
-        document
-          .getElementById("use-font")
-          .addEventListener("click", function () {
-            const selectedFont = document.querySelector(".font-card.selected");
-            if (selectedFont) {
-              const fontName = selectedFont.dataset.font;
-              parent.postMessage(
-                { pluginMessage: { type: "use-font", fontFamily: fontName } },
-                "*"
-              );
-            }
-          });
-
-        // Save Font Button
-        document
-          .getElementById("save-font")
-          .addEventListener("click", function () {
-            const selectedFont = document.querySelector(".font-card.selected");
-            if (selectedFont) {
-              const fontName = selectedFont.dataset.font;
-              parent.postMessage(
-                { pluginMessage: { type: "save-font", fontFamily: fontName } },
-                "*"
-              );
-            }
-          });
-      });
-      document.addEventListener("DOMContentLoaded", function () {
         // Get all font cards and buttons container
         const fontCards = document.querySelectorAll(".font-card");
         const actionButtons = document.getElementById("action-buttons");
@@ -1019,34 +1063,20 @@
           event.stopPropagation();
         });
 
-        // Use Font Button
-        document
-          .getElementById("use-font")
-          .addEventListener("click", function () {
-            const selectedFont = document.querySelector(".font-card.selected");
-            if (selectedFont) {
-              const fontName = selectedFont.dataset.font;
-              parent.postMessage(
-                { pluginMessage: { type: "use-font", fontFamily: fontName } },
-                "*"
-              );
-            }
-          });
-
-        // Save Font Button
-        document
-          .getElementById("save-font")
-          .addEventListener("click", function () {
-            const selectedFont = document.querySelector(".font-card.selected");
-            if (selectedFont) {
-              const fontName = selectedFont.dataset.font;
-              parent.postMessage(
-                { pluginMessage: { type: "save-font", fontFamily: fontName } },
-                "*"
-              );
-            }
-          });
-      });
+        // // Use Font Button
+        // document
+        //   .getElementById("use-font")
+        //   .addEventListener("click", function () {
+        //     const selectedFont = document.querySelector(".font-card.selected");
+        //     if (selectedFont) {
+        //       const fontName = selectedFont.dataset.font;
+        //       parent.postMessage(
+        //         { pluginMessage: { type: "use-font", fontFamily: fontName } },
+        //         "*"
+        //       );
+        //     }
+        //   });
+      
     </script>
   </body>
 </html>

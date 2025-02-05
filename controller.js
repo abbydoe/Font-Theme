@@ -20,7 +20,8 @@ figma.ui.onmessage = (pluginmessage) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.json();
+        // return response.json();
+        displayFontPairingsInOptions(response.json());
       })
       .then((data) => {
         console.log("Response from API:", data);
@@ -34,6 +35,85 @@ figma.ui.onmessage = (pluginmessage) => {
       });
   }
 };
+
+function displayFontPairingsInOptions(fontPairs) {
+  const maxOptions = 5;
+
+  for (let i = 0; i < maxOptions; i++) {
+    let optionContent = document.getElementById(`option${i + 1}-content`); // Target content container
+    if (!optionContent) continue; // Skip if the div doesn't exist
+
+    let pair = fontPairs[i]; // Get the corresponding font pair
+
+    // Clear previous content
+    optionContent.innerHTML = "";
+
+    // Create heading
+    let heading = document.createElement("h2");
+    heading.textContent = "Heading Example";
+    heading.style.fontFamily = pair.font1;
+    heading.style.fontWeight = "bold";
+
+    // Create subheading if there is a third font
+    let subheading;
+    if (pair.font3) {
+      subheading = document.createElement("h3");
+      subheading.textContent = "Subheading Example";
+      subheading.style.fontFamily = pair.font2;
+      subheading.style.fontWeight = "600";
+    }
+
+    // Create body text
+    let body = document.createElement("p");
+    body.textContent =
+      "This is an example paragraph demonstrating the font pairing.";
+    body.style.fontFamily = pair.font2 || pair.font3 || pair.font1;
+    body.style.fontWeight = "normal";
+
+    // Font details section
+    let fontDetails = document.createElement("div");
+    fontDetails.classList.add("font-details");
+
+    // List font names and available weights visually
+    let fontList = document.createElement("div");
+
+    function createWeightSamples(fontName, weights) {
+      let weightContainer = document.createElement("div");
+      weightContainer.classList.add("weight-sample");
+
+      let fontTitle = document.createElement("p");
+      fontTitle.textContent = fontName;
+      fontTitle.style.fontFamily = fontName;
+      fontTitle.style.fontWeight = "bold";
+      weightContainer.appendChild(fontTitle);
+
+      weights.forEach((weight) => {
+        let weightSample = document.createElement("p");
+        weightSample.textContent = `Weight ${weight}: ABCDEFGHIJKLMNOPQRSTUVWXYZ`;
+        weightSample.style.fontFamily = fontName;
+        weightSample.style.fontWeight = weight;
+        weightContainer.appendChild(weightSample);
+      });
+
+      return weightContainer;
+    }
+
+    // Append font samples
+    fontList.appendChild(createWeightSamples(pair.font1, pair.weights1));
+    fontList.appendChild(createWeightSamples(pair.font2, pair.weights2));
+
+    if (pair.font3) {
+      fontList.appendChild(createWeightSamples(pair.font3, pair.weights3));
+    }
+
+    // Append elements to the Option Content div
+    optionContent.appendChild(heading);
+    if (subheading) optionContent.appendChild(subheading);
+    optionContent.appendChild(body);
+    fontDetails.appendChild(fontList);
+    optionContent.appendChild(fontDetails);
+  }
+}
 
 // figma.ui.onmessage = async (msg) => {
 //   console.log(msg);
