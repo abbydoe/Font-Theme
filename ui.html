@@ -8,8 +8,20 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css"
     />
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
     <style>
+      .lottie-container {
+      display: none; /* Initially hidden */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      text-align: center;
+      align-items: center;
+    }
       /* Reset Styles */
       * {
         margin: 0;
@@ -415,10 +427,17 @@
   </head>
   <body>
     <!-- Loading Spinner -->
-    <div id="loading-spinner" class="spinner-container" style="display: none;">
-      <div class="spinner"></div>
-      <p>Loading font pairings...</p>
+    <div id="loading-animation" class="lottie-container">
+      <dotlottie-player 
+        src="https://lottie.host/1f1b3542-09a1-4a26-94a6-3a325d291461/FcuHe0HfQW.lottie" 
+        background="transparent" 
+        speed="1" 
+        style="width: 200px; height: 200px"
+        loop 
+        autoplay>
+      </dotlottie-player>
     </div>
+  
     <div id="container">
       <!-- Sidebar -->
       <div id="sidebar">
@@ -734,21 +753,27 @@
   sidebar.appendChild(savedItem);
 }
 
-  window.onmessage = (event) => {
+window.onmessage = (event) => {
       const message = event.data.pluginMessage;
 
+      // ✅ Show Lottie animation
       if (message.type === "show-spinner") {
-        document.getElementById("loading-spinner").style.display = "flex"; // Show spinner
+        document.getElementById("loading-animation").style.display = "flex";
+        document.getElementById("container").style.display= "none";
       }
 
+      // ❌ Hide Lottie animation
       if (message.type === "hide-spinner") {
-        document.getElementById("loading-spinner").style.display = "none"; // Hide spinner
+        document.getElementById("loading-animation").style.display = "none";
+        document.getElementById("container").style.display= "flex";
       }
 
+      // ✅ Process font pairings (if applicable)
       if (message.type === "font-pairings-response") {
-        console.log("Font pairings received in ui html:", message.data);
-        displayFontPairingsInOptions(message.data); // ✅ Update UI with the data
-        document.getElementById("loading-spinner").style.display = "none"; 
+        console.log("Font pairings received:", message.data);
+        document.getElementById("loading-animation").style.display = "none";
+        document.getElementById("container").style.display= "flex"; // Hide spinner
+        displayFontPairingsInOptions(message.data); // Existing function to update UI
       }
 
       if (message.type === "error") {
@@ -767,11 +792,6 @@
 
     let pair = fontPairs[i];
     console.log(`Updating option ${i + 1} with fonts:`, pair);
-
-    // ⚡ Clear previous content but keep buttons
-    let existingButtons = optionContent.querySelector(".button-container");
-    optionContent.innerHTML = ""; // Remove all previous content
-    if (existingButtons) optionContent.appendChild(existingButtons); // Re-add buttons
 
     // ✅ Rebuild missing elements dynamically
 
@@ -834,7 +854,6 @@
     optionContent.appendChild(fontPreview);
 
     // Ensure buttons are inside the content
-    if (!existingButtons) {
       let buttonContainer = document.createElement("div");
       buttonContainer.classList.add("button-container");
 
@@ -849,7 +868,6 @@
       buttonContainer.appendChild(useFontButton);
       buttonContainer.appendChild(saveFontButton);
       optionContent.appendChild(buttonContainer);
-    }
 
     // ✅ Dynamically load fonts before applying them
     await loadGoogleFont(pair.header.font);

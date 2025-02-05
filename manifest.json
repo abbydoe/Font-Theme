@@ -14,7 +14,9 @@
       "https://plugin.synergyapp.us",
       "https://fonts.googleapis.com",
       "https://fonts.gstatic.com",
-      "https://rsms.me"
+      "https://rsms.me",
+      "https://unpkg.com",
+      "https://lottie.host"
     ]
   }
 }

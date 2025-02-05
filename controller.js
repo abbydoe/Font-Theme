@@ -7,7 +7,6 @@ figma.ui.onmessage = async (pluginmessage) => {
       try {
         // 🔄 Notify UI to show loading spinner
         figma.ui.postMessage({ type: "show-spinner" });
-        figma.notify("Fetching font pairings..."); // 🔄 Notify user
 
         const response = await fetch(
           "https://plugin.synergyapp.us/api/font-pairings",
@@ -37,7 +36,6 @@ figma.ui.onmessage = async (pluginmessage) => {
           type: "font-pairings-response",
           data: data.fontPairs,
         });
-        figma.notify("Font pairings loaded ✅"); // ✅ Notify user of success
       } catch (error) {
         console.error("Error fetching font pairings:", error);
         figma.notify("Failed to fetch font pairings. Please try again.");
