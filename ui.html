@@ -385,9 +385,40 @@
         padding: 0;
         margin: 0;
       }
+      .spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(0, 0, 0, 0.2);
+    border-top: 4px solid #007aff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
     </style>
   </head>
   <body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="spinner-container" style="display: none;">
+      <div class="spinner"></div>
+      <p>Loading font pairings...</p>
+    </div>
     <div id="container">
       <!-- Sidebar -->
       <div id="sidebar">
@@ -706,9 +737,18 @@
   window.onmessage = (event) => {
       const message = event.data.pluginMessage;
 
+      if (message.type === "show-spinner") {
+        document.getElementById("loading-spinner").style.display = "flex"; // Show spinner
+      }
+
+      if (message.type === "hide-spinner") {
+        document.getElementById("loading-spinner").style.display = "none"; // Hide spinner
+      }
+
       if (message.type === "font-pairings-response") {
         console.log("Font pairings received in ui html:", message.data);
         displayFontPairingsInOptions(message.data); // ✅ Update UI with the data
+        document.getElementById("loading-spinner").style.display = "none"; 
       }
 
       if (message.type === "error") {
@@ -717,7 +757,7 @@
       }
     };
 
-  function displayFontPairingsInOptions(fontPairs) {
+    async function displayFontPairingsInOptions(fontPairs) {
   console.log(fontPairs);
   const maxOptions = 5;
 
@@ -737,7 +777,8 @@
 
     // Heading
     let heading = document.createElement("h1");
-    heading.textContent = `Option ${i + 1} content`;
+    heading.textContent =  document.getElementById("font-feeling").value.trim();
+    heading.style.fontFamily = pair.header.font; // Apply header font dynamically
     optionContent.appendChild(heading);
 
     // Date
@@ -751,6 +792,7 @@
     editableParagraph.setAttribute("contenteditable", "true");
     editableParagraph.textContent =
       "This paragraph is how these fonts look when paired together. You can edit this text.";
+    editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
     optionContent.appendChild(editableParagraph);
 
     // Font preview container
@@ -786,11 +828,8 @@
     }
 
     // ✅ Append new font columns
-    fontPreview.appendChild(createFontColumn(pair.font1, pair.weights1));
-    fontPreview.appendChild(createFontColumn(pair.font2, pair.weights2));
-    if (pair.font3) {
-      fontPreview.appendChild(createFontColumn(pair.font3, pair.weights3));
-    }
+    fontPreview.appendChild(createFontColumn(pair.header.font, pair.header.weights));
+    fontPreview.appendChild(createFontColumn(pair.body.font, pair.body.weights));
 
     optionContent.appendChild(fontPreview);
 
@@ -811,27 +850,45 @@
       buttonContainer.appendChild(saveFontButton);
       optionContent.appendChild(buttonContainer);
     }
+
+    // ✅ Dynamically load fonts before applying them
+    await loadGoogleFont(pair.header.font);
+    await loadGoogleFont(pair.body.font);
   }
 
   // ✅ Switch to Results tab automatically
   switchToResultsTab();
 }
 
+// ✅ Function to load Google Fonts dynamically
+async function loadGoogleFont(fontName) {
+  if (!fontName) return;
+  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, "+")}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+  if (!document.querySelector(`link[href="${fontUrl}"]`)) {
+    const link = document.createElement("link");
+    link.href = fontUrl;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    console.log(`Font ${fontName} loaded dynamically.`);
+  }
+}
+
 // ✅ Function to convert font weight numbers to readable names
 function getWeightName(weight) {
   const weightMap = {
-    100: "Thin",
-    200: "Extra Light",
-    300: "Light",
-    400: "Regular",
-    500: "Medium",
-    600: "Semi Bold",
-    700: "Bold",
-    800: "Extra Bold",
-    900: "Black",
+    "100": "Thin",
+    "200": "Extra Light",
+    "300": "Light",
+    "400": "Regular",
+    "500": "Medium",
+    "600": "Semi Bold",
+    "700": "Bold",
+    "800": "Extra Bold",
+    "900": "Black",
   };
   return weightMap[weight] || `Weight ${weight}`;
 }
+
 
 
 

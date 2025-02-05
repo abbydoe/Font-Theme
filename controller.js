@@ -3,10 +3,10 @@ const url = "https://plugin.synergyapp.us/api/font-pairings";
 figma.ui.onmessage = async (pluginmessage) => {
   console.log(pluginmessage);
   if (pluginmessage.type == "find-font") {
-    console.log(pluginmessage);
-
     async function fetchFontPairings(pluginmessage) {
       try {
+        // 🔄 Notify UI to show loading spinner
+        figma.ui.postMessage({ type: "show-spinner" });
         figma.notify("Fetching font pairings..."); // 🔄 Notify user
 
         const response = await fetch(
@@ -41,6 +41,8 @@ figma.ui.onmessage = async (pluginmessage) => {
       } catch (error) {
         console.error("Error fetching font pairings:", error);
         figma.notify("Failed to fetch font pairings. Please try again.");
+        // ❌ Hide spinner even if there's an error
+        figma.ui.postMessage({ type: "hide-spinner" });
       }
     }
 
