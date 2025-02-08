@@ -46,4 +46,89 @@ figma.ui.onmessage = async (pluginmessage) => {
 
     fetchFontPairings(pluginmessage);
   }
+
+  figma.ui.onmessage = async (msg) => {
+    if (msg.type === "create-text-style") {
+      const { fontFamily, fontWeights } = msg;
+
+      for (let weight of fontWeights) {
+        console.log(`Creating style for ${fontFamily} with weight ${weight}`);
+        await createTextStyle(fontFamily, weight, `${fontFamily} ${weight}`);
+      }
+
+      figma.notify(`Text styles for ${fontFamily} created successfully!`);
+    }
+  };
+
+  async function listAvailableStyles(fontFamily) {
+    const allFonts = await figma.listAvailableFontsAsync();
+    const availableStyles = allFonts
+      .filter((font) => font.fontName.family === fontFamily)
+      .map((font) => font.fontName.style);
+
+    console.log(`Available styles for ${fontFamily}:`, availableStyles);
+    return availableStyles;
+  }
+
+  function mapWeightToStyle(fontFamily, fontWeight, availableStyles) {
+    const weightToStyleMap = {
+      100: "Thin",
+      200: "ExtraLight",
+      300: "Light",
+      400: "Regular",
+      500: "Medium",
+      600: "SemiBold",
+      700: "Bold",
+      800: "ExtraBold",
+      900: "Black",
+    };
+
+    const preferredStyle = weightToStyleMap[fontWeight];
+    console.log(`Mapping weight ${fontWeight} to style: ${preferredStyle}`);
+
+    if (availableStyles.includes(preferredStyle)) {
+      return preferredStyle;
+    }
+
+    console.warn(
+      `Style ${preferredStyle} not found for ${fontFamily}. Falling back to ${
+        availableStyles[0] || "Regular"
+      }.`
+    );
+    return availableStyles[0] || "Regular";
+  }
+
+  async function createTextStyle(fontFamily, fontWeight, styleName) {
+    const availableStyles = await listAvailableStyles(fontFamily);
+    const style = mapWeightToStyle(fontFamily, fontWeight, availableStyles);
+
+    const regularFontName = { family: fontFamily, style: "Regular" }; // Default style
+    const fontName = { family: fontFamily, style: style };
+
+    try {
+      // Ensure "Regular" is loaded first (even if we're loading a different style)
+      console.log(`Loading "Regular" style for ${fontFamily} first...`);
+      await figma.loadFontAsync(regularFontName);
+
+      // Now load the specific style
+      console.log(`Loading ${style} style for ${fontFamily}...`);
+      await figma.loadFontAsync(fontName);
+
+      // Create the text style
+      const textStyle = figma.createTextStyle();
+      textStyle.name = styleName;
+      textStyle.fontSize = 16;
+      textStyle.fontName = fontName;
+
+      console.log(
+        `Text style "${styleName}" created successfully with ${style}`
+      );
+    } catch (error) {
+      console.error(
+        `Failed to create text style for ${fontFamily} ${style}`,
+        error
+      );
+      figma.notify(`Failed to create text style for ${fontFamily} ${style}`);
+    }
+  }
 };

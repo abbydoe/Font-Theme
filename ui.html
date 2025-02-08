@@ -8,20 +8,23 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/thomas-lowry/figma-plugin-ds/dist/figma-plugin-ds.css"
     />
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <script
+      src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"
+      type="module"
+    ></script>
 
     <style>
       .lottie-container {
-      display: none; /* Initially hidden */
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      text-align: center;
-      align-items: center;
-    }
+        display: none; /* Initially hidden */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        text-align: center;
+        align-items: center;
+      }
       /* Reset Styles */
       * {
         margin: 0;
@@ -88,7 +91,6 @@
       .tabs {
         display: flex;
         border-bottom: 1px solid #ddd;
-       
       }
 
       .tab {
@@ -164,14 +166,13 @@
       }
 
       .find-font-button button {
-        width: 100%; /* Make the button take the full width of its parent container */
+        width: 100%;
+        /* Make the button take the full width of its parent container */
       }
 
       .dark .switch__label {
         color: #ffffff;
       }
-
-     
 
       button {
         padding: 10px;
@@ -209,15 +210,15 @@
         box-sizing: border-box; /* Include padding and borders in width */
       }
 
-      /* Radio button container */
+      /* Radio button container 
       .font-pair-options {
         display: flex;
         flex-direction: column;
-        gap: 10px; /* Vertical spacing between radio options */
+        gap: 10px; /* Vertical spacing between radio options 
         margin-bottom: 20px;
-        width: 100%; /* Ensure no horizontal overflow */
+        width: 100%; /* Ensure no horizontal overflow 
         border-bottom: #666;
-      }
+      } */
 
       /* Ensure each radio button label fits neatly */
       .font-pair-options label {
@@ -255,7 +256,6 @@
       /* General styles for the font categories */
       .font-row {
         display: flex;
-        justify-content: space-between;
         flex-wrap: wrap; /* Wrap font cards if necessary */
         gap: 10px; /* Add spacing between font cards */
         margin: 20px 0;
@@ -264,9 +264,12 @@
       .font-card {
         flex: 1;
         min-width: 150px; /* Minimum size for small screens */
-        max-width: 30%; /* Limit width to avoid overflowing */
+        display: block;
+        width: auto; /* Limit width to avoid overflowing */
         padding: 10px;
-        text-align: center;
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -291,6 +294,7 @@
         padding: 0; /* Remove any padding */
         background: none; /* Remove background color, if any */
         box-shadow: none; /* Remove any shadow effects */
+        word-wrap: break-word;
       }
 
       /* Ensure the buttons container fits within the parent */
@@ -313,6 +317,8 @@
         background-color: black;
         color: white;
         font-size: 14px;
+        font-family: "Raleway", sans-serif; /* Correct quotes and fallback font */
+        font-weight: 400;
         border-radius: 30px;
         cursor: pointer;
         box-sizing: border-box; /* Include padding and borders in width */
@@ -329,8 +335,6 @@
         overflow-x: hidden; /* Eliminate horizontal scrolling */
       }
 
-
-
       .options {
         display: flex;
         align-items: start;
@@ -342,21 +346,19 @@
 
       .options li {
         flex: 1;
-        display:inline-block;
+        display: inline-block;
       }
       .option-content {
-    display: none; /* Hide all content by default */
-}
+        display: none; /* Hide all content by default */
+      }
 
-.option-content.active {
-    display: block; /* Show only active content */
-}
+      .option-content.active {
+        display: block; /* Show only active content */
+      }
 
-.find-font-content {
-  display: block;
-}
-
-
+      .find-font-content {
+        display: block;
+      }
 
       button.option {
         background-color: transparent;
@@ -365,7 +367,6 @@
         margin-left: 8px;
         margin-right: 24px;
         padding-left: 0%;
-    
       }
       button.option-active {
         background-color: transparent;
@@ -375,18 +376,16 @@
         margin-right: 24px;
         padding-left: 0%;
         font-weight: bold;
-    
       }
       .content {
-  display: none; /* Hide all content by default */
-  padding: 20px;
-  background-color: #ffffff;
-}
+        display: none; /* Hide all content by default */
+        padding: 20px;
+        background-color: #ffffff;
+      }
 
-
-.content.active {
-  display: block; /* Show only active content */
-}
+      .content.active {
+        display: block; /* Show only active content */
+      }
 
       /* Button hover effect */
       .button-container button:hover {
@@ -398,46 +397,108 @@
         margin: 0;
       }
       .spinner-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.9);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  }
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(0, 0, 0, 0.2);
-    border-top: 4px solid #007aff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(0, 0, 0, 0.2);
+        border-top: 4px solid #007aff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .font-row {
+        text-align: left; /* Ensures inherited left alignment */
+        display: block;
+      }
+      .pair1 {
+        display: flex;
+      }
+      .pair2 {
+        display: flex;
+      }
+      .pair3 {
+        display: flex;
+      }
+      .pair4 {
+        display: flex;
+      }
+      .pair5 {
+        display: flex;
+      }
+      .pair6 {
+        display: flex;
+      }
+      .pair7 {
+        display: flex;
+      }
+      .pair8 {
+        display: flex;
+      }
+      .pair9 {
+        display: flex;
+      }
+      .pair10 {
+        display: flex;
+      }
+      .pair11 {
+        display: flex;
+      }
+      .pair12 {
+        display: flex;
+      }
+      .content.active {
+        display: flex;
+        flex-direction: column; /* Stacks items vertically */
+        justify-content: center; /* Centers items vertically */
+        align-items: center; /* Centers items horizontally */
+        height: 100vh;
+        /* Ensres the container takes the full height of the viewport */
+      }
+      .searchH2 {
+        margin-bottom: 20px;
+      }
+      #font-feeling::placeholder {
+        font-family: "Open Sans";
+        font-weight: lighter;
+        color: gray;
+        font-size: 16px;
+      }
     </style>
   </head>
   <body>
     <!-- Loading Spinner -->
     <div id="loading-animation" class="lottie-container">
-      <dotlottie-player 
-        src="https://lottie.host/1f1b3542-09a1-4a26-94a6-3a325d291461/FcuHe0HfQW.lottie" 
-        background="transparent" 
-        speed="1" 
+      <dotlottie-player
+        src="https://lottie.host/1f1b3542-09a1-4a26-94a6-3a325d291461/FcuHe0HfQW.lottie"
+        background="transparent"
+        speed="1"
         style="width: 200px; height: 200px"
-        loop 
-        autoplay>
+        loop
+        autoplay
+      >
       </dotlottie-player>
     </div>
-  
+
     <div id="container">
       <!-- Sidebar -->
       <div id="sidebar">
@@ -448,9 +509,7 @@
           Click on a saved font to view the font family and add the font
           directly to your Figma file.
         </p>
-        <div id="saved-fonts">
-
-        </div>
+        <div id="saved-fonts"></div>
         <!-- Switch -->
         <div class="switch">
           <input class="switch__toggle" type="checkbox" id="dark-mode-on" />
@@ -462,463 +521,705 @@
       <div id="main">
         <!-- Tabs -->
         <div class="tabs">
-          <button class="tab active" id="find-font-tab">Search Font Theme</button>
+          <button class="tab active" id="find-font-tab">
+            Search Font Theme
+          </button>
           <button class="tab" data-tab="tab2" id="font-family-tab">
             Results
           </button>
           <button class="tab" id="all-font-categories-tab">
-            All Font Themes
+            Common Themes
           </button>
         </div>
 
         <!-- Find Font Content -->
-        <div class="content active" id="find-font" style="display: block">
-          <h2>What feeling does your font need to have?</h2>
+        <div class="content active" id="find-font">
+          <h2
+            class="searchH2"
+            style="font-family: 'Raleway'; font-weight: bold"
+          >
+            What feeling does your font need to have?
+          </h2>
           <textarea
             id="font-feeling"
             type="vibe"
             placeholder="Example: Professional, but friendly and approachable."
           ></textarea>
-
-          <fieldset class="font-pair-options">
-            <legend>How many fonts do you want to pair?</legend>
-            <label>
-              <input type="radio" id="pairing1" name="fontPairing" value="1" />
-              1
-            </label>
-            <label>
-              <input type="radio" id="pairing2" name="fontPairing" value="2" />
-              2
-            </label>
-            <label>
-              <input type="radio" id="pairing3" name="fontPairing" value="3" />
-              3
-            </label>
-          </fieldset>
-
           <div class="button-container find-font-button">
             <button id="find-font-btn">Find Font</button>
           </div>
         </div>
 
         <!-- Results tab content -->
-        <div class="content" id="font-family" >
+        <div class="content" id="font-family">
           <div>
             <ul class="options" style="display: block">
-              <li> <button id ="option1" class="option active" data-target="option1-content">Option 1</button> </li>
-              <li><button id="option2" class="option" data-target="option2-content">Option 2</button></li> 
-              <li><button id="option3" class="option" data-target="option3-content">Option 3</button> </li>
               <li>
-                <button id="option4" class="option" data-target="option4-content">Option 4</button>
+                <button
+                  id="option1"
+                  class="option active"
+                  data-target="option1-content"
+                >
+                  Option 1
+                </button>
               </li>
               <li>
-                <button id="option5" class="option" data-target="option5-content">Option 5</button>
+                <button
+                  id="option2"
+                  class="option"
+                  data-target="option2-content"
+                >
+                  Option 2
+                </button>
+              </li>
+              <li>
+                <button
+                  id="option3"
+                  class="option"
+                  data-target="option3-content"
+                >
+                  Option 3
+                </button>
+              </li>
+              <li>
+                <button
+                  id="option4"
+                  class="option"
+                  data-target="option4-content"
+                >
+                  Option 4
+                </button>
+              </li>
+              <li>
+                <button
+                  id="option5"
+                  class="option"
+                  data-target="option5-content"
+                >
+                  Option 5
+                </button>
               </li>
             </ul>
-            <div id="option1-content" class="option-content active" >
+            <div id="option1-content" class="option-content active"></div>
+            <div id="option2-content" class="option-content"></div>
+            <div id="option3-content" class="option-content"></div>
+            <div id="option4-content" class="option-content"></div>
+            <div id="option5-content" class="option-content"></div>
+          </div>
+        </div>
+        <!-- All Font Themes Content -->
+        <div class="content" id="all-font-categories">
+          <h2>Trustworthy and Professional</h2>
+          <div class="font-row">
+            <div class="pair1">
+              <div class="font-card" data-font="Inter1">
+                <h3>Inter (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+              </div>
+              <div class="font-card" data-font="Roboto">
+                <h3>Roboto (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 300 400 500 700 900</p>
+              </div>
             </div>
-            <div id="option2-content" class="option-content">
+            <div class="pair2">
+              <div class="font-card" data-font="Merriweather1">
+                <h3>Merriweather (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 300 400 700 900</p>
+              </div>
+              <div class="font-card" data-font="Lato1">
+                <h3>Lato (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+              </div>
             </div>
-            <div id="option3-content" class="option-content">
-            </div>
-            <div id="option4-content" class="option-content">
-            </div>
-            <div id="option5-content" class="option-content">
+            <div class="pair3">
+              <div class="font-card" data-font="Playfair1">
+                <h3>Playfair Display (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 400 500 600 700 800 900</p>
+              </div>
+              <div class="font-card" data-font="Poppins1">
+                <h3>Poppins (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+              </div>
             </div>
           </div>
-      </div>
-       <!-- All Font Themes Content -->
-       <div class="content" id="all-font-categories" >
-        <h2>Professional, Approachable, Fun</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Lato">
-            <h3>Lato</h3>
+
+          <h2>Friendly and Approachable</h2>
+          <div class="font-row">
+            <div class="pair4">
+              <div class="font-card" data-font="Montserrat">
+                <h3>Montserrat (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+              </div>
+              <div class="font-card" data-font="Quicksand">
+                <h3>Quicksand (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 300 400 500 600 700</p>
+              </div>
+            </div>
+            <div class="pair5">
+              <div class="font-card" data-font="Baloo">
+                <h3>Baloo 2 (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 400 500 600 700 800</p>
+              </div>
+              <div class="font-card" data-font="Nunito1">
+                <h3>Nunito (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 200 300 400 600 700 800 900</p>
+              </div>
+            </div>
+            <div class="pair6">
+              <div class="font-card" data-font="Fredoka1">
+                <h3>Fredoka (Header)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 300 400 600 700</p>
+              </div>
+              <div class="font-card" data-font="Poppins2">
+                <h3>Poppins (Body)</h3>
+                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+                <p>Font Weights: 100 200 300 400 600 700 800 900</p>
+              </div>
+            </div>
+          </div>
+
+          <h2>Modern and Minimalist</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Poppins3">
+              <h3>Poppins (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Inter2">
+              <h3>Inter (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Raleway1">
+              <h3>Raleway (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="DM Sans1">
+              <h3>DM Sans (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Avenir">
+              <h3>Avenir (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800</p>
+            </div>
+            <div class="font-card" data-font="DM Sans2">
+              <h3>Space Grotesk (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 500 600 700</p>
+            </div>
+          </div>
+          <h2>Elegant and Luxurious</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Playfair2">
+              <h3>Playfair Display (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Lora1">
+              <h3>Lora (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 400 500 600 700</p>
+            </div>
+            <div class="font-card" data-font="Cormorant">
+              <h3>Cormorant Garamond (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 500 600 700</p>
+            </div>
+            <div class="font-card" data-font="Raleway2">
+              <h3>Raleway (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="EB">
+              <h3>EB Garamond (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 400 500 600 700 800</p>
+            </div>
+            <div class="font-card" data-font="Poppins4">
+              <h3>Poppins (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
+            </div>
+          </div>
+          <h2>Playful and Fun</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Bungee">
+              <h3>Bungee (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font weight: 400</p>
+            </div>
+            <div class="font-card" data-font="Open Sans">
+              <h3>Open Sans (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font weights:300 400 600 700 800</p>
+            </div>
+            <div class="font-card" data-font="Luckiest">
+              <h3>Luckiest Guy (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font weight: 400</p>
+            </div>
+            <div class="font-card" data-font="Lato2">
+              <h3>Lato (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Fredoka2">
+              <h3>Fredoka (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 600 700</p>
+            </div>
+            <div class="font-card" data-font="Nunito2">
+              <h3>Nunito (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 200 300 400 600 700 800 900</p>
+            </div>
+          </div>
+          <h2>Techy and Futuristic</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Orbitron">
+              <h3>Orbitron (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 500 700 900</p>
+            </div>
+            <div class="font-card" data-font="Inter3">
+              <h3>Inter (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="Rajdhani">
+              <h3>Rajdhani (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 600 700</p>
+            </div>
+            <div class="font-card" data-font="Space">
+              <h3>Space Mono (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 400 700</p>
+            </div>
+            <div class="font-card" data-font="Exo">
+              <h3>Exo (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
+            </div>
+            <div class="font-card" data-font="DM Sans3">
+              <h3>Space Grotesk (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 500 600 700</p>
+            </div>
+          </div>
+          <h2>Editorial and Storytelling</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Merriweather2">
+              <h3>Merriweather (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 300 400 700 900</p>
+            </div>
+            <div class="font-card" data-font="PT">
+              <h3>PT Sans (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>
+                Font Weights: Regular: 400 700, Italic 400 700 Caption: 400 700
+                Narrow: 400 700
+              </p>
+            </div>
+            <div class="font-card" data-font="Lora2">
+              <h3>Lora (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 400 500 600 700</p>
+            </div>
+            <div class="font-card" data-font="Karla">
+              <h3>Karla (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 200 300 400 500 600 700 800</p>
+            </div>
+            <div class="font-card" data-font="TimesNewRoman">
+              <h3>Times New Roman (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: Regular: 400 700, Italic: 400 700</p>
+            </div>
+            <div class="font-card" data-font="Open Sans2">
+              <h3>Open Sans (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font weights:300 400 600 700 800</p>
+            </div>
+          </div>
+          <h2>Retro and Vintage</h2>
+          <div class="font-row">
+            <div class="font-card" data-font="Rockwell">
+              <h3>Rockwell (Header)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>
+                Font Weights: Regular: 400 700 800 Italic: 400 700 Condensed:
+                400 700
+              </p>
+            </div>
+            <div class="font-card" data-font="Raleway3">
+              <h3>Raleway (Body)</h3>
+              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
+            </div>
+          </div>
+          <div class="font-card" data-font="Pacifico">
+            <h3>Pacifico (Header)</h3>
             <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            <p>Font Weights: 400</p>
           </div>
           <div class="font-card" data-font="Open Sans">
-            <h3>Open Sans</h3>
+            <h3>Open Sans (Body)</h3>
             <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            <p>Font weights:300 400 600 700 800</p>
           </div>
-          <div class="font-card" data-font="Poppins">
-            <h3>Poppins</h3>
+          <div class="font-card" data-font="PressStart">
+            <h3>Press Start 2P (Header)</h3>
             <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            <p>Font Weights: Regular: 400</p>
           </div>
-        </div>
-
-        <h2>Modern, Sleek, Minimal</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Montserrat">
-            <h3>Montserrat</h3>
+          <div class="font-card" data-font="DM Sans3">
+            <h3>Space Grotesk (Body)</h3>
             <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Helvetica Neue">
-            <h3>Helvetica Neue</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Futura">
-            <h3>Futura</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-        </div>
-
-        <h2>Elegant, Luxury, High-end</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Baskerville">
-            <h3>Baskerville</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Playfair Display">
-            <h3>Playfair Display</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Cormorant">
-            <h3>Cormorant</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-        </div>
-        <h2>Elegant, Luxury, High-end</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Baskerville">
-            <h3>Baskerville</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Playfair Display">
-            <h3>Playfair Display</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Cormorant">
-            <h3>Cormorant</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-        </div>
-        <h2>Elegant, Luxury, High-end</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Baskerville">
-            <h3>Baskerville</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Playfair Display">
-            <h3>Playfair Display</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Cormorant">
-            <h3>Cormorant</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-        </div>
-        <h2>Elegant, Luxury, High-end</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Baskerville">
-            <h3>Baskerville</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Playfair Display">
-            <h3>Playfair Display</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Cormorant">
-            <h3>Cormorant</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-        </div>
-        <h2>Elegant, Luxury, High-end</h2>
-        <div class="font-row">
-          <div class="font-card" data-font="Baskerville">
-            <h3>Baskerville</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Playfair Display">
-            <h3>Playfair Display</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-          </div>
-          <div class="font-card" data-font="Cormorant">
-            <h3>Cormorant</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
+            <p>Font Weights: 300 400 500 600 700</p>
           </div>
         </div>
 
         <!-- Buttons (Initially Hidden) -->
-        <div
-          class="button-container"
-          id="action-buttons"
-          style="display: none"
-        >
+        <div class="button-container" id="action-buttons" style="display: none">
           <button id="use-font">Use Font</button>
           <button id="save-font">Save for Later</button>
         </div>
       </div>
     </div>
     <script>
-      
-  document.addEventListener("DOMContentLoaded", function () {
-    const tabs = document.querySelectorAll(".tab");
-    const contents = document.querySelectorAll(".content");
+      document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".tab");
+        const contents = document.querySelectorAll(".content");
 
-    // Add event listeners for tab clicks - when user switches tabs.
-    tabs.forEach((tab) => {
-        tab.addEventListener("click", function () {
-            // Remove 'active' class from all tabs and hide all content sections
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // Remove 'active' class and reset display for all content sections
             tabs.forEach((t) => t.classList.remove("active"));
-            // contents.forEach((content) => (content.style.display = "none"));
+            contents.forEach((content) => {
+              content.classList.remove("active");
+              content.style.display = "none"; // Hide all content
+              content.style.justifyContent = ""; // Reset centering
+              content.style.alignItems = ""; // Reset centering
+              content.style.height = ""; // Reset height
+            });
 
-            // Add 'active' class to the clicked tab
+            // Add 'active' class to the clicked tab and show its content
             this.classList.add("active");
-
-            // Get the content ID from data-tab OR manually map tab ID to content
-            contents.forEach((content) => (content.style.display = "none"));
             const contentId = this.id.replace("-tab", "");
             const targetContent = document.getElementById(contentId);
 
             if (targetContent) {
-                targetContent.style.display = "block";
-            } else {
-                console.warn(`No content found for tab: ${this.id}`);
+              targetContent.classList.add("active");
+              targetContent.style.display = "block"; // Use block for default layout
+
+              // Apply flex centering ONLY for the first tab's content
+              if (contentId === "find-font") {
+                targetContent.style.display = "flex";
+                targetContent.style.justifyContent = "center";
+                targetContent.style.alignItems = "center";
+                targetContent.style.height = "100vh";
+              }
             }
+          });
         });
-    });
-  });
-
-  // Javascript for option content in results tabs
-  const optionButtons = document.querySelectorAll(".option");
-  const optionContents = document.querySelectorAll(".option-content");
-
-  optionButtons.forEach((button) => {
-    button.addEventListener("click", function () {
-      // Remove 'active' class from all buttons
-      optionButtons.forEach((btn) => btn.classList.remove("active"));
-
-      // Add 'active' class to the clicked button
-      this.classList.add("active");
-
-      // Hide all option content sections
-      optionContents.forEach((content) => (content.style.display = "none"));
-
-      // Show the corresponding option content section
-      const targetId = this.getAttribute("data-target");
-      const targetContent = document.getElementById(targetId);
-      if (targetContent) {
-        targetContent.style.display = "block";
-      }
-    });
-  });
-
-  //Toggle Switch
-  const body = document.getElementById("dark-mode-on");
-  const sidebar = document.getElementById("sidebar");
-  body.addEventListener("click", function () {
-    document.body.classList.toggle("dark");
-    if (sidebar) sidebar.classList.toggle("dark");
-  });
-
-  // Find Font Button
-  const findFontButton = document.getElementById("find-font-btn");
-
-  findFontButton.addEventListener("click", () => {
-          const vibe = document.getElementById("font-feeling").value.trim();
-          const fontPairing = 2; // Hardcoded value
-
-          // Validate input
-          if (!vibe) {
-            alert("Please enter a vibe before finding font pairings.");
-            return;
-          }
-          parent.postMessage(
-            { pluginMessage: { type: "find-font", vibe, fontPairing } },
-            "*"
-          );
-        });
-
-// Function to Save Font Pair to Sidebar
-  function saveFontPair(optionNumber, fontPair) {
-  let sidebar = document.getElementById("saved-fonts"); // Get the sidebar container
-  if (!sidebar) return;
-
-  // Create a container for the saved font pair
-  let savedItem = document.createElement("div");
-  savedItem.classList.add("saved-font-pair");
-
-  // Add option number as heading
-  let optionHeading = document.createElement("h3");
-  optionHeading.textContent = `Option ${optionNumber}`;
-  savedItem.appendChild(optionHeading);
-
-  // Add font pair names
-  let fontNames = document.createElement("p");
-  fontNames.textContent = fontPair.font3
-    ? `${fontPair.font1} & ${fontPair.font2} & ${fontPair.font3}`
-    : `${fontPair.font1} & ${fontPair.font2}`;
-  savedItem.appendChild(fontNames);
-
-  // Append to sidebar
-  sidebar.appendChild(savedItem);
-}
-
-window.onmessage = (event) => {
-      const message = event.data.pluginMessage;
-
-      // ✅ Show Lottie animation
-      if (message.type === "show-spinner") {
-        document.getElementById("loading-animation").style.display = "flex";
-        document.getElementById("container").style.display= "none";
-      }
-
-      // ❌ Hide Lottie animation
-      if (message.type === "hide-spinner") {
-        document.getElementById("loading-animation").style.display = "none";
-        document.getElementById("container").style.display= "flex";
-      }
-
-      // ✅ Process font pairings (if applicable)
-      if (message.type === "font-pairings-response") {
-        console.log("Font pairings received:", message.data);
-        document.getElementById("loading-animation").style.display = "none";
-        document.getElementById("container").style.display= "flex"; // Hide spinner
-        displayFontPairingsInOptions(message.data); // Existing function to update UI
-      }
-
-      if (message.type === "error") {
-        console.error("Error:", message.message);
-        alert(message.message); // Show an error message in UI
-      }
-    };
-
-    async function displayFontPairingsInOptions(fontPairs) {
-  console.log(fontPairs);
-  const maxOptions = 5;
-
-  for (let i = 0; i < maxOptions; i++) {
-    let optionContent = document.getElementById(`option${i + 1}-content`);
-    if (!optionContent) continue;
-
-    let pair = fontPairs[i];
-    console.log(`Updating option ${i + 1} with fonts:`, pair);
-
-    // ✅ Rebuild missing elements dynamically
-
-    // Heading
-    let heading = document.createElement("h1");
-    heading.textContent =  document.getElementById("font-feeling").value.trim();
-    heading.style.fontFamily = pair.header.font; // Apply header font dynamically
-    optionContent.appendChild(heading);
-
-    // Date
-    let date = document.createElement("p");
-    date.classList.add("date");
-    date.textContent = new Date().toDateString(); // Use today's date
-    optionContent.appendChild(date);
-
-    // Editable paragraph
-    let editableParagraph = document.createElement("p");
-    editableParagraph.setAttribute("contenteditable", "true");
-    editableParagraph.textContent =
-      "This paragraph is how these fonts look when paired together. You can edit this text.";
-    editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
-    optionContent.appendChild(editableParagraph);
-
-    // Font preview container
-    let fontPreview = document.createElement("div");
-    fontPreview.classList.add("font-preview");
-
-    // ✅ Function to create font preview columns
-    function createFontColumn(fontName, weights) {
-      let column = document.createElement("div");
-      column.classList.add("font-column");
-
-      let fontTitle = document.createElement("h3");
-      fontTitle.textContent = fontName;
-      fontTitle.style.fontFamily = fontName;
-      column.appendChild(fontTitle);
-
-      weights.forEach((weight) => {
-        let weightLabel = document.createElement("p");
-        weightLabel.classList.add("font-weight");
-        weightLabel.textContent = getWeightName(weight);
-
-        let weightSample = document.createElement("p");
-        weightSample.classList.add("font-sample");
-        weightSample.textContent = "AaBbDdEeGgMmOoRrSs\n1234567890!?@#$%";
-        weightSample.style.fontFamily = fontName;
-        weightSample.style.fontWeight = weight;
-
-        column.appendChild(weightLabel);
-        column.appendChild(weightSample);
       });
 
-      return column;
-    }
+      // Javascript for option content in results tabs
+      const optionButtons = document.querySelectorAll(".option");
+      const optionContents = document.querySelectorAll(".option-content");
 
-    // ✅ Append new font columns
-    fontPreview.appendChild(createFontColumn(pair.header.font, pair.header.weights));
-    fontPreview.appendChild(createFontColumn(pair.body.font, pair.body.weights));
+      optionButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          // Remove 'active' class from all buttons
+          optionButtons.forEach((btn) => btn.classList.remove("active"));
 
-    optionContent.appendChild(fontPreview);
+          // Add 'active' class to the clicked button
+          this.classList.add("active");
 
-    // Ensure buttons are inside the content
-      let buttonContainer = document.createElement("div");
-      buttonContainer.classList.add("button-container");
+          // Hide all option content sections
+          optionContents.forEach((content) => (content.style.display = "none"));
 
-      let useFontButton = document.createElement("button");
-      useFontButton.id = "use-font";
-      useFontButton.textContent = "Create Text Style";
+          // Show the corresponding option content section
+          const targetId = this.getAttribute("data-target");
+          const targetContent = document.getElementById(targetId);
+          if (targetContent) {
+            targetContent.style.display = "block";
+          }
+        });
+      });
 
-      let saveFontButton = document.createElement("button");
-      saveFontButton.id = "save-font";
-      saveFontButton.textContent = "Save for Later";
+      //Toggle Switch
+      const body = document.getElementById("dark-mode-on");
+      const sidebar = document.getElementById("sidebar");
+      body.addEventListener("click", function () {
+        document.body.classList.toggle("dark");
+        if (sidebar) sidebar.classList.toggle("dark");
+      });
 
-      buttonContainer.appendChild(useFontButton);
-      buttonContainer.appendChild(saveFontButton);
-      optionContent.appendChild(buttonContainer);
+      // Find Font Button
+      const findFontButton = document.getElementById("find-font-btn");
 
-    // ✅ Dynamically load fonts before applying them
-    await loadGoogleFont(pair.header.font);
-    await loadGoogleFont(pair.body.font);
-  }
+      findFontButton.addEventListener("click", () => {
+        const vibe = document.getElementById("font-feeling").value.trim();
+        const fontPairing = 2; // Hardcoded value
 
-  // ✅ Switch to Results tab automatically
-  switchToResultsTab();
-}
+        // Validate input
+        if (!vibe) {
+          alert("Please enter a vibe before finding font pairings.");
+          return;
+        }
+        parent.postMessage(
+          { pluginMessage: { type: "find-font", vibe, fontPairing } },
+          "*"
+        );
+      });
 
-// ✅ Function to load Google Fonts dynamically
-async function loadGoogleFont(fontName) {
-  if (!fontName) return;
-  const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(/ /g, "+")}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
-  if (!document.querySelector(`link[href="${fontUrl}"]`)) {
-    const link = document.createElement("link");
-    link.href = fontUrl;
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-    console.log(`Font ${fontName} loaded dynamically.`);
-  }
-}
+      // Function to Save Font Pair to Sidebar
+      function saveFontPair(optionNumber, fontPair) {
+        let sidebar = document.getElementById("saved-fonts"); // Get the sidebar container
+        if (!sidebar) return;
 
-// ✅ Function to convert font weight numbers to readable names
-function getWeightName(weight) {
-  const weightMap = {
-    "100": "Thin",
-    "200": "Extra Light",
-    "300": "Light",
-    "400": "Regular",
-    "500": "Medium",
-    "600": "Semi Bold",
-    "700": "Bold",
-    "800": "Extra Bold",
-    "900": "Black",
-  };
-  return weightMap[weight] || `Weight ${weight}`;
-}
+        // Create a container for the saved font pair
+        let savedItem = document.createElement("div");
+        savedItem.classList.add("saved-font-pair");
 
+        // Add option number as heading
+        let optionHeading = document.createElement("h3");
+        optionHeading.textContent = `Option ${optionNumber}`;
+        savedItem.appendChild(optionHeading);
 
+        // Add font pair names
+        let fontNames = document.createElement("p");
+        fontNames.textContent = fontPair.font3
+          ? `${fontPair.font1} & ${fontPair.font2} & ${fontPair.font3}`
+          : `${fontPair.font1} & ${fontPair.font2}`;
+        savedItem.appendChild(fontNames);
 
+        // Append to sidebar
+        sidebar.appendChild(savedItem);
+      }
 
-  function switchToResultsTab() {
-  let resultsTab = document.getElementById("font-family-tab"); // Adjust the ID if needed
-  if (resultsTab) {
-    resultsTab.click(); // Simulate a click event on the Results tab
-    console.log("Switched to Results tab programmatically!");
-  } else {
-    console.warn("Results tab not found! Make sure the ID is correct.");
-  }
-}
+      window.onmessage = (event) => {
+        const message = event.data.pluginMessage;
+
+        // ✅ Show Lottie animation
+        if (message.type === "show-spinner") {
+          document.getElementById("loading-animation").style.display = "flex";
+          document.getElementById("container").style.display = "none";
+        }
+
+        // ❌ Hide Lottie animation
+        if (message.type === "hide-spinner") {
+          document.getElementById("loading-animation").style.display = "none";
+          document.getElementById("container").style.display = "flex";
+        }
+
+        // ✅ Process font pairings (if applicable)
+        if (message.type === "font-pairings-response") {
+          console.log("Font pairings received:", message.data);
+          document.getElementById("loading-animation").style.display = "none";
+          document.getElementById("container").style.display = "flex"; // Hide spinner
+          displayFontPairingsInOptions(message.data); // Existing function to update UI
+        }
+
+        if (message.type === "error") {
+          console.error("Error:", message.message);
+          alert(message.message); // Show an error message in UI
+        }
+      };
+
+      async function displayFontPairingsInOptions(fontPairs) {
+        console.log(fontPairs);
+        const maxOptions = 5;
+
+        for (let i = 0; i < maxOptions; i++) {
+          let optionContent = document.getElementById(`option${i + 1}-content`);
+          if (!optionContent) continue;
+
+          let pair = fontPairs[i];
+          console.log(`Updating option ${i + 1} with fonts:`, pair);
+
+          // ✅ Rebuild missing elements dynamically
+
+          // Heading
+          let heading = document.createElement("h1");
+          heading.textContent = document
+            .getElementById("font-feeling")
+            .value.trim();
+          heading.style.fontFamily = pair.header.font; // Apply header font dynamically
+          optionContent.appendChild(heading);
+
+          // Date
+          let date = document.createElement("p");
+          date.classList.add("date");
+          date.textContent = new Date().toDateString(); // Use today's date
+          optionContent.appendChild(date);
+
+          // Editable paragraph
+          let editableParagraph = document.createElement("p");
+          editableParagraph.setAttribute("contenteditable", "true");
+          editableParagraph.textContent =
+            "This paragraph is how these fonts look when paired together. You can edit this text.";
+          editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
+          optionContent.appendChild(editableParagraph);
+
+          // Font preview container
+          let fontPreview = document.createElement("div");
+          fontPreview.classList.add("font-preview");
+
+          // ✅ Function to create font preview columns
+          function createFontColumn(fontName, weights) {
+            let column = document.createElement("div");
+            column.classList.add("font-column");
+
+            let fontTitle = document.createElement("h3");
+            fontTitle.textContent = fontName;
+            fontTitle.style.fontFamily = fontName;
+            column.appendChild(fontTitle);
+
+            weights.forEach((weight) => {
+              let weightLabel = document.createElement("p");
+              weightLabel.classList.add("font-weight");
+              weightLabel.textContent = getWeightName(weight);
+
+              let weightSample = document.createElement("p");
+              weightSample.classList.add("font-sample");
+              weightSample.textContent = "AaBbDdEeGgMmOoRrSs\n1234567890!?@#$%";
+              weightSample.style.fontFamily = fontName;
+              weightSample.style.fontWeight = weight;
+
+              column.appendChild(weightLabel);
+              column.appendChild(weightSample);
+            });
+
+            return column;
+          }
+
+          // ✅ Append new font columns
+          fontPreview.appendChild(
+            createFontColumn(pair.header.font, pair.header.weights)
+          );
+          fontPreview.appendChild(
+            createFontColumn(pair.body.font, pair.body.weights)
+          );
+
+          optionContent.appendChild(fontPreview);
+
+          // Ensure buttons are inside the content
+          let buttonContainer = document.createElement("div");
+          buttonContainer.classList.add("button-container");
+
+          let useFontButton = document.createElement("button");
+          useFontButton.id = "use-font";
+          useFontButton.classList.add("create-text-style-btn");
+          useFontButton.setAttribute("data-font-family", pair.header.font);
+          useFontButton.setAttribute(
+            "data-font-weights",
+            JSON.stringify(pair.header.weights)
+          ); // Convert the weights array to a string
+
+          useFontButton.textContent = "Create Text Style";
+
+          let saveFontButton = document.createElement("button");
+          saveFontButton.id = "save-font";
+          saveFontButton.textContent = "Save for Later";
+
+          buttonContainer.appendChild(useFontButton);
+          buttonContainer.appendChild(saveFontButton);
+          optionContent.appendChild(buttonContainer);
+
+          // ✅ Dynamically load fonts before applying them
+          await loadGoogleFont(pair.header.font);
+          await loadGoogleFont(pair.body.font);
+        }
+
+        // ✅ Switch to Results tab automatically
+        switchToResultsTab();
+      }
+
+      document.addEventListener("click", async function (event) {
+        if (event.target.classList.contains("create-text-style-btn")) {
+          const fontFamily = event.target.getAttribute("data-font-family");
+          const fontWeights = JSON.parse(
+            event.target.getAttribute("data-font-weights")
+          );
+
+          console.log(
+            "Sending message to main thread:",
+            fontFamily,
+            fontWeights
+          );
+
+          window.parent.postMessage(
+            {
+              pluginMessage: {
+                type: "create-text-style",
+                fontFamily: fontFamily,
+                fontWeights: fontWeights,
+              },
+            },
+            "*"
+          );
+        }
+      });
+
+      // ✅ Function to load Google Fonts dynamically
+      async function loadGoogleFont(fontName) {
+        if (!fontName) return;
+        const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(
+          / /g,
+          "+"
+        )}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+        if (!document.querySelector(`link[href="${fontUrl}"]`)) {
+          const link = document.createElement("link");
+          link.href = fontUrl;
+          link.rel = "stylesheet";
+          document.head.appendChild(link);
+          console.log(`Font ${fontName} loaded dynamically.`);
+        }
+      }
+
+      // ✅ Function to convert font weight numbers to readable names
+      function getWeightName(weight) {
+        const weightMap = {
+          100: "Thin",
+          200: "Extra Light",
+          300: "Light",
+          400: "Regular",
+          500: "Medium",
+          600: "Semi Bold",
+          700: "Bold",
+          800: "Extra Bold",
+          900: "Black",
+        };
+        return weightMap[weight] || `Weight ${weight}`;
+      }
+
+      function switchToResultsTab() {
+        let resultsTab = document.getElementById("font-family-tab"); // Adjust the ID if needed
+        if (resultsTab) {
+          resultsTab.click(); // Simulate a click event on the Results tab
+          console.log("Switched to Results tab programmatically!");
+        } else {
+          console.warn("Results tab not found! Make sure the ID is correct.");
+        }
+      }
     </script>
   </body>
 </html>
