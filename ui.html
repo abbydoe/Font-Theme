@@ -1132,6 +1132,16 @@
           useFontButton.setAttribute(
             "data-font-weights",
             JSON.stringify(pair.header.weights)
+          );
+          useFontButton.setAttribute("data-header-font", pair.header.font);
+          useFontButton.setAttribute(
+            "data-header-weights",
+            JSON.stringify(pair.header.weights)
+          );
+          useFontButton.setAttribute("data-body-font", pair.body.font);
+          useFontButton.setAttribute(
+            "data-body-weights",
+            JSON.stringify(pair.body.weights)
           ); // Convert the weights array to a string
 
           useFontButton.textContent = "Create Text Style";
@@ -1166,16 +1176,47 @@
             fontWeights
           );
 
-          window.parent.postMessage(
-            {
-              pluginMessage: {
-                type: "create-text-style",
-                fontFamily: fontFamily,
-                fontWeights: fontWeights,
-              },
-            },
-            "*"
-          );
+          document.addEventListener("click", async function (event) {
+            if (event.target.classList.contains("create-text-style-btn")) {
+              const headerFontFamily =
+                event.target.getAttribute("data-header-font");
+              const headerFontWeights = JSON.parse(
+                event.target.getAttribute("data-header-weights")
+              );
+              const bodyFontFamily =
+                event.target.getAttribute("data-body-font");
+              const bodyFontWeights = JSON.parse(
+                event.target.getAttribute("data-body-weights")
+              );
+
+              console.log(
+                "Sending message to main thread:",
+                headerFontFamily,
+                headerFontWeights,
+                bodyFontFamily,
+                bodyFontWeights
+              );
+
+              window.parent.postMessage(
+                {
+                  pluginMessage: {
+                    type: "create-text-style",
+                    fonts: [
+                      {
+                        fontFamily: headerFontFamily,
+                        fontWeights: headerFontWeights,
+                      }, // Header font
+                      {
+                        fontFamily: bodyFontFamily,
+                        fontWeights: bodyFontWeights,
+                      }, // Body font
+                    ],
+                  },
+                },
+                "*"
+              );
+            }
+          });
         }
       });
 

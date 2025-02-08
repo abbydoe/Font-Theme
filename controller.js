@@ -49,14 +49,20 @@ figma.ui.onmessage = async (pluginmessage) => {
 
   figma.ui.onmessage = async (msg) => {
     if (msg.type === "create-text-style") {
-      const { fontFamily, fontWeights } = msg;
+      const { fonts } = msg;
 
-      for (let weight of fontWeights) {
-        console.log(`Creating style for ${fontFamily} with weight ${weight}`);
-        await createTextStyle(fontFamily, weight, `${fontFamily} ${weight}`);
+      for (const font of fonts) {
+        const { fontFamily, fontWeights } = font;
+
+        console.log(`Processing font: ${fontFamily}`);
+
+        for (let weight of fontWeights) {
+          console.log(`Creating style for ${fontFamily} with weight ${weight}`);
+          await createTextStyle(fontFamily, weight, `${fontFamily} ${weight}`);
+        }
       }
 
-      figma.notify(`Text styles for ${fontFamily} created successfully!`);
+      figma.notify(`Text styles created for all fonts!`);
     }
   };
 
@@ -102,19 +108,16 @@ figma.ui.onmessage = async (pluginmessage) => {
     const availableStyles = await listAvailableStyles(fontFamily);
     const style = mapWeightToStyle(fontFamily, fontWeight, availableStyles);
 
-    const regularFontName = { family: fontFamily, style: "Regular" }; // Default style
+    const regularFontName = { family: fontFamily, style: "Regular" };
     const fontName = { family: fontFamily, style: style };
 
     try {
-      // Ensure "Regular" is loaded first (even if we're loading a different style)
       console.log(`Loading "Regular" style for ${fontFamily} first...`);
       await figma.loadFontAsync(regularFontName);
 
-      // Now load the specific style
       console.log(`Loading ${style} style for ${fontFamily}...`);
       await figma.loadFontAsync(fontName);
 
-      // Create the text style
       const textStyle = figma.createTextStyle();
       textStyle.name = styleName;
       textStyle.fontSize = 16;
@@ -128,7 +131,6 @@ figma.ui.onmessage = async (pluginmessage) => {
         `Failed to create text style for ${fontFamily} ${style}`,
         error
       );
-      figma.notify(`Failed to create text style for ${fontFamily} ${style}`);
     }
   }
 };
