@@ -74,7 +74,7 @@
 
       #sidebar h2 {
         font-size: 16px;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
 
       #sidebar p {
@@ -492,6 +492,22 @@
         color: gray;
         font-size: 16px;
       }
+      .saved-font-header {
+        font-family: "Open Sans";
+        font-size: 12px;
+        color: #666;
+      }
+      .saved-font-body {
+        font-family: "Open Sans";
+        font-size: 12px;
+        color: #666;
+        margin-top: 8px;
+      }
+      li {
+        list-style: none;
+        margin-top: 8px;
+        margin-bottom: 16px;
+      }
     </style>
   </head>
   <body>
@@ -512,11 +528,9 @@
       <!-- Sidebar -->
       <div id="sidebar">
         <h2>Saved Fonts</h2>
-        <p>Saved fonts and font pairs will appear in this sidebar.</p>
-        <hr />
         <p>
-          Click on a saved font to view the font family and add the font
-          directly to your Figma file.
+          If you're not sure which font pair to use, you can save them here and
+          decide later. Click on a saved font to review the font family details.
         </p>
         <div id="saved-fonts"></div>
         <!-- Switch -->
@@ -1000,29 +1014,29 @@
       });
 
       // Function to Save Font Pair to Sidebar
-      function saveFontPair(optionNumber, fontPair) {
-        let sidebar = document.getElementById("saved-fonts"); // Get the sidebar container
-        if (!sidebar) return;
+      //function saveFontPair(optionNumber, fontPair) {
+      // let sidebar = document.getElementById("saved-fonts"); // Get the sidebar container
+      // if (!sidebar) return;
 
-        // Create a container for the saved font pair
-        let savedItem = document.createElement("div");
-        savedItem.classList.add("saved-font-pair");
+      // Create a container for the saved font pair
+      // let savedItem = document.createElement("div");
+      // savedItem.classList.add("saved-font-pair");
 
-        // Add option number as heading
-        let optionHeading = document.createElement("h3");
-        optionHeading.textContent = `Option ${optionNumber}`;
-        savedItem.appendChild(optionHeading);
+      // Add option number as heading
+      // let optionHeading = document.createElement("h3");
+      //optionHeading.textContent = `Option ${optionNumber}`;
+      // savedItem.appendChild(optionHeading);
 
-        // Add font pair names
-        let fontNames = document.createElement("p");
-        fontNames.textContent = fontPair.font3
-          ? `${fontPair.font1} & ${fontPair.font2} & ${fontPair.font3}`
-          : `${fontPair.font1} & ${fontPair.font2}`;
-        savedItem.appendChild(fontNames);
+      // Add font pair names
+      // let fontNames = document.createElement("p");
+      // fontNames.textContent = fontPair.font3
+      //  ? `${fontPair.font1} & ${fontPair.font2} & ${fontPair.font3}`
+      //  : `${fontPair.font1} & ${fontPair.font2}`;
+      // savedItem.appendChild(fontNames);
 
-        // Append to sidebar
-        sidebar.appendChild(savedItem);
-      }
+      // Append to sidebar
+      // sidebar.appendChild(savedItem);
+      // }
 
       window.onmessage = (event) => {
         const message = event.data.pluginMessage;
@@ -1158,6 +1172,45 @@
           let saveFontButton = document.createElement("button");
           saveFontButton.id = "save-font";
           saveFontButton.textContent = "Save for Later";
+
+          saveFontButton.setAttribute("data-header-font", pair.header.font);
+          saveFontButton.setAttribute("data-body-font", pair.body.font);
+
+          saveFontButton.addEventListener("click", function () {
+            // Retrieve font data from the button's data attributes
+            const headerFont = saveFontButton.getAttribute("data-header-font");
+            const bodyFont = saveFontButton.getAttribute("data-body-font");
+
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+            <hr>
+             <h2 class="saved-font-header">Header</h2>
+              <p> ${headerFont}</p>
+             <h2 class="saved-font-body"> Body <h2>
+               <p> ${bodyFont}</p>
+               `;
+
+            // Add the list item to the saved fonts sidebar
+            const savedFontsList = document.getElementById("saved-fonts");
+            savedFontsList.appendChild(listItem);
+            /// Check if that pair has already been saved.
+            const existingItems = Array.from(
+              savedFontsList.querySelectorAll("li")
+            );
+            const alreadySaved = existingItems.some(
+              (item) =>
+                item.innerText.includes(headerFont) &&
+                item.innerText.includes(bodyFont)
+            );
+
+            if (alreadySaved) {
+              console.log("Font pair already saved.");
+              return;
+            }
+
+            savedFontsList.appendChild(listItem);
+            console.log("Button clicked");
+          });
 
           buttonContainer.appendChild(useFontButton);
           buttonContainer.appendChild(saveFontButton);
