@@ -103,6 +103,7 @@
         cursor: pointer;
         font-size: 14px;
         color: #666; /* Inactive tab color */
+        transition: 0.3s ease;
       }
 
       .tab.active {
@@ -110,6 +111,10 @@
         border-bottom: 2px solid black;
         color: black; /* Active tab color */
         font-weight: bold;
+      }
+      .tab:hover {
+        background-color: rgb(111, 173, 212);
+        color: white;
       }
 
       .content {
@@ -163,6 +168,7 @@
         display: flex;
         justify-content: space-between;
         padding-top: 20px;
+        transition: 0.3s ease;
       }
 
       .find-font-button button {
@@ -183,10 +189,6 @@
         cursor: pointer;
         flex: 1;
         margin: 0 10px;
-      }
-
-      button:hover {
-        background-color: #333;
       }
 
       /* Prevent horizontal scrolling for the entire content */
@@ -235,9 +237,6 @@
         border: 1px solid #ffffff;
       }
 
-      #find-font-button:hover {
-        background-color: #333; /* Darker background on hover */
-      }
       p[contenteditable]:focus {
         outline: none; /* Remove default focus outline */
         border: 1px solid #ccc; /* Add a light border */
@@ -335,6 +334,10 @@
         overflow-x: hidden; /* Eliminate horizontal scrolling */
       }
 
+      .option:hover {
+        color: rgb(111, 173, 212);
+      }
+
       .options {
         display: flex;
         align-items: start;
@@ -367,6 +370,11 @@
         margin-left: 8px;
         margin-right: 24px;
         padding-left: 0%;
+        transition: border-bottom-color 0.3s ease;
+      }
+
+      button.option:hover {
+        border-bottom: 2px solid rgb(111, 173, 212); /* Added size and style */
       }
       button.option-active {
         background-color: transparent;
@@ -389,7 +397,8 @@
 
       /* Button hover effect */
       .button-container button:hover {
-        background-color: #333;
+        background-color: rgb(111, 173, 212);
+        transition: 0.3s ease;
       }
       fieldset {
         border: none;
