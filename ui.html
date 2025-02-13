@@ -924,6 +924,7 @@
           <button id="save-font">Save for Later</button>
         </div>
       </div>
+      <div id="plugin-container"></div>
     </div>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -1081,12 +1082,13 @@
           // ✅ Rebuild missing elements dynamically
 
           // Heading
-          let heading = document.createElement("h1");
-          heading.textContent = document
+          let editableHeader = document.createElement("h1");
+          editableHeader.setAttribute("contenteditable", "true");
+          editableHeader.textContent = document
             .getElementById("font-feeling")
             .value.trim();
-          heading.style.fontFamily = pair.header.font; // Apply header font dynamically
-          optionContent.appendChild(heading);
+          editableHeader.style.fontFamily = pair.header.font; // Apply header font dynamically
+          optionContent.appendChild(editableHeader);
 
           // Date
           let date = document.createElement("p");
@@ -1147,6 +1149,7 @@
           // Ensure buttons are inside the content
           let buttonContainer = document.createElement("div");
           buttonContainer.classList.add("button-container");
+          const savedFontPairs = []; // Global array to track saved pairs
 
           let useFontButton = document.createElement("button");
           useFontButton.id = "use-font";
@@ -1168,7 +1171,6 @@
           ); // Convert the weights array to a string
 
           useFontButton.textContent = "Create Text Style";
-
           let saveFontButton = document.createElement("button");
           saveFontButton.id = "save-font";
           saveFontButton.textContent = "Save for Later";
@@ -1181,35 +1183,52 @@
             const headerFont = saveFontButton.getAttribute("data-header-font");
             const bodyFont = saveFontButton.getAttribute("data-body-font");
 
-            const listItem = document.createElement("li");
-            listItem.innerHTML = `
-            <hr>
-             <h2 class="saved-font-header">Header</h2>
-              <p> ${headerFont}</p>
-             <h2 class="saved-font-body"> Body <h2>
-               <p> ${bodyFont}</p>
-               `;
-
-            // Add the list item to the saved fonts sidebar
-            const savedFontsList = document.getElementById("saved-fonts");
-            savedFontsList.appendChild(listItem);
-            /// Check if that pair has already been saved.
-            const existingItems = Array.from(
-              savedFontsList.querySelectorAll("li")
-            );
-            const alreadySaved = existingItems.some(
-              (item) =>
-                item.innerText.includes(headerFont) &&
-                item.innerText.includes(bodyFont)
+            // Get the saved fonts list container
+            const alreadySaved = savedFontPairs.some(
+              (pair) => pair.header === headerFont && pair.body === bodyFont
             );
 
             if (alreadySaved) {
-              console.log("Font pair already saved.");
+              const alertBox = document.createElement("div");
+              alertBox.textContent = "You already saved this pair.";
+              alertBox.style.color = "red";
+              alertBox.style.fontWeight = "bold";
+              alertBox.style.margin = "10px 0";
+
+              const pluginContainer =
+                document.getElementById("plugin-container"); // Adjust to your actual container
+              pluginContainer.insertBefore(
+                alertBox,
+                pluginContainer.firstChild
+              );
+
+              // Remove the alert after 3 seconds
+              setTimeout(() => alertBox.remove(), 3000);
+
+              return;
+            }
+            // Add the new font pair to the savedFontPairs array
+            savedFontPairs.push({ header: headerFont, body: bodyFont });
+
+            // Create and append the new list item
+            const savedFontsList = document.getElementById("saved-fonts");
+            if (!savedFontsList) {
+              console.error("Saved fonts container not found.");
               return;
             }
 
+            // Create a new list item and add it to the sidebar
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+    <hr>
+    <h2 class="saved-font-header">Header</h2>
+    <p>${headerFont}</p>
+    <h2 class="saved-font-body">Body</h2>
+    <p>${bodyFont}</p>
+  `;
+
             savedFontsList.appendChild(listItem);
-            console.log("Button clicked");
+            console.log("Font pair saved.");
           });
 
           buttonContainer.appendChild(useFontButton);
