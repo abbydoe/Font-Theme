@@ -1,10 +1,10 @@
 figma.showUI(__html__, { width: 800, height: 600 });
-const url = "https://plugin.synergyapp.us/api/font-pairings";
+const url = "https://plugin.synergyapp.us/api/font-pairings/mock";
 figma.ui.onmessage = async (pluginmessage) => {
   console.log(pluginmessage);
   if (pluginmessage.type == "find-font") {
     fetchFontPairings(pluginmessage);
-  } 
+  }
   if (pluginmessage.type == "create-text-style") {
     const { fonts } = pluginmessage;
 
@@ -29,7 +29,7 @@ async function fetchFontPairings(pluginmessage) {
     figma.ui.postMessage({ type: "show-spinner" });
 
     const response = await fetch(
-      "https://plugin.synergyapp.us/api/font-pairings",
+      "https://plugin.synergyapp.us/api/font-pairings/mock",
       {
         method: "POST",
         headers: {
