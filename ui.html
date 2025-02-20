@@ -342,9 +342,19 @@
       .option-content {
         display: none; /* Hide all content by default */
       }
+      .option-content p:last-child {
+        margin-bottom: 30px;
+      }
 
       .option-content.active {
         display: block; /* Show only active content */
+        max-height: calc(100vh - 150px); /* Adjust based on your layout */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding-bottom: 20px; /* Prevent text from being cut off at the bottom */
+      }
+
+      .option-content.active p:last-child {
+        margin-bottom: 30px; /* Push last text up slightly */
       }
 
       .find-font-content {
@@ -545,16 +555,15 @@
         left: 270px;
         width: auto;
         background: white;
-        border: 1px solid #ddd;
+        border: none;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
         padding: 16px;
         z-index: 1005;
         opacity: 0;
         visibility: hidden;
         transform: translateX(-10px);
         transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-        max-height: 90vh; /* Prevent it from taking up the whole screen */
+        height: 90vh; /* Prevent it from taking up the whole screen */
         overflow: hidden; /* Prevents overflow from breaking layout */
         display: flex;
         flex-direction: column;
@@ -580,21 +589,26 @@
         transform: translateX(-50%); /* ✅ Shift left by half its width */
         width: 90%; /* ✅ Ensure it adapts to popup width */
         max-width: 600px; /* ✅ Ensure it doesn't stretch too wide */
-        background: white;
+        background-color: white;
+        background: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1) 70%,
+          rgba(255, 255, 255, 0) 100%
+        );
         padding: 16px 20px;
         display: flex;
         gap: 12px;
         justify-content: center;
         z-index: 1001; /* ✅ Higher than the modal content */
 
-        /* ✅ Stronger fade effect */
+        /* ✅ Stronger fade effect 
         background: linear-gradient(
           to top,
           rgba(255, 255, 255, 1) 20%,
           rgba(255, 255, 255, 0.7) 50%,
           rgba(255, 255, 255, 0.4) 80%,
           rgba(255, 255, 255, 0) 100%
-        );
+        );*/
       }
 
       /* ✅ Close button */
@@ -624,21 +638,22 @@
           100vw - 220px
         ); /* ✅ Adjust to fit between sidebar & right */
         max-width: 900px; /* ✅ Prevent excessive width */
-        background: white;
+        background-color: white;
+        padding-top: 50px;
         padding: 16px 20px;
         display: flex;
         gap: 12px;
         justify-content: center;
         z-index: 1000; /* ✅ Ensures it's above content */
 
-        /* ✅ Stronger fade effect */
+        /* ✅ Stronger fade effect
         background: linear-gradient(
           to top,
           rgba(255, 255, 255, 1) 20%,
           rgba(255, 255, 255, 0.7) 50%,
           rgba(255, 255, 255, 0.4) 80%,
           rgba(255, 255, 255, 0) 100%
-        );
+        );*/
       }
 
       /* ✅ Ensure content does not go under the buttons */
@@ -663,7 +678,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
       /* ✅ Hover effect */
@@ -1306,7 +1320,7 @@
           // Ensure buttons are inside the content
           let buttonContainer = document.createElement("div");
           buttonContainer.classList.add("popup-footer");
-          const savedFontPairs = []; // Global array to track saved pairs
+          let savedFontPairs = []; // Global array to track saved pairs
 
           let useFontButton = document.createElement("button");
           useFontButton.id = "use-font";
@@ -1409,7 +1423,24 @@
               if (popupSaveButton) {
                 popupSaveButton.textContent = "Unsave"; // ✅ Change text inside popup
               }
+
+              popupSaveButton.addEventListener("click", () => {
+                if (popupSaveButton.textContent === "Unsave") {
+                  // Remove from savedFontPairs array
+                  savedFontPairs = savedFontPairs.filter(
+                    (pair) =>
+                      !(pair.header === headerFont && pair.body === bodyFont)
+                  );
+
+                  // Remove the item from the sidebar
+                  listItem.remove();
+                  closePopup();
+                }
+              });
             });
+
+            // Append the new list item to the sidebar
+            savedFontsList.appendChild(listItem);
 
             // ✅ Close pop-up when clicking the close button
             closePopupButton.addEventListener("click", () => {
@@ -1417,11 +1448,22 @@
             });
 
             // ✅ Close pop-up when clicking outside it
-            popupOverlay.addEventListener("click", (event) => {
-              if (event.target === popupOverlay) {
-                popupOverlay.classList.remove("open");
-              }
-            });
+            // Select the tab elements
+            const findFontTab = document.getElementById("find-font-tab");
+            const resultsTab = document.getElementById("font-family-tab");
+            const commonThemesTab = document.getElementById(
+              "all-font-categories-tab"
+            );
+
+            // Function to close the popup
+            const closePopup = () => {
+              popupOverlay.classList.remove("open");
+            };
+
+            // Attach event listeners to the tabs
+            findFontTab.addEventListener("click", closePopup);
+            resultsTab.addEventListener("click", closePopup);
+            commonThemesTab.addEventListener("click", closePopup);
 
             savedFontsList.appendChild(listItem);
             console.log("Font pair saved.");
