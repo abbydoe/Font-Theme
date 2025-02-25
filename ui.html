@@ -751,6 +751,43 @@
         margin-top: 8px;
         margin-bottom: 16px;
       }
+
+      .font-row-theme {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .theme-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        flex: 1;
+        max-width: 48%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+        h3,
+        h4 {
+          margin: 0;
+        }
+        .header {
+          font-size: 24px;
+        }
+        .body {
+          font-size: 18px;
+        }
+        .subheader {
+          font-size: 14px;
+          color: gray;
+        }
+        .divider {
+          margin: 10px 0;
+          border-bottom: 2px solid black;
+        }
+        .example {
+          font-size: 16px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -881,290 +918,7 @@
         </div>
         <!-- All Font Themes Content -->
         <div class="content" id="all-font-categories">
-          <h2>Trustworthy and Professional</h2>
-          <div class="font-row">
-            <div class="font-card" class="pair1">
-              <div data-font="Inter1">
-                <h4 class="subheader">Header</h4>
-                <h3>Inter</h3>
-                <p style="padding-bottom: 16px">
-                  AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%
-                </p>
-              </div>
-              <div data-font="Roboto">
-                <h4 class="subheader">Body</h4>
-                <h3>Roboto</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              </div>
-            </div>
-            <div class="font-card" class="pair2">
-              <div data-font="Merriweather1">
-                <h4 class="subheader">Header</h4>
-                <h3>Merriweather</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              </div>
-              <div data-font="Lato1">
-                <h4 class="subheader">Body</h4>
-                <h3>Lato</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              </div>
-            </div>
-            <div class="font-card" class="pair3">
-              <div data-font="Playfair1">
-                <h3>Playfair Display (Header)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              </div>
-              <div class="card-spacing" data-font="Poppins1">
-                <h3>Poppins (Body)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              </div>
-            </div>
-          </div>
-
-          <h2>Friendly and Approachable</h2>
-          <div class="font-row">
-            <div class="pair4">
-              <div class="font-card" data-font="Montserrat">
-                <h3>Montserrat (Header)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-              </div>
-              <div class="font-card" data-font="Quicksand">
-                <h3>Quicksand (Body)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 300 400 500 600 700</p>
-              </div>
-            </div>
-            <div class="pair5">
-              <div class="font-card" data-font="Baloo">
-                <h3>Baloo 2 (Header)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 400 500 600 700 800</p>
-              </div>
-              <div class="font-card" data-font="Nunito1">
-                <h3>Nunito (Body)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 200 300 400 600 700 800 900</p>
-              </div>
-            </div>
-            <div class="pair6">
-              <div class="font-card" data-font="Fredoka1">
-                <h3>Fredoka (Header)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 300 400 600 700</p>
-              </div>
-              <div class="font-card" data-font="Poppins2">
-                <h3>Poppins (Body)</h3>
-                <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-                <p>Font Weights: 100 200 300 400 600 700 800 900</p>
-              </div>
-            </div>
-          </div>
-
-          <h2>Modern and Minimalist</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Poppins3">
-              <h3>Poppins (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Inter2">
-              <h3>Inter (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Raleway1">
-              <h3>Raleway (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="DM Sans1">
-              <h3>DM Sans (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Avenir">
-              <h3>Avenir (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800</p>
-            </div>
-            <div class="font-card" data-font="DM Sans2">
-              <h3>Space Grotesk (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 500 600 700</p>
-            </div>
-          </div>
-          <h2>Elegant and Luxurious</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Playfair2">
-              <h3>Playfair Display (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Lora1">
-              <h3>Lora (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 400 500 600 700</p>
-            </div>
-            <div class="font-card" data-font="Cormorant">
-              <h3>Cormorant Garamond (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 500 600 700</p>
-            </div>
-            <div class="font-card" data-font="Raleway2">
-              <h3>Raleway (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="EB">
-              <h3>EB Garamond (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 400 500 600 700 800</p>
-            </div>
-            <div class="font-card" data-font="Poppins4">
-              <h3>Poppins (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
-            </div>
-          </div>
-          <h2>Playful and Fun</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Bungee">
-              <h3>Bungee (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font weight: 400</p>
-            </div>
-            <div class="font-card" data-font="Open Sans">
-              <h3>Open Sans (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font weights:300 400 600 700 800</p>
-            </div>
-            <div class="font-card" data-font="Luckiest">
-              <h3>Luckiest Guy (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font weight: 400</p>
-            </div>
-            <div class="font-card" data-font="Lato2">
-              <h3>Lato (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Fredoka2">
-              <h3>Fredoka (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 600 700</p>
-            </div>
-            <div class="font-card" data-font="Nunito2">
-              <h3>Nunito (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 200 300 400 600 700 800 900</p>
-            </div>
-          </div>
-          <h2>Techy and Futuristic</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Orbitron">
-              <h3>Orbitron (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 500 700 900</p>
-            </div>
-            <div class="font-card" data-font="Inter3">
-              <h3>Inter (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="Rajdhani">
-              <h3>Rajdhani (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 600 700</p>
-            </div>
-            <div class="font-card" data-font="Space">
-              <h3>Space Mono (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 400 700</p>
-            </div>
-            <div class="font-card" data-font="Exo">
-              <h3>Exo (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 600 700 800 900</p>
-            </div>
-            <div class="font-card" data-font="DM Sans3">
-              <h3>Space Grotesk (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 500 600 700</p>
-            </div>
-          </div>
-          <h2>Editorial and Storytelling</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Merriweather2">
-              <h3>Merriweather (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 300 400 700 900</p>
-            </div>
-            <div class="font-card" data-font="PT">
-              <h3>PT Sans (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>
-                Font Weights: Regular: 400 700, Italic 400 700 Caption: 400 700
-                Narrow: 400 700
-              </p>
-            </div>
-            <div class="font-card" data-font="Lora2">
-              <h3>Lora (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 400 500 600 700</p>
-            </div>
-            <div class="font-card" data-font="Karla">
-              <h3>Karla (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 200 300 400 500 600 700 800</p>
-            </div>
-            <div class="font-card" data-font="TimesNewRoman">
-              <h3>Times New Roman (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: Regular: 400 700, Italic: 400 700</p>
-            </div>
-            <div class="font-card" data-font="Open Sans2">
-              <h3>Open Sans (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font weights:300 400 600 700 800</p>
-            </div>
-          </div>
-          <h2>Retro and Vintage</h2>
-          <div class="font-row">
-            <div class="font-card" data-font="Rockwell">
-              <h3>Rockwell (Header)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>
-                Font Weights: Regular: 400 700 800 Italic: 400 700 Condensed:
-                400 700
-              </p>
-            </div>
-            <div class="font-card" data-font="Raleway3">
-              <h3>Raleway (Body)</h3>
-              <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-              <p>Font Weights: 100 200 300 400 500 600 700 800 900</p>
-            </div>
-          </div>
-          <div class="font-card" data-font="Pacifico">
-            <h3>Pacifico (Header)</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            <p>Font Weights: 400</p>
-          </div>
-          <div class="font-card" data-font="Open Sans">
-            <h3>Open Sans (Body)</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            <p>Font weights:300 400 600 700 800</p>
-          </div>
-          <div class="font-card" data-font="PressStart">
-            <h3>Press Start 2P (Header)</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            <p>Font Weights: Regular: 400</p>
-          </div>
-          <div class="font-card" data-font="DM Sans3">
-            <h3>Space Grotesk (Body)</h3>
-            <p>AaBbDdEeGgMmOoRrSs<br />1234567890!?@#$%</p>
-            <p>Font Weights: 300 400 500 600 700</p>
-          </div>
+          <div class="container" id="font-container"></div>
         </div>
 
         <!-- <div class="button-container" id="action-buttons" style="display: none">
@@ -1614,6 +1368,194 @@
           console.warn("Results tab not found! Make sure the ID is correct.");
         }
       }
+
+      const commonThemes = [
+        {
+          category: "Friendly and Approachable",
+          pairs: [
+            {
+              header: {
+                font: "Inter",
+                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+              },
+              body: { font: "Roboto", weights: [300, 400, 500, 600, 700] },
+              subheading: {
+                font: "Lato",
+                weights: [200, 300, 400, 600, 700, 900],
+              },
+            },
+            {
+              header: {
+                font: "Merriweather",
+                weights: [400, 500, 600, 700, 800],
+              },
+              body: { font: "Lato", weights: [200, 300, 400, 600, 700, 900] },
+              subheading: {
+                font: "Poppins",
+                weights: [100, 200, 300, 400, 600, 700, 900],
+              },
+            },
+            {
+              header: {
+                font: "Playfair Display",
+                weights: [300, 400, 600, 700],
+              },
+              body: {
+                font: "Poppins",
+                weights: [100, 200, 300, 400, 600, 700, 900],
+              },
+              subheading: {
+                font: "Raleway",
+                weights: [100, 200, 300, 400, 600, 700, 800, 900],
+              },
+            },
+          ],
+        },
+        {
+          category: "Elegant and Classic",
+          pairs: [
+            {
+              header: { font: "Baskerville", weights: [400, 500, 600, 700] },
+              body: { font: "Crimson Text", weights: [400, 600, 700] },
+              subheading: {
+                font: "Garamond",
+                weights: [400, 500, 600, 700, 900],
+              },
+            },
+            {
+              header: { font: "Libre Baskerville", weights: [400, 700] },
+              body: { font: "Merriweather", weights: [300, 400, 700, 900] },
+              subheading: { font: "Georgia", weights: [400, 700, 900] },
+            },
+            {
+              header: {
+                font: "Cormorant Garamond",
+                weights: [300, 400, 500, 600, 700],
+              },
+              body: { font: "Lora", weights: [400, 500, 600, 700] },
+              subheading: { font: "Times New Roman", weights: [400, 700] },
+            },
+          ],
+        },
+        {
+          category: "Modern and Minimalist",
+          pairs: [
+            {
+              header: {
+                font: "Montserrat",
+                weights: [400, 500, 600, 700, 800, 900],
+              },
+              body: { font: "Lato", weights: [300, 400, 500, 700, 900] },
+              subheading: {
+                font: "Poppins",
+                weights: [100, 200, 300, 400, 600, 700, 900],
+              },
+            },
+            {
+              header: {
+                font: "Poppins",
+                weights: [100, 200, 300, 400, 600, 700, 900],
+              },
+              body: {
+                font: "Open Sans",
+                weights: [300, 400, 500, 600, 700, 800],
+              },
+              subheading: {
+                font: "Nunito",
+                weights: [200, 300, 400, 600, 700, 800, 900],
+              },
+            },
+            {
+              header: {
+                font: "Raleway",
+                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+              },
+              body: { font: "Roboto", weights: [300, 400, 500, 700, 900] },
+              subheading: {
+                font: "Source Sans Pro",
+                weights: [200, 300, 400, 600, 700, 900],
+              },
+            },
+          ],
+        },
+        {
+          category: "Strong and Professional",
+          pairs: [
+            {
+              header: {
+                font: "Oswald",
+                weights: [200, 300, 400, 500, 600, 700],
+              },
+              body: { font: "Roboto Slab", weights: [100, 300, 400, 700, 900] },
+              subheading: { font: "PT Sans", weights: [400, 700] },
+            },
+            {
+              header: {
+                font: "Work Sans",
+                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+              },
+              body: {
+                font: "Nunito",
+                weights: [200, 300, 400, 600, 700, 800, 900],
+              },
+              subheading: {
+                font: "Barlow",
+                weights: [200, 300, 400, 600, 700],
+              },
+            },
+            {
+              header: { font: "Maven Pro", weights: [400, 500, 600, 700, 900] },
+              body: {
+                font: "Fira Sans",
+                weights: [300, 400, 500, 600, 700, 800],
+              },
+              subheading: { font: "Overpass", weights: [300, 400, 600, 700] },
+            },
+          ],
+        },
+      ];
+
+      const container = document.getElementById("font-container");
+
+      commonThemes.forEach((category) => {
+        // Create a heading for the category
+        const categoryHeading = document.createElement("h2");
+        categoryHeading.textContent = category.category;
+        container.appendChild(categoryHeading);
+
+        let rowDiv = document.createElement("div");
+        rowDiv.classList.add("font-row-theme");
+
+        category.pairs.forEach((pair, index) => {
+          // Create a font card
+          const card = document.createElement("div");
+          card.classList.add("theme-card");
+
+          card.innerHTML = `
+            <h4 class="subheader">Header</h4>
+            <h3 class="header" style="font-family: '${pair.header.font}', sans-serif;">${pair.header.font}</h3>
+
+            <h4 class="subheader">Body/Subheader</h4>
+            <h3 class="body" style="font-family: '${pair.body.font}', sans-serif;">${pair.body.font}</h3>
+
+            <div class="divider"></div>
+
+            <h3>Example</h3>
+            <p class="example" style="font-family: '${pair.body.font}', sans-serif;">
+                "The quick brown fox jumps over the fence"
+            </p>
+        `;
+
+          rowDiv.appendChild(card);
+
+          // If two cards are added, append row to container and create a new row
+          if ((index + 1) % 2 === 0 || index === category.pairs.length - 1) {
+            container.appendChild(rowDiv);
+            rowDiv = document.createElement("div");
+            rowDiv.classList.add("font-row");
+          }
+        });
+      });
     </script>
   </body>
 </html>
