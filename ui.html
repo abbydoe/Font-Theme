@@ -586,15 +586,10 @@
       /* Adjust Header & Body headings */
       .saved-font-header,
       .saved-font-body {
-        margin: 0 0 2px 0; /* Creates separation between heading and font name */
+        margin: 0 0 0 0; /* Creates separation between heading and font name */
         font-size: 11px;
         font-weight: 600;
         color: #222;
-      }
-
-      /* Increase spacing between header font name and 'Body' heading */
-      .saved-font-header + .saved-font-name {
-        margin-bottom: 10px; /* More spacing before 'Body' heading */
       }
 
       .saved-font-name {
@@ -1196,16 +1191,43 @@
             // Create a new list item and add it to the sidebar
             const listItem = document.createElement("li");
             listItem.classList.add("saved-font-item");
-            listItem.innerHTML = `
-              <div class="saved-font-content">
-                <h2 class="saved-font-header">Header</h2>
-                <p class="saved-font-name">${headerFont}</p>
-                <h2 class="saved-font-body">Body</h2>
-                <p class="saved-font-name">${bodyFont}</p>
-              </div>
-              `;
 
-            // ✅ Store the option content in dataset
+            // Create the content container
+            const contentDiv = document.createElement("div");
+            contentDiv.classList.add("saved-font-content");
+
+            // Create and style the header font elements
+            const headerTitle = document.createElement("h2");
+            headerTitle.classList.add("saved-font-header");
+            headerTitle.textContent = headerFont;
+            headerTitle.style.fontFamily = headerFont; // Apply the header font family
+            headerTitle.style.fontWeight = "bold";
+
+            const headerLabel = document.createElement("p");
+            headerLabel.classList.add("saved-font-name");
+            headerLabel.textContent = "Header";
+
+            // Create and style the body font elements
+            const bodyTitle = document.createElement("h2");
+            bodyTitle.classList.add("saved-font-body");
+            bodyTitle.textContent = bodyFont;
+            bodyTitle.style.fontFamily = bodyFont;
+            bodyTitle.style.fontWeight = "normal";
+
+            const bodyLabel = document.createElement("p");
+            bodyLabel.classList.add("saved-font-name");
+            bodyLabel.textContent = "Body";
+
+            // Append elements to the content container
+            contentDiv.appendChild(headerLabel);
+            contentDiv.appendChild(headerTitle);
+            contentDiv.appendChild(bodyLabel);
+            contentDiv.appendChild(bodyTitle);
+
+            // Append the content container to the list item
+            listItem.appendChild(contentDiv);
+
+            // Store the option content in dataset
             listItem.dataset.optionContent = optionContent.innerHTML;
 
             const popupOverlay = document.getElementById("saved-font-popup");

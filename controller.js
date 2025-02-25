@@ -43,6 +43,12 @@ async function fetchFontPairings(pluginmessage) {
       }
     );
 
+    // async function listAllFonts() {
+    //   const fonts = await figma.listAvailableFontsAsync();
+    //   console.log("Available Fonts:", fonts);
+    // }
+    // listAllFonts();
+
     console.log("Raw Response:", response);
 
     if (!response.ok) {
