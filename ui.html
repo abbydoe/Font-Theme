@@ -249,12 +249,6 @@
         padding: 10px; /* Optional padding */
       }
       /* General styles for the font categories */
-      .font-row {
-        display: flex;
-        flex-wrap: wrap; /* Wrap font cards if necessary */
-        gap: 10px; /* Add spacing between font cards */
-        margin: 20px 0;
-      }
 
       .subheader {
         font-size: 12px;
@@ -475,6 +469,8 @@
       .font-row {
         text-align: left; /* Ensures inherited left alignment */
         display: block;
+        /* padding-left: 8px;
+        padding-right: 8px; */
       }
       .pair1 {
         flex: auto;
@@ -754,22 +750,38 @@
 
       .font-row-theme {
         display: flex;
+        flex-direction: row; /* Stacks multiple font-row sections */
+        gap: 30px; /* Spacing between different font-row groups */
+        width: 100%;
+        /* padding: 0px 8px 0px 8px; */
+      }
+
+      .font-row {
+        display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         gap: 20px;
-        margin-bottom: 20px;
+        width: 100%;
+        padding-bottom: 16px;
       }
       .theme-card {
         background: white;
         border-radius: 12px;
-        padding: 20px;
+        padding: 16px;
         flex: 1;
-        max-width: 48%;
+        max-width: 48vh;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 
         h3,
         h4 {
           margin: 0;
+          padding-left: 0px;
         }
+
+        h3 {
+          padding-bottom: 8px;
+        }
+
         .header {
           font-size: 24px;
         }
@@ -781,18 +793,21 @@
           color: gray;
         }
         .divider {
-          margin: 10px 0;
-          border-bottom: 2px solid black;
+          margin: 0px 0px 24px 0px;
+          border-bottom: 1px solid black;
         }
         .example {
           font-size: 16px;
+          padding-bottom: 0px;
         }
       }
       #font-container {
         display: flex;
         flex-wrap: wrap;
         gap: 16px;
-        overflow-y: visible; /* Prevents internal clipping */
+        overflow-y: visible;
+        padding: 0px 8px 0px 8px;
+        /* Prevents internal clipping */
       }
     </style>
   </head>
@@ -1581,7 +1596,7 @@
 
                   <div class="divider"></div>
 
-                  <h3>Example</h3>
+                  <h3 style= "font-family: '${pair.header.font}', sans-serif;" >Example</h3>
                   <p class="example" style="font-family: '${pair.body.font}', sans-serif;">
                       "The quick brown fox jumps over the fence"
                   </p>
