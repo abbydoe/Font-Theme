@@ -466,6 +466,9 @@
           transform: rotate(360deg);
         }
       }
+      .theme-Headings {
+        font-weight: normal;
+      }
       .font-row {
         text-align: left; /* Ensures inherited left alignment */
         display: block;
@@ -793,7 +796,7 @@
           color: gray;
         }
         .divider {
-          margin: 0px 0px 24px 0px;
+          margin: 16px 0px 16px 0px;
           border-bottom: 1px solid black;
         }
         .example {
@@ -806,7 +809,7 @@
         flex-wrap: wrap;
         gap: 16px;
         overflow-y: visible;
-        padding: 0px 8px 0px 8px;
+        padding: 0px 8px 72px 8px;
         /* Prevents internal clipping */
       }
     </style>
@@ -1576,6 +1579,7 @@
       commonThemes.forEach((category) => {
         // Create a heading for the category
         const categoryHeading = document.createElement("h2");
+        categoryHeading.classList.add("theme-Headings");
         categoryHeading.textContent = category.category;
         container.appendChild(categoryHeading);
 
