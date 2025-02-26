@@ -25,6 +25,11 @@
         text-align: center;
         align-items: center;
       }
+
+      .container {
+        height: 100vh;
+        overflow: hidden;
+      }
       /* Reset Styles */
       * {
         margin: 0;
@@ -783,6 +788,12 @@
           font-size: 16px;
         }
       }
+      #font-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        overflow-y: visible; /* Prevents internal clipping */
+      }
     </style>
   </head>
   <body>
@@ -904,11 +915,11 @@
                 </button>
               </li>
             </ul>
-            <div id="option1-content" class="option-content active"></div>
-            <div id="option2-content" class="option-content"></div>
-            <div id="option3-content" class="option-content"></div>
-            <div id="option4-content" class="option-content"></div>
-            <div id="option5-content" class="option-content"></div>
+          <div id="option1-content" class="option-content active"></div>
+          <div id="option2-content" class="option-content"></div>
+          <div id="option3-content" class="option-content"></div>
+          <div id="option4-content" class="option-content"></div>
+          <div id="option5-content" class="option-content"></div>
           </div>
         </div>
         <!-- All Font Themes Content -->
@@ -1328,6 +1339,11 @@
             bodyFontWeights
           );
 
+          window.onload = async () => {
+            await loadAllFonts();
+            console.log("Common Fonts are ready to use in the UI!");
+          };
+
           window.parent.postMessage(
             {
               pluginMessage: {
@@ -1554,19 +1570,19 @@
           card.classList.add("theme-card");
 
           card.innerHTML = `
-            <h4 class="subheader">Header</h4>
-            <h3 class="header" style="font-family: '${pair.header.font}', sans-serif;">${pair.header.font}</h3>
+                  <h4 class="subheader">Header</h4>
+                  <h3 class="header" style="font-family: '${pair.header.font}', sans-serif;">${pair.header.font}</h3>
 
-            <h4 class="subheader">Body/Subheader</h4>
-            <h3 class="body" style="font-family: '${pair.body.font}', sans-serif;">${pair.body.font}</h3>
+                  <h4 class="subheader">Body/Subheader</h4>
+                  <h3 class="body" style="font-family: '${pair.body.font}', sans-serif;">${pair.body.font}</h3>
 
-            <div class="divider"></div>
+                  <div class="divider"></div>
 
-            <h3>Example</h3>
-            <p class="example" style="font-family: '${pair.body.font}', sans-serif;">
-                "The quick brown fox jumps over the fence"
-            </p>
-        `;
+                  <h3>Example</h3>
+                  <p class="example" style="font-family: '${pair.body.font}', sans-serif;">
+                      "The quick brown fox jumps over the fence"
+                  </p>
+              `;
 
           rowDiv.appendChild(card);
 
@@ -1578,6 +1594,34 @@
           }
         });
       });
+
+      async function loadAllFonts() {
+        const fontSet = new Set();
+
+        // Extract unique fonts to avoid redundant loads
+        commonThemes.forEach((theme) => {
+          theme.pairs.forEach((pair) => {
+            ["header", "body", "subheading"].forEach((type) => {
+              const fontEntry = pair[type];
+              if (fontEntry) {
+                fontSet.add(fontEntry.font); // Store only font family
+              }
+            });
+          });
+        });
+
+        // Convert set to array and load each font dynamically
+        try {
+          await Promise.all(
+            Array.from(fontSet).map((font) => loadGoogleFont(font))
+          );
+          console.log("All fonts loaded successfully.");
+        } catch (error) {
+          console.error("Error loading fonts:", error);
+        }
+      }
+
+      loadAllFonts(); // Load fonts when the script runs
     </script>
   </body>
 </html>
