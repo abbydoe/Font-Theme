@@ -480,7 +480,7 @@
         min-width: 150px;
         display: block;
         width: auto;
-        /padding: 10px;
+        padding: 10px;
         text-align: left;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -774,6 +774,7 @@
         flex: 1;
         max-width: 48vh;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
 
         h3,
         h4 {
@@ -1075,266 +1076,280 @@
 
         for (let i = 0; i < maxOptions; i++) {
           let optionContent = document.getElementById(`option${i + 1}-content`);
-          if (!optionContent) continue;
-
-          optionContent.innerHTML = ""; // Clear existing content
+          if (!optionContent) continue; // Clear existing content
 
           let pair = fontPairs[i];
           console.log(`Updating option ${i + 1} with fonts:`, pair);
 
-          // ✅ Rebuild missing elements dynamically
-
-          // Heading
-          let editableHeader = document.createElement("h1");
-          editableHeader.setAttribute("contenteditable", "true");
-          editableHeader.textContent = document
-            .getElementById("font-feeling")
-            .value.trim();
-          editableHeader.style.fontFamily = pair.header.font; // Apply header font dynamically
-          optionContent.appendChild(editableHeader);
-
-          // Date
-          let date = document.createElement("p");
-          date.classList.add("date");
-          date.textContent = new Date().toDateString(); // Use today's date
-          optionContent.appendChild(date);
-
-          // Editable paragraph
-          let editableParagraph = document.createElement("p");
-          editableParagraph.setAttribute("contenteditable", "true");
-          editableParagraph.textContent =
-            "This paragraph is how these fonts look when paired together. You can edit this text.";
-          editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
-          optionContent.appendChild(editableParagraph);
-
-          // Font preview container
-          let fontPreview = document.createElement("div");
-          fontPreview.classList.add("font-preview");
-
-          // ✅ Function to create font preview columns
-          function createFontColumn(fontName, weights) {
-            let column = document.createElement("div");
-            column.classList.add("font-column");
-
-            let fontTitle = document.createElement("h3");
-            fontTitle.textContent = fontName;
-            fontTitle.style.fontFamily = fontName;
-            column.appendChild(fontTitle);
-
-            weights.forEach((weight) => {
-              let weightLabel = document.createElement("p");
-              weightLabel.classList.add("font-weight");
-              weightLabel.textContent = getWeightName(weight);
-
-              let weightSample = document.createElement("p");
-              weightSample.classList.add("font-sample");
-              weightSample.textContent = "AaBbDdEeGgMmOoRrSs\n1234567890!?@#$%";
-              weightSample.style.fontFamily = fontName;
-              weightSample.style.fontWeight = weight;
-
-              column.appendChild(weightLabel);
-              column.appendChild(weightSample);
-            });
-
-            return column;
-          }
-
-          // ✅ Append new font columns
-          fontPreview.appendChild(
-            createFontColumn(pair.header.font, pair.header.weights)
-          );
-          fontPreview.appendChild(
-            createFontColumn(pair.body.font, pair.body.weights)
-          );
-
-          optionContent.appendChild(fontPreview);
-
-          // Ensure buttons are inside the content
-          let buttonContainer = document.createElement("div");
-          buttonContainer.classList.add("popup-footer");
-          let savedFontPairs = []; // Global array to track saved pairs
-
-          let useFontButton = document.createElement("button");
-          useFontButton.id = "use-font";
-          useFontButton.classList.add("popup-button");
-          useFontButton.setAttribute("data-font-family", pair.header.font);
-          useFontButton.setAttribute(
-            "data-font-weights",
-            JSON.stringify(pair.header.weights)
-          );
-          useFontButton.setAttribute("data-header-font", pair.header.font);
-          useFontButton.setAttribute(
-            "data-header-weights",
-            JSON.stringify(pair.header.weights)
-          );
-          useFontButton.setAttribute("data-body-font", pair.body.font);
-          useFontButton.setAttribute(
-            "data-body-weights",
-            JSON.stringify(pair.body.weights)
-          ); // Convert the weights array to a string
-
-          useFontButton.textContent = "Create Text Style";
-          let saveFontButton = document.createElement("button");
-          saveFontButton.id = "save-font";
-          saveFontButton.classList.add("popup-button");
-          saveFontButton.textContent = "Save for Later";
-
-          saveFontButton.setAttribute("data-header-font", pair.header.font);
-          saveFontButton.setAttribute("data-body-font", pair.body.font);
-
-          buttonContainer.appendChild(useFontButton);
-          buttonContainer.appendChild(saveFontButton);
-          optionContent.appendChild(buttonContainer);
-
-          saveFontButton.addEventListener("click", function () {
-            // Retrieve font data from the button's data attributes
-            const headerFont = saveFontButton.getAttribute("data-header-font");
-            const bodyFont = saveFontButton.getAttribute("data-body-font");
-
-            // Get the option content
-            let optionContent = saveFontButton.closest(".option-content");
-            if (!optionContent) {
-              console.error("Option content not found.");
-              return;
-            }
-
-            // Check if already saved
-            const alreadySaved = savedFontPairs.some(
-              (pair) => pair.header === headerFont && pair.body === bodyFont
-            );
-
-            if (alreadySaved) {
-              return;
-            }
-
-            // Add the new font pair to the savedFontPairs array
-            savedFontPairs.push({ header: headerFont, body: bodyFont });
-
-            // Create and append the new list item
-            const savedFontsList = document.getElementById("saved-fonts");
-            if (!savedFontsList) {
-              console.error("Saved fonts container not found.");
-              return;
-            }
-
-            // Create a new list item and add it to the sidebar
-            const listItem = document.createElement("li");
-            listItem.classList.add("saved-font-item");
-
-            // Create the content container
-            const contentDiv = document.createElement("div");
-            contentDiv.classList.add("saved-font-content");
-
-            // Create and style the header font elements
-            const headerTitle = document.createElement("h2");
-            headerTitle.classList.add("saved-font-header");
-            headerTitle.textContent = headerFont;
-            headerTitle.style.fontFamily = headerFont; // Apply the header font family
-            headerTitle.style.fontWeight = "bold";
-
-            const headerLabel = document.createElement("p");
-            headerLabel.classList.add("saved-font-name");
-            headerLabel.textContent = "Header";
-
-            // Create and style the body font elements
-            const bodyTitle = document.createElement("h2");
-            bodyTitle.classList.add("saved-font-body");
-            bodyTitle.textContent = bodyFont;
-            bodyTitle.style.fontFamily = bodyFont;
-            bodyTitle.style.fontWeight = "normal";
-
-            const bodyLabel = document.createElement("p");
-            bodyLabel.classList.add("saved-font-name");
-            bodyLabel.textContent = "Body";
-
-            // Append elements to the content container
-            contentDiv.appendChild(headerLabel);
-            contentDiv.appendChild(headerTitle);
-            contentDiv.appendChild(bodyLabel);
-            contentDiv.appendChild(bodyTitle);
-
-            // Append the content container to the list item
-            listItem.appendChild(contentDiv);
-
-            // Store the option content in dataset
-            listItem.dataset.optionContent = optionContent.innerHTML;
-
-            const popupOverlay = document.getElementById("saved-font-popup");
-            const popupContent = document.getElementById("popup-font-details");
-            const closePopupButton = document.getElementById("close-popup");
-
-            // ✅ Make the list item clickable to display saved option content
-            listItem.addEventListener("click", () => {
-              // ✅ Update content inside pop-up
-              popupContent.innerHTML = listItem.dataset.optionContent;
-
-              // ✅ Dynamically Position the Pop-up Next to Sidebar
-              let sidebar = document.getElementById("sidebar");
-              let sidebarRect = sidebar.getBoundingClientRect();
-              let menu = document.querySelector(".tabs");
-              let menuRect = menu.getBoundingClientRect();
-              popupOverlay.style.top = `${menuRect.bottom}px`; // Position right below the menu
-              popupOverlay.style.left = `${sidebarRect.right}px`; // Position right of sidebar
-
-              // ✅ Open the pop-up
-              popupOverlay.classList.add("open");
-              const popupSaveButton = popupOverlay.querySelector("#save-font");
-              if (popupSaveButton) {
-                popupSaveButton.textContent = "Unsave"; // ✅ Change text inside popup
-              }
-
-              popupSaveButton.addEventListener("click", () => {
-                if (popupSaveButton.textContent === "Unsave") {
-                  // Remove from savedFontPairs array
-                  savedFontPairs = savedFontPairs.filter(
-                    (pair) =>
-                      !(pair.header === headerFont && pair.body === bodyFont)
-                  );
-
-                  // Remove the item from the sidebar
-                  listItem.remove();
-                  closePopup();
-                }
-              });
-            });
-
-            // Append the new list item to the sidebar
-            savedFontsList.appendChild(listItem);
-
-            // ✅ Close pop-up when clicking the close button
-            closePopupButton.addEventListener("click", () => {
-              popupOverlay.classList.remove("open");
-            });
-
-            // ✅ Close pop-up when clicking outside it
-            // Select the tab elements
-            const findFontTab = document.getElementById("find-font-tab");
-            const resultsTab = document.getElementById("font-family-tab");
-            const commonThemesTab = document.getElementById(
-              "all-font-categories-tab"
-            );
-
-            // Function to close the popup
-            const closePopup = () => {
-              popupOverlay.classList.remove("open");
-            };
-
-            // Attach event listeners to the tabs
-            findFontTab.addEventListener("click", closePopup);
-            resultsTab.addEventListener("click", closePopup);
-            commonThemesTab.addEventListener("click", closePopup);
-
-            savedFontsList.appendChild(listItem);
-            console.log("Font pair saved.");
-          });
-
-          // ✅ Dynamically load fonts before applying them
-          await loadGoogleFont(pair.header.font);
-          await loadGoogleFont(pair.body.font);
+          optionContent = createPopupContent(optionContent, pair, true);
         }
 
         // ✅ Switch to Results tab automatically
         switchToResultsTab();
+      }
+
+      async function createPopupContent(optionContent, pair, isResultstab) {
+        // ✅ Rebuild missing elements dynamically
+        optionContent.innerHTML = "";
+
+        // Heading
+        let editableHeader = document.createElement("h1");
+        editableHeader.setAttribute("contenteditable", "true");
+        editableHeader.textContent = document
+          .getElementById("font-feeling")
+          .value.trim();
+        if (isResultstab) {
+          editableHeader.textContent = document
+            .getElementById("font-feeling")
+            .value.trim();
+        } else {
+          editableHeader.textContent = "Hello";
+        }
+
+        editableHeader.style.fontFamily = pair.header.font; // Apply header font dynamically
+        optionContent.appendChild(editableHeader);
+
+        // Date
+        let date = document.createElement("p");
+        date.classList.add("date");
+        date.textContent = new Date().toDateString(); // Use today's date
+        optionContent.appendChild(date);
+
+        // Editable paragraph
+        let editableParagraph = document.createElement("p");
+        editableParagraph.setAttribute("contenteditable", "true");
+        editableParagraph.textContent =
+          "This paragraph is how these fonts look when paired together. You can edit this text.";
+        editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
+        optionContent.appendChild(editableParagraph);
+
+        // Font preview container
+        let fontPreview = document.createElement("div");
+        fontPreview.classList.add("font-preview");
+
+        // ✅ Function to create font preview columns
+        function createFontColumn(fontName, weights) {
+          let column = document.createElement("div");
+          column.classList.add("font-column");
+
+          let fontTitle = document.createElement("h3");
+          fontTitle.textContent = fontName;
+          fontTitle.style.fontFamily = fontName;
+          column.appendChild(fontTitle);
+
+          weights.forEach((weight) => {
+            let weightLabel = document.createElement("p");
+            weightLabel.classList.add("font-weight");
+            weightLabel.textContent = getWeightName(weight);
+
+            let weightSample = document.createElement("p");
+            weightSample.classList.add("font-sample");
+            weightSample.textContent = "AaBbDdEeGgMmOoRrSs\n1234567890!?@#$%";
+            weightSample.style.fontFamily = fontName;
+            weightSample.style.fontWeight = weight;
+
+            column.appendChild(weightLabel);
+            column.appendChild(weightSample);
+          });
+
+          return column;
+        }
+
+        // ✅ Append new font columns
+        fontPreview.appendChild(
+          createFontColumn(pair.header.font, pair.header.weights)
+        );
+        fontPreview.appendChild(
+          createFontColumn(pair.body.font, pair.body.weights)
+        );
+
+        optionContent.appendChild(fontPreview);
+
+        // Ensure buttons are inside the content
+        let buttonContainer = document.createElement("div");
+        buttonContainer.classList.add("popup-footer");
+        let savedFontPairs = []; // Global array to track saved pairs
+
+        let useFontButton = document.createElement("button");
+        useFontButton.id = "use-font";
+        useFontButton.classList.add("popup-button");
+        useFontButton.setAttribute("data-font-family", pair.header.font);
+        useFontButton.setAttribute(
+          "data-font-weights",
+          JSON.stringify(pair.header.weights)
+        );
+        useFontButton.setAttribute("data-header-font", pair.header.font);
+        useFontButton.setAttribute(
+          "data-header-weights",
+          JSON.stringify(pair.header.weights)
+        );
+        useFontButton.setAttribute("data-body-font", pair.body.font);
+        useFontButton.setAttribute(
+          "data-body-weights",
+          JSON.stringify(pair.body.weights)
+        ); // Convert the weights array to a string
+
+        useFontButton.textContent = "Create Text Style";
+        let saveFontButton = document.createElement("button");
+        saveFontButton.id = "save-font";
+        saveFontButton.classList.add("popup-button");
+        saveFontButton.textContent = "Save for Later";
+
+        saveFontButton.setAttribute("data-header-font", pair.header.font);
+        saveFontButton.setAttribute("data-body-font", pair.body.font);
+
+        buttonContainer.appendChild(useFontButton);
+        buttonContainer.appendChild(saveFontButton);
+        optionContent.appendChild(buttonContainer);
+
+        saveFontButton.addEventListener("click", function () {
+          // Retrieve font data from the button's data attributes
+          const headerFont = saveFontButton.getAttribute("data-header-font");
+          const bodyFont = saveFontButton.getAttribute("data-body-font");
+
+          // Get the option content
+          let optionContent;
+          if (isResultstab) {
+            optionContent = saveFontButton.closest(".option-content");
+          } else {
+            optionContent = saveFontButton.closest("#popup-font-details");
+          }
+
+          // Check if already saved
+          const alreadySaved = savedFontPairs.some(
+            (pair) => pair.header === headerFont && pair.body === bodyFont
+          );
+
+          if (alreadySaved) {
+            return;
+          }
+
+          // Add the new font pair to the savedFontPairs array
+          savedFontPairs.push({ header: headerFont, body: bodyFont });
+
+          // Create and append the new list item
+          const savedFontsList = document.getElementById("saved-fonts");
+          if (!savedFontsList) {
+            console.error("Saved fonts container not found.");
+            return;
+          }
+
+          // Create a new list item and add it to the sidebar
+          const listItem = document.createElement("li");
+          listItem.classList.add("saved-font-item");
+
+          // Create the content container
+          const contentDiv = document.createElement("div");
+          contentDiv.classList.add("saved-font-content");
+
+          // Create and style the header font elements
+          const headerTitle = document.createElement("h2");
+          headerTitle.classList.add("saved-font-header");
+          headerTitle.textContent = headerFont;
+          headerTitle.style.fontFamily = headerFont; // Apply the header font family
+          headerTitle.style.fontWeight = "bold";
+
+          const headerLabel = document.createElement("p");
+          headerLabel.classList.add("saved-font-name");
+          headerLabel.textContent = "Header";
+
+          // Create and style the body font elements
+          const bodyTitle = document.createElement("h2");
+          bodyTitle.classList.add("saved-font-body");
+          bodyTitle.textContent = bodyFont;
+          bodyTitle.style.fontFamily = bodyFont;
+          bodyTitle.style.fontWeight = "normal";
+
+          const bodyLabel = document.createElement("p");
+          bodyLabel.classList.add("saved-font-name");
+          bodyLabel.textContent = "Body";
+
+          // Append elements to the content container
+          contentDiv.appendChild(headerLabel);
+          contentDiv.appendChild(headerTitle);
+          contentDiv.appendChild(bodyLabel);
+          contentDiv.appendChild(bodyTitle);
+
+          // Append the content container to the list item
+          listItem.appendChild(contentDiv);
+
+          // Store the option content in dataset
+          listItem.dataset.optionContent = optionContent.innerHTML;
+
+          const popupOverlay = document.getElementById("saved-font-popup");
+          const popupContent = document.getElementById("popup-font-details");
+          const closePopupButton = document.getElementById("close-popup");
+
+          // ✅ Make the list item clickable to display saved option content
+          listItem.addEventListener("click", () => {
+            // ✅ Update content inside pop-up
+            popupContent.innerHTML = listItem.dataset.optionContent;
+
+            // ✅ Dynamically Position the Pop-up Next to Sidebar
+            let sidebar = document.getElementById("sidebar");
+            let sidebarRect = sidebar.getBoundingClientRect();
+            let menu = document.querySelector(".tabs");
+            let menuRect = menu.getBoundingClientRect();
+            popupOverlay.style.top = `${menuRect.bottom}px`; // Position right below the menu
+            popupOverlay.style.left = `${sidebarRect.right}px`; // Position right of sidebar
+
+            // ✅ Open the pop-up
+            popupOverlay.classList.add("open");
+            const popupSaveButton = popupOverlay.querySelector("#save-font");
+            if (popupSaveButton) {
+              popupSaveButton.textContent = "Unsave"; // ✅ Change text inside popup
+            }
+
+            popupSaveButton.addEventListener("click", () => {
+              if (popupSaveButton.textContent === "Unsave") {
+                // Remove from savedFontPairs array
+                savedFontPairs = savedFontPairs.filter(
+                  (pair) =>
+                    !(pair.header === headerFont && pair.body === bodyFont)
+                );
+
+                // Remove the item from the sidebar
+                listItem.remove();
+                closePopup();
+              }
+            });
+          });
+
+          // Append the new list item to the sidebar
+          savedFontsList.appendChild(listItem);
+
+          // ✅ Close pop-up when clicking the close button
+          closePopupButton.addEventListener("click", () => {
+            popupOverlay.classList.remove("open");
+          });
+
+          // ✅ Close pop-up when clicking outside it
+          // Select the tab elements
+          const findFontTab = document.getElementById("find-font-tab");
+          const resultsTab = document.getElementById("font-family-tab");
+          const commonThemesTab = document.getElementById(
+            "all-font-categories-tab"
+          );
+
+          // Function to close the popup
+          const closePopup = () => {
+            popupOverlay.classList.remove("open");
+          };
+
+          // Attach event listeners to the tabs
+          findFontTab.addEventListener("click", closePopup);
+          resultsTab.addEventListener("click", closePopup);
+          commonThemesTab.addEventListener("click", closePopup);
+
+          savedFontsList.appendChild(listItem);
+          console.log("Font pair saved.");
+        });
+
+        // ✅ Dynamically load fonts before applying them
+        await loadGoogleFont(pair.header.font);
+        await loadGoogleFont(pair.body.font);
+
+        return optionContent;
       }
 
       document.addEventListener("click", async function (event) {
@@ -1614,6 +1629,47 @@
             rowDiv = document.createElement("div");
             rowDiv.classList.add("font-row");
           }
+          const popupOverlay = document.getElementById("saved-font-popup");
+          let popupContent = document.getElementById("popup-font-details");
+          const closePopupButton = document.getElementById("close-popup");
+
+          // ✅ Make the list item clickable to display saved option content
+          card.addEventListener("click", () => {
+            console.log("theme card clicked");
+            // ✅ Update content inside pop-up
+            popupContent = createPopupContent(popupContent, pair, false);
+            popupOverlay.classList.add("open");
+
+            // ✅ Dynamically Position the Pop-up Next to Sidebar
+            let sidebar = document.getElementById("sidebar");
+            let sidebarRect = sidebar.getBoundingClientRect();
+            let menu = document.querySelector(".tabs");
+            let menuRect = menu.getBoundingClientRect();
+            popupOverlay.style.top = `${menuRect.bottom}px`; // Position right below the menu
+            popupOverlay.style.left = `${sidebarRect.right}px`; // Position right of sidebar
+          });
+          // ✅ Close pop-up when clicking the close button
+          closePopupButton.addEventListener("click", () => {
+            popupOverlay.classList.remove("open");
+          });
+
+          // ✅ Close pop-up when clicking outside it
+          // Select the tab elements
+          const findFontTab = document.getElementById("find-font-tab");
+          const resultsTab = document.getElementById("font-family-tab");
+          const commonThemesTab = document.getElementById(
+            "all-font-categories-tab"
+          );
+
+          // Function to close the popup
+          const closePopup = () => {
+            popupOverlay.classList.remove("open");
+          };
+
+          // Attach event listeners to the tabs
+          findFontTab.addEventListener("click", closePopup);
+          resultsTab.addEventListener("click", closePopup);
+          commonThemesTab.addEventListener("click", closePopup);
         });
       });
 
