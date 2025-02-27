@@ -1102,6 +1102,8 @@
           editableHeader.textContent = document
             .getElementById("font-feeling")
             .value.trim();
+        } else if (editableHeader.textContent) {
+          editableHeader.textContent = editableHeader.textContent;
         } else {
           editableHeader.textContent = "Hello";
         }
@@ -1113,6 +1115,7 @@
         let date = document.createElement("p");
         date.classList.add("date");
         date.textContent = new Date().toDateString(); // Use today's date
+        date.setAttribute("contenteditable", "true");
         optionContent.appendChild(date);
 
         // Editable paragraph
@@ -1633,11 +1636,61 @@
           let popupContent = document.getElementById("popup-font-details");
           const closePopupButton = document.getElementById("close-popup");
 
+          const popupData = {};
+
+          // ✅ Function to save `contenteditable` fields dynamically
+          function savePopupData(popupKey) {
+            const editables = popupContent.querySelectorAll(
+              "[contenteditable='true']"
+            );
+            popupData[popupKey] = {}; // Ensure an object exists
+
+            editables.forEach((editable, index) => {
+              popupData[popupKey][`editable-${index}`] = editable.innerHTML; // Store edited content
+            });
+          }
+
+          // ✅ Function to restore `contenteditable` fields
+          function restorePopupData(popupKey) {
+            if (popupData[popupKey]) {
+              const editables = popupContent.querySelectorAll(
+                "[contenteditable='true']"
+              );
+
+              editables.forEach((editable, index) => {
+                if (popupData[popupKey][`editable-${index}`] !== undefined) {
+                  editable.innerHTML = popupData[popupKey][`editable-${index}`]; // Restore content
+                }
+              });
+            }
+          }
+
           // ✅ Make the list item clickable to display saved option content
-          card.addEventListener("click", () => {
-            console.log("theme card clicked");
-            // ✅ Update content inside pop-up
-            popupContent = createPopupContent(popupContent, pair, false);
+          card.addEventListener("click", async () => {
+            console.log("Theme card clicked", pair);
+
+            // ✅ Generate a unique key for this theme card
+            const popupKey = pair.header.font
+              .replace(/\s+/g, "-")
+              .toLowerCase();
+
+            // ✅ Ensure an object exists for this pop-up
+            if (!popupData[popupKey]) {
+              popupData[popupKey] = {};
+            }
+
+            // ✅ Clear and recreate content
+            popupContent.innerHTML = "";
+            createPopupContent(popupContent, pair, false);
+
+            // ✅ Restore `contenteditable` text if available
+            restorePopupData(popupKey);
+
+            // ✅ Listen for user edits & save changes dynamically
+            popupContent.addEventListener("input", () =>
+              savePopupData(popupKey)
+            );
+
             popupOverlay.classList.add("open");
 
             // ✅ Dynamically Position the Pop-up Next to Sidebar
