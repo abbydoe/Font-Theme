@@ -15,15 +15,29 @@
 
     <style>
       .lottie-container {
-        display: none; /* Initially hidden */
+        display: none; /* Make sure it's visible */
+        flex-direction: column; /* Ensure content is in a column */
+        justify-content: center; /* Center content vertically */
+        align-items: center; /* Center content horizontally */
+
+        /* Make background cover full screen */
         position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255, 255, 255, 0.9);
+        top: 0;
+        left: 0;
+        width: 100vw; /* Full width */
+        height: 100vh; /* Full height */
+        /* Ensure it sits above everything */
+        z-index: 9999;
+
+        /* Solid white background */
+        background: white;
+
         padding: 20px;
         text-align: center;
-        align-items: center;
+      }
+
+      .loading-h1 {
+        padding-bottom: 8px;
       }
 
       .container {
@@ -53,9 +67,41 @@
         background-color: #ffffff;
         color: #000000;
       }
-      body.dark-mode {
+      body.dark {
         background-color: #1a1a1a;
         color: #ffffff;
+      }
+      /* Light Mode (Default) */
+      .button-container {
+        background-color: white;
+        padding: 10px;
+        text-align: center;
+      }
+
+      /* Default Option Tab Styling */
+      .option {
+        background-color: transparent; /* No background */
+        color: black;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+
+      /* ✅ Dark Mode - Keep Tabs Transparent with White Text */
+      body.dark .option {
+        background-color: transparent; /* No background */
+        color: white; /* White text */
+        border: none; /* No default borders */
+      }
+
+      /* ✅ Active Tab - Add White Underline */
+      body.dark .option.active {
+        border-bottom: 2px solid white; /* White underline for selected tab */
+      }
+
+      /* ✅ Dark Mode */
+      body.dark .button-container {
+        background-color: #1a1a1a; /* ✅ Black background in dark mode */
       }
 
       #sidebar.dark {
@@ -228,9 +274,56 @@
       }
 
       body.dark button {
+        background-color: rgb(111, 173, 212); /* Example: Keep blue buttons */
+        color: #ffffff;
+        border: 1px solid rgb(111, 173, 212);
+      }
+      /* 🔹 Button Container at the Bottom */
+      body.dark .button-container {
+        background-color: #1a1a1a; /* ✅ Make it black */
+        padding: 10px;
+      }
+
+      /* 🔹 Apply dark mode to the main content */
+      body.dark #main-content,
+      body.dark .content {
+        background-color: #1a1a1a;
+        color: #ffffff;
+      }
+      /* 🔹 Fix input fields */
+      body.dark input,
+      body.dark textarea {
+        background-color: #333;
+        color: #ffffff;
+        border: 1px solid #666;
+      }
+
+      /* 🔹 Fix tab buttons (Search Font Theme, Results, Common Themes) */
+      body.dark .tabs button {
+        background-color: transparent;
+        color: #ffffff;
+      }
+
+      /* 🔹 Fix selected tab */
+      body.dark .tabs button.active {
         background-color: #ffffff;
         color: #000000;
-        border: 1px solid #ffffff;
+      }
+      /* 🔹 Button Container at the Bottom */
+      body.dark .button-container {
+        background-color: #1a1a1a; /* ✅ Make it black */
+        padding: 10px;
+      }
+      /* Dark Mode - Black Background, White Text */
+      body.dark .lottie-container {
+        background-color: #1a1a1a; /* ✅ Black background */
+        color: #ffffff; /* ✅ White text */
+      }
+
+      /* Ensure all text inside is white in dark mode */
+      body.dark .lottie-container h1,
+      body.dark .lottie-container p {
+        color: #ffffff; /* ✅ White text in dark mode */
       }
 
       p[contenteditable]:focus {
@@ -475,7 +568,7 @@
         text-align: left; /* Ensures inherited left alignment */
         display: block;
         /* padding-left: 8px;
-        padding-right: 8px; */
+                                padding-right: 8px; */
       }
       .pair1 {
         flex: auto;
@@ -584,6 +677,19 @@
         background: #f1f1f1;
       }
 
+      /* ✅ Dark Mode - Match Theme Card Styling */
+      body.dark .saved-font-item {
+        background: #111010; /* ✅ Dark gray (not full black) */
+        color: #ffffff;
+        border: solid 2px rgb(93, 148, 183); /* Softer shadow */
+      }
+
+      /* ✅ Dark Mode Hover Effect */
+      body.dark .saved-font-item:hover {
+        background: #3a3a3a; /* ✅ Slightly lighter gray on hover */
+        box-shadow: 0 4px 12px rgb(93, 148, 183);
+      }
+
       .saved-font-content {
         display: flex;
         flex-direction: column;
@@ -655,16 +761,33 @@
         gap: 12px;
         justify-content: center;
         z-index: 1001; /* ✅ Higher than the modal content */
-
-        /* ✅ Stronger fade effect
-        background: linear-gradient(
-          to top,
-          rgba(255, 255, 255, 1) 20%,
-          rgba(255, 255, 255, 0.7) 50%,
-          rgba(255, 255, 255, 0.4) 80%,
-          rgba(255, 255, 255, 0) 100%
-        );*/
       }
+
+      body.dark .popup-overlay.open .popup-footer {
+        position: fixed;
+        bottom: 0;
+        left: 50%; /* ✅ Start from the center */
+        transform: translateX(-50%); /* ✅ Shift left by half its width */
+        width: 90%; /* ✅ Ensure it adapts to popup width */
+        max-width: 600px; /* ✅ Ensure it doesn't stretch too wide */
+        background-color: #1a1a1a;
+        /* ✅ Remove the white gradient */
+        background-image: none;
+        padding: 16px 20px;
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        z-index: 1001; /* ✅ Higher than the modal content */
+      }
+
+      /* ✅ Stronger fade effect
+                                background: linear-gradient(
+                                  to top,
+                                  rgba(255, 255, 255, 1) 20%,
+                                  rgba(255, 255, 255, 0.7) 50%,
+                                  rgba(255, 255, 255, 0.4) 80%,
+                                  rgba(255, 255, 255, 0) 100%
+                                );*/
 
       /* ✅ Close button */
       #close-popup {
@@ -702,13 +825,13 @@
         z-index: 1000; /* ✅ Ensures it's above content */
 
         /* ✅ Stronger fade effect
-        background: linear-gradient(
-          to top,
-          rgba(255, 255, 255, 1) 20%,
-          rgba(255, 255, 255, 0.7) 50%,
-          rgba(255, 255, 255, 0.4) 80%,
-          rgba(255, 255, 255, 0) 100%
-        );*/
+                                background: linear-gradient(
+                                  to top,
+                                  rgba(255, 255, 255, 1) 20%,
+                                  rgba(255, 255, 255, 0.7) 50%,
+                                  rgba(255, 255, 255, 0.4) 80%,
+                                  rgba(255, 255, 255, 0) 100%
+                                );*/
       }
 
       /* ✅ Ensure content does not go under the buttons */
@@ -747,6 +870,27 @@
         opacity: 0.9;
       }
 
+      /* ✅ Dark Mode - Match Background to Dark Mode Theme */
+      body.dark .popup-overlay {
+        background: #1a1a1a; /* ✅ Dark mode background */
+        color: #ffffff; /* ✅ Ensure text is readable */
+      }
+
+      /* ✅ If There's Still a White Gradient, Remove It */
+      body.dark .popup-footer {
+        background: none; /* ✅ Removes any existing gradients */
+      }
+
+      /* ✅ Dark Mode - Close Button Stays Visible */
+      body.dark #close-popup {
+        color: white; /* ✅ White text for visibility */
+      }
+
+      /* ✅ Dark Mode - Ensure Content Text is Readable */
+      body.dark .popup-content {
+        color: white;
+      }
+
       li {
         list-style: none;
         margin-top: 8px;
@@ -777,36 +921,54 @@
         max-width: 48vh;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         cursor: pointer;
-
-        h3,
-        h4 {
-          margin: 0;
-          padding-left: 0px;
-        }
-
-        h3 {
-          padding-bottom: 8px;
-        }
-
-        .header {
-          font-size: 24px;
-        }
-        .body {
-          font-size: 18px;
-        }
-        .subheader {
-          font-size: 14px;
-          color: gray;
-        }
-        .divider {
-          margin: 16px 0px 16px 0px;
-          border-bottom: 1px solid black;
-        }
-        .example {
-          font-size: 16px;
-          padding-bottom: 0px;
-        }
+        transition: background-color 0.3s, box-shadow 0.3s;
       }
+      /* ✅ Light Mode Hover Effect */
+      .theme-card:hover {
+        background: #f0f0f0; /* Light gray on hover */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+      /* 🔹 Dark Mode - Make Cards a Lighter Shade of Black */
+      body.dark .theme-card {
+        background: #111010; /* ✅ Dark gray (not full black) */
+        color: #ffffff;
+        border: solid 2px rgb(93, 148, 183); /* Softer shadow */
+      }
+      /* ✅ Dark Mode Hover Effect */
+      body.dark .theme-card:hover {
+        background: #3a3a3a; /* ✅ Slightly lighter gray on hover */
+        box-shadow: 0 4px 12px rgb(93, 148, 183);
+      }
+
+      h3,
+      h4 {
+        margin: 0;
+        padding-left: 0px;
+      }
+
+      h3 {
+        padding-bottom: 8px;
+      }
+
+      .header {
+        font-size: 24px;
+      }
+      .body {
+        font-size: 18px;
+      }
+      .subheader {
+        font-size: 14px;
+        color: gray;
+      }
+      .divider {
+        margin: 16px 0px 16px 0px;
+        border-bottom: 1px solid black;
+      }
+      .example {
+        font-size: 16px;
+        padding-bottom: 0px;
+      }
+
       #font-container {
         display: flex;
         flex-wrap: wrap;
@@ -827,6 +989,10 @@
   <body>
     <!-- Loading Spinner -->
     <div id="loading-animation" class="lottie-container">
+      <h1 class="loading-h1">This will take ~10 seconds</h1>
+      <p>
+        We use AI to match font pairs to the theme you entered, so hang tight!
+      </p>
       <dotlottie-player
         src="https://lottie.host/1f1b3542-09a1-4a26-94a6-3a325d291461/FcuHe0HfQW.lottie"
         background="transparent"
@@ -1238,6 +1404,7 @@
         let savedFontPairs = []; // Global array to track saved pairs
 
         let useFontButton = document.createElement("button");
+        buttonContainer.classList.add("button-container"); // ✅ Ensure it has the correct class
         useFontButton.id = "use-font";
         useFontButton.classList.add("popup-button");
         useFontButton.setAttribute("data-font-family", pair.header.font);
