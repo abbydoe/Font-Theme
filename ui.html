@@ -340,38 +340,41 @@
         color: rgb(111, 173, 212);
       }
 
+
       .options {
         display: flex;
-        align-items: start;
-        flex-wrap: wrap;
-        gap: 16px;
-        list-style-type: none;
+        justify-content: space-between;
+        margin: 0;
+        padding: 0; /* ✅ Ensure no extra padding is adding space */
       }
 
       .options li {
         flex: 1;
         display: inline-block;
       }
+
       .option-content {
-        display: none; /* Hide all content by default */
-        max-height: calc(100vh - 150px); /* Adjust based on your layout */
-        overflow-y: auto; /* Enable vertical scrolling */
-        /*padding-bottom: 20px; /* Prevent text from being cut off at the bottom */
-        max-height: calc(100vh - 100px);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        visibility: hidden;
+        overflow-y: auto; /* ✅ Enables scrolling */
+        transition: opacity 0.2s ease-in-out;
+        padding: 16px;
+        box-sizing: border-box;
       }
 
+      /* ✅ Show only the active tab */
       .option-content.active {
-        display: block; /* Show only active content */
-        max-height: calc(100vh - 150px); /* Adjust based on your layout */
-        overflow-y: auto; /* Enable vertical scrolling */
-        /* Prevent text from being cut off at the bottom */
-        max-height: calc(
-          100vh - 100px
-        ); /* ✅ Prevents the page from scrolling */
-      }
-
-      .option-content.active p:last-child {
-        margin-bottom: 30px; /* Push last text up slightly */
+        position: relative;
+        opacity: 1;
+        visibility: visible;
+        height: 100%;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto; /* ✅ Ensures scrolling works */
       }
 
       .find-font-content {
@@ -418,7 +421,6 @@
 
       .content {
         display: none; /* Hide all content by default */
-        padding: 20px;
         background-color: #ffffff;
       }
 
@@ -813,6 +815,13 @@
         padding: 0px 8px 72px 8px;
         /* Prevents internal clipping */
       }
+
+      .options-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: calc(100vh - 200px); /* ✅ Ensures proper height */
+      }
     </style>
   </head>
   <body>
@@ -886,54 +895,38 @@
 
         <!-- Results tab content -->
         <div class="content" id="font-family">
-          <div>
-            <ul class="options" style="display: block">
-              <li>
-                <button
-                  id="option1"
-                  class="option active"
-                  data-target="option1-content"
-                >
-                  Option 1
-                </button>
-              </li>
-              <li>
-                <button
-                  id="option2"
-                  class="option"
-                  data-target="option2-content"
-                >
-                  Option 2
-                </button>
-              </li>
-              <li>
-                <button
-                  id="option3"
-                  class="option"
-                  data-target="option3-content"
-                >
-                  Option 3
-                </button>
-              </li>
-              <li>
-                <button
-                  id="option4"
-                  class="option"
-                  data-target="option4-content"
-                >
-                  Option 4
-                </button>
-              </li>
-              <li>
-                <button
-                  id="option5"
-                  class="option"
-                  data-target="option5-content"
-                >
-                  Option 5
-                </button>
-              </li>
-            </ul>
+          <ul class="options" style="display: block">
+            <li>
+              <button
+                id="option1"
+                class="option active"
+                data-target="option1-content"
+              >
+                Option 1
+              </button>
+            </li>
+            <li>
+              <button id="option2" class="option" data-target="option2-content">
+                Option 2
+              </button>
+            </li>
+            <li>
+              <button id="option3" class="option" data-target="option3-content">
+                Option 3
+              </button>
+            </li>
+            <li>
+              <button id="option4" class="option" data-target="option4-content">
+                Option 4
+              </button>
+            </li>
+            <li>
+              <button id="option5" class="option" data-target="option5-content">
+                Option 5
+              </button>
+            </li>
+          </ul>
+          <div class="options-container">
             <div id="option1-content" class="option-content active"></div>
             <div id="option2-content" class="option-content"></div>
             <div id="option3-content" class="option-content"></div>
@@ -941,6 +934,7 @@
             <div id="option5-content" class="option-content"></div>
           </div>
         </div>
+
         <!-- All Font Themes Content -->
         <div class="content" id="all-font-categories">
           <div class="container" id="font-container"></div>
@@ -997,20 +991,27 @@
 
       optionButtons.forEach((button) => {
         button.addEventListener("click", function () {
-          // Remove 'active' class from all buttons
+          // ✅ Remove 'active' class from all buttons
           optionButtons.forEach((btn) => btn.classList.remove("active"));
 
-          // Add 'active' class to the clicked button
+          // ✅ Add 'active' class to the clicked button
           this.classList.add("active");
 
-          // Hide all option content sections
-          optionContents.forEach((content) => (content.style.display = "none"));
+          // ✅ Hide all content sections (keep them in the layout)
+          optionContents.forEach((content) => {
+            content.classList.remove("active");
+          });
 
-          // Show the corresponding option content section
+          // ✅ Show the corresponding tab and ensure it has scrollable content
           const targetId = this.getAttribute("data-target");
           const targetContent = document.getElementById(targetId);
           if (targetContent) {
-            targetContent.style.display = "block";
+            targetContent.classList.add("active");
+
+            // ✅ Ensure it has proper height and scrolling enabled
+            targetContent.style.height = "100%";
+            targetContent.style.maxHeight = "calc(100vh - 200px)";
+            targetContent.style.overflowY = "auto";
           }
         });
       });
@@ -1088,6 +1089,79 @@
         switchToResultsTab();
       }
 
+      // Global variables
+      let globalFontFeeling = document
+        .getElementById("font-feeling")
+        .value.trim();
+      let globalDateText = new Date().toDateString();
+      let globalParagraphText =
+        "This paragraph is how these fonts look when paired together. You can edit this text.";
+
+      // ✅ Update `globalFontFeeling` when the user types in the textarea
+      document.getElementById("font-feeling").addEventListener("input", (e) => {
+        globalFontFeeling = e.target.value.trim();
+        updateAllElements(); // Update all existing elements
+      });
+
+      // ✅ Update global values when any `h1`, `p.date`, or `p.editable-paragraph` is edited
+      document.addEventListener("input", (e) => {
+        if (e.target.matches("h1[contenteditable='true']")) {
+          globalFontFeeling = e.target.textContent.trim();
+        }
+        if (e.target.matches("p.date")) {
+          globalDateText = e.target.textContent.trim();
+        }
+        if (e.target.matches("p.editable-paragraph")) {
+          globalParagraphText = e.target.textContent.trim();
+        }
+      });
+
+      // ✅ Function to update all existing elements in the DOM
+      function updateAllElements() {
+        document
+          .querySelectorAll("h1[contenteditable='true']")
+          .forEach((el) => (el.textContent = globalFontFeeling));
+        document
+          .querySelectorAll("p.date")
+          .forEach((el) => (el.textContent = globalDateText));
+        document
+          .querySelectorAll("p.editable-paragraph")
+          .forEach((el) => (el.textContent = globalParagraphText));
+      }
+
+      // ✅ Use MutationObserver to detect new elements added to the DOM and update them
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) {
+              // Ensure it's an element node
+              if (node.matches && node.matches("h1[contenteditable='true']")) {
+                node.textContent = globalFontFeeling;
+              }
+              if (node.matches && node.matches("p.date")) {
+                node.textContent = globalDateText;
+              }
+              if (node.matches && node.matches("p.editable-paragraph")) {
+                node.textContent = globalParagraphText;
+              }
+              // If a whole new section was added, update all contained elements
+              node
+                .querySelectorAll?.("h1[contenteditable='true']")
+                .forEach((el) => (el.textContent = globalFontFeeling));
+              node
+                .querySelectorAll?.("p.date")
+                .forEach((el) => (el.textContent = globalDateText));
+              node
+                .querySelectorAll?.("p.editable-paragraph")
+                .forEach((el) => (el.textContent = globalParagraphText));
+            }
+          });
+        });
+      });
+
+      // Start observing the body for any new elements being added
+      observer.observe(document.body, { childList: true, subtree: true });
+
       async function createPopupContent(optionContent, pair, isResultstab) {
         // ✅ Rebuild missing elements dynamically
         optionContent.innerHTML = "";
@@ -1095,33 +1169,23 @@
         // Heading
         let editableHeader = document.createElement("h1");
         editableHeader.setAttribute("contenteditable", "true");
-        editableHeader.textContent = document
-          .getElementById("font-feeling")
-          .value.trim();
-        if (isResultstab) {
-          editableHeader.textContent = document
-            .getElementById("font-feeling")
-            .value.trim();
-        } else if (editableHeader.textContent) {
-          editableHeader.textContent = editableHeader.textContent;
-        } else {
-          editableHeader.textContent = "Hello";
-        }
-
+        editableHeader.textContent = globalFontFeeling || "Hello!";
         editableHeader.style.fontFamily = pair.header.font; // Apply header font dynamically
         optionContent.appendChild(editableHeader);
 
         // Date
         let date = document.createElement("p");
         date.classList.add("date");
-        date.textContent = new Date().toDateString(); // Use today's date
+        date.textContent = globalDateText || Date().toDateString(); // Use today's date
         date.setAttribute("contenteditable", "true");
         optionContent.appendChild(date);
 
         // Editable paragraph
         let editableParagraph = document.createElement("p");
+        editableParagraph.classList.add("editable-paragraph");
         editableParagraph.setAttribute("contenteditable", "true");
         editableParagraph.textContent =
+          globalParagraphText ||
           "This paragraph is how these fonts look when paired together. You can edit this text.";
         editableParagraph.style.fontFamily = pair.body.font; // Apply body font dynamically
         optionContent.appendChild(editableParagraph);
@@ -1365,14 +1429,6 @@
           const bodyFontFamily = event.target.getAttribute("data-body-font");
           const bodyFontWeights = JSON.parse(
             event.target.getAttribute("data-body-weights")
-          );
-
-          console.log(
-            "Sending message to main thread:",
-            headerFontFamily,
-            headerFontWeights,
-            bodyFontFamily,
-            bodyFontWeights
           );
 
           window.onload = async () => {
@@ -1638,58 +1694,10 @@
 
           const popupData = {};
 
-          // ✅ Function to save `contenteditable` fields dynamically
-          function savePopupData(popupKey) {
-            const editables = popupContent.querySelectorAll(
-              "[contenteditable='true']"
-            );
-            popupData[popupKey] = {}; // Ensure an object exists
-
-            editables.forEach((editable, index) => {
-              popupData[popupKey][`editable-${index}`] = editable.innerHTML; // Store edited content
-            });
-          }
-
-          // ✅ Function to restore `contenteditable` fields
-          function restorePopupData(popupKey) {
-            if (popupData[popupKey]) {
-              const editables = popupContent.querySelectorAll(
-                "[contenteditable='true']"
-              );
-
-              editables.forEach((editable, index) => {
-                if (popupData[popupKey][`editable-${index}`] !== undefined) {
-                  editable.innerHTML = popupData[popupKey][`editable-${index}`]; // Restore content
-                }
-              });
-            }
-          }
-
           // ✅ Make the list item clickable to display saved option content
           card.addEventListener("click", async () => {
             console.log("Theme card clicked", pair);
-
-            // ✅ Generate a unique key for this theme card
-            const popupKey = pair.header.font
-              .replace(/\s+/g, "-")
-              .toLowerCase();
-
-            // ✅ Ensure an object exists for this pop-up
-            if (!popupData[popupKey]) {
-              popupData[popupKey] = {};
-            }
-
-            // ✅ Clear and recreate content
-            popupContent.innerHTML = "";
             createPopupContent(popupContent, pair, false);
-
-            // ✅ Restore `contenteditable` text if available
-            restorePopupData(popupKey);
-
-            // ✅ Listen for user edits & save changes dynamically
-            popupContent.addEventListener("input", () =>
-              savePopupData(popupKey)
-            );
 
             popupOverlay.classList.add("open");
 
