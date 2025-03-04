@@ -29,7 +29,7 @@ async function fetchFontPairings(pluginmessage) {
     figma.ui.postMessage({ type: "show-spinner" });
 
     const response = await fetch(
-      "https://plugin.synergyapp.us/api/font-pairings/mock",
+      "https://plugin.synergyapp.us/api/font-pairings",
       {
         method: "POST",
         headers: {
