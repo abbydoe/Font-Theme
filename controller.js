@@ -1,5 +1,5 @@
 figma.showUI(__html__, { width: 800, height: 600 });
-const url = "https://plugin.synergyapp.us/api/font-pairings/mock";
+const url = "https://plugin.synergyapp.us/api/font-pairings";
 figma.ui.onmessage = async (pluginmessage) => {
   console.log(pluginmessage);
   if (pluginmessage.type == "find-font") {
