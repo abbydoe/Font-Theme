@@ -433,7 +433,6 @@
         color: rgb(111, 173, 212);
       }
 
-
       .options {
         display: flex;
         justify-content: space-between;
@@ -693,6 +692,7 @@
       .saved-font-content {
         display: flex;
         flex-direction: column;
+        color: #ffffff;
       }
 
       /* Adjust Header & Body headings */
@@ -708,6 +708,12 @@
         margin: 0;
         font-size: 11px;
         color: #555;
+      }
+
+      body.dark .saved-font-header,
+      body.dark .saved-font-body,
+      body.dark .saved-font-name {
+        color: #ffffff;
       }
 
       .popup-overlay {
@@ -959,6 +965,15 @@
       .subheader {
         font-size: 14px;
         color: gray;
+        text-align: left;
+        padding-left: 0%;
+      }
+
+      body.dark .subheader {
+        font-size: 14px;
+        color: #ffffff;
+        text-align: left;
+        padding-left: 0%;
       }
       .divider {
         margin: 16px 0px 16px 0px;
@@ -976,6 +991,15 @@
         overflow-y: visible;
         padding: 0px 8px 72px 8px;
         /* Prevents internal clipping */
+      }
+      body.dark .editing-mode {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.2
+        ); /* Light yellow background */
+        outline: 2px solid orange; /* Optional: Highlight border */
       }
 
       .options-container {
@@ -1279,6 +1303,18 @@
         }
         if (e.target.matches("p.editable-paragraph")) {
           globalParagraphText = e.target.textContent.trim();
+        }
+      });
+
+      document.addEventListener("focusin", (e) => {
+        if (e.target.matches("[contenteditable='true']")) {
+          e.target.classList.add("editing-mode"); // Add class on focus
+        }
+      });
+
+      document.addEventListener("focusout", (e) => {
+        if (e.target.matches("[contenteditable='true']")) {
+          e.target.classList.remove("editing-mode"); // Remove class on blur
         }
       });
 
