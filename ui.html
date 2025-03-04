@@ -649,7 +649,7 @@
         /* Ensres the container takes the full height of the viewport */
       }
       .searchH2 {
-        margin-bottom: 20px;
+        margin-bottom: 8px;
       }
       #font-feeling::placeholder {
         font-family: "Open Sans";
@@ -1008,6 +1008,14 @@
         flex-direction: column;
         height: calc(100vh - 200px); /* ✅ Ensures proper height */
       }
+      .mainP {
+        font-size: 14px;
+        padding-bottom: 20px;
+        text-align: center;
+      }
+      body.dark .mainP {
+        color: #ffffff;
+      }
     </style>
   </head>
   <body>
@@ -1071,8 +1079,13 @@
             class="searchH2"
             style="font-family: 'Raleway'; font-weight: bold"
           >
-            What feeling does your font need to have?
+            Search Fonts that Match the Vibe of Your Design
           </h2>
+          <p class="mainP">
+            Describe your design's purpose and the intended audience. Or, simply
+            type the feeling you want the font to evoke and we'll find 5 font
+            matches.
+          </p>
           <textarea
             id="font-feeling"
             type="vibe"
