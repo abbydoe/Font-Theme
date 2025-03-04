@@ -1293,9 +1293,9 @@
       }
 
       // Global variables
-      let globalFontFeeling = document
-        .getElementById("font-feeling")
-        .value.trim();
+      let globalFontFeeling =
+        document.getElementById("font-feeling").value.trim() ||
+        "You Can Edit This Header";
       let globalDateText = new Date().toDateString();
       let globalParagraphText =
         "This paragraph is how these fonts look when paired together. You can edit this text.";
