@@ -81,29 +81,65 @@ async function listAvailableStyles(fontFamily) {
 }
 
 function mapWeightToStyle(fontFamily, fontWeight, availableStyles) {
+  // Standard weight mapping based on closest matching names
   const weightToStyleMap = {
-    100: "Thin",
-    200: "ExtraLight",
-    300: "Light",
-    400: "Regular",
-    500: "Medium",
-    600: "SemiBold",
-    700: "Bold",
-    800: "ExtraBold",
-    900: "Black",
+    100: ["Thin", "Extra Light"],
+    200: ["Extra Light", "Light"],
+    300: ["Light", "Regular"],
+    400: ["Regular", "Normal", "Medium"],
+    500: ["Medium", "SemiBold"],
+    600: ["Semi Bold", "Bold"],
+    700: ["Bold", "Extra Bold"],
+    800: ["Extra Bold", "Black"],
+    900: ["Black", "Heavy"],
   };
 
-  const preferredStyle = weightToStyleMap[fontWeight];
-  console.log(`Mapping weight ${fontWeight} to style: ${preferredStyle}`);
+  console.log(`🔍 Mapping weight ${fontWeight} for font: ${fontFamily}`);
+  console.log(`🔹 Available Styles:`, availableStyles);
 
-  if (availableStyles.includes(preferredStyle)) {
-    return preferredStyle;
+  // Separate non-italic and italic styles
+  const nonItalicStyles = availableStyles.filter(
+    (style) => !style.toLowerCase().includes("italic")
+  );
+  const italicStyles = availableStyles.filter((style) =>
+    style.toLowerCase().includes("italic")
+  );
+
+  console.log(`✅ Non-Italic Styles:`, nonItalicStyles);
+  console.log(`🔸 Italic Styles:`, italicStyles);
+
+  // Find the best match from the weight mapping
+  const preferredStyles = weightToStyleMap[fontWeight] || ["Regular"];
+
+  for (const styleName of preferredStyles) {
+    if (nonItalicStyles.includes(styleName)) {
+      console.log(`🎯 Matched Non-Italic Style: ${styleName}`);
+      return styleName;
+    }
   }
 
+  // If no perfect match, try a partial match
+  for (const styleName of preferredStyles) {
+    const match = nonItalicStyles.find((s) =>
+      s.toLowerCase().includes(styleName.toLowerCase())
+    );
+    if (match) {
+      console.log(`🎯 Fuzzy Matched Non-Italic Style: ${match}`);
+      return match;
+    }
+  }
+
+  // Fallback: Try italics if no non-italic match is found
+  for (const styleName of preferredStyles) {
+    if (italicStyles.includes(styleName)) {
+      console.log(`🎯 Matched Italic Style: ${styleName}`);
+      return styleName;
+    }
+  }
+
+  // Last Fallback: Return first available style
   console.warn(
-    `Style ${preferredStyle} not found for ${fontFamily}. Falling back to ${
-      availableStyles[0] || "Regular"
-    }.`
+    `⚠️ No perfect match found. Using ${availableStyles[0] || "Regular"}.`
   );
   return availableStyles[0] || "Regular";
 }
@@ -111,6 +147,8 @@ function mapWeightToStyle(fontFamily, fontWeight, availableStyles) {
 async function createTextStyle(fontFamily, fontWeight, styleName) {
   const availableStyles = await listAvailableStyles(fontFamily);
   const style = mapWeightToStyle(fontFamily, fontWeight, availableStyles);
+
+  console.log(`Loading style for ${style} first...`);
 
   const regularFontName = { family: fontFamily, style: "Regular" };
   const fontName = { family: fontFamily, style: style };
@@ -124,7 +162,7 @@ async function createTextStyle(fontFamily, fontWeight, styleName) {
 
     const textStyle = figma.createTextStyle();
     textStyle.name = styleName;
-    textStyle.fontSize = 16;
+    //textStyle.fontSize = 16;
     textStyle.fontName = fontName;
 
     console.log(`Text style "${styleName}" created successfully with ${style}`);
