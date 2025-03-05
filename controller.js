@@ -1,21 +1,49 @@
+let cachedFonts = null;
+
+const weightOrder = [
+  "Thin",
+  "ExtraLight",
+  "Light",
+  "Regular",
+  "Medium",
+  "SemiBold",
+  "Bold",
+  "ExtraBold",
+  "Black",
+];
+
+async function getAllFonts() {
+  // Return the cached fonts if they have been loaded already.
+  if (cachedFonts) {
+    return cachedFonts;
+  }
+
+  try {
+    // Retrieve all available fonts from Figma
+    cachedFonts = await figma.listAvailableFontsAsync();
+    return cachedFonts;
+  } catch (error) {
+    console.error("Error retrieving fonts:", error);
+    return [];
+  }
+}
+
 figma.showUI(__html__, { width: 800, height: 600 });
 const url = "https://plugin.synergyapp.us/api/font-pairings";
 figma.ui.onmessage = async (pluginmessage) => {
   console.log(pluginmessage);
+  
   if (pluginmessage.type == "find-font") {
     fetchFontPairings(pluginmessage);
   }
+  
   if (pluginmessage.type == "create-text-style") {
     const { fonts } = pluginmessage;
-
+    console.log("Creating text styles for fonts:", fonts);
     for (const font of fonts) {
       const { fontFamily, fontWeights } = font;
-
-      console.log(`Processing font: ${fontFamily}`);
-
       for (let weight of fontWeights) {
-        console.log(`Creating style for ${fontFamily} with weight ${weight}`);
-        await createTextStyle(fontFamily, weight, `${fontFamily} ${weight}`);
+        await createTextStyle(fontFamily, weight);
       }
     }
 
@@ -27,6 +55,10 @@ async function fetchFontPairings(pluginmessage) {
   try {
     // 🔄 Notify UI to show loading spinner
     figma.ui.postMessage({ type: "show-spinner" });
+
+    const allFonts = await getAllFonts();
+
+    console.log("All fonts:", allFonts);
 
     const response = await fetch(
       "https://plugin.synergyapp.us/api/font-pairings",
@@ -43,12 +75,6 @@ async function fetchFontPairings(pluginmessage) {
       }
     );
 
-    // async function listAllFonts() {
-    //   const fonts = await figma.listAvailableFontsAsync();
-    //   console.log("Available Fonts:", fonts);
-    // }
-    // listAllFonts();
-
     console.log("Raw Response:", response);
 
     if (!response.ok) {
@@ -57,6 +83,38 @@ async function fetchFontPairings(pluginmessage) {
 
     const data = await response.json();
     console.log("Response from API:", data);
+
+    data.fontPairs.forEach((pair) => {
+      ["header", "body"].forEach((part) => {
+        const fontFamily = pair[part].font;
+        // Filter allFonts for matching family (case-insensitive)
+        const matchingFonts = allFonts.filter(
+          ({ fontName }) =>
+            fontName.family.toLowerCase() === fontFamily.toLowerCase()
+        );
+
+        // Create a set to avoid duplicates
+        const availableWeights = new Set();
+        matchingFonts.forEach(({ fontName }) => {
+          // Remove "Italic" if present; we're only concerned with the base weight
+          let baseStyle = fontName.style.replace(/ Italic$/, "");
+          // Check if this style is one we expect (present in weightOrder)
+          if (weightOrder.includes(baseStyle)) {
+            availableWeights.add(baseStyle);
+          }
+        });
+
+        // Convert the set to an array and sort it according to our weightOrder
+        const sortedWeights = Array.from(availableWeights).sort((a, b) => {
+          return weightOrder.indexOf(a) - weightOrder.indexOf(b);
+        });
+
+        // Update the font pair with the newly generated weights
+        pair[part].weights = sortedWeights;
+      });
+    });
+
+    console.log("modified data from API:", data);
 
     figma.ui.postMessage({
       type: "font-pairings-response",
@@ -70,105 +128,21 @@ async function fetchFontPairings(pluginmessage) {
   }
 }
 
-async function listAvailableStyles(fontFamily) {
-  const allFonts = await figma.listAvailableFontsAsync();
-  const availableStyles = allFonts
-    .filter((font) => font.fontName.family === fontFamily)
-    .map((font) => font.fontName.style);
-
-  console.log(`Available styles for ${fontFamily}:`, availableStyles);
-  return availableStyles;
-}
-
-function mapWeightToStyle(fontFamily, fontWeight, availableStyles) {
-  // Standard weight mapping based on closest matching names
-  const weightToStyleMap = {
-    100: ["Thin", "Extra Light"],
-    200: ["Extra Light", "Light"],
-    300: ["Light", "Regular"],
-    400: ["Regular", "Normal", "Medium"],
-    500: ["Medium", "SemiBold"],
-    600: ["Semi Bold", "Bold"],
-    700: ["Bold", "Extra Bold"],
-    800: ["Extra Bold", "Black"],
-    900: ["Black", "Heavy"],
-  };
-
-  console.log(`🔍 Mapping weight ${fontWeight} for font: ${fontFamily}`);
-  console.log(`🔹 Available Styles:`, availableStyles);
-
-  // Separate non-italic and italic styles
-  const nonItalicStyles = availableStyles.filter(
-    (style) => !style.toLowerCase().includes("italic")
-  );
-  const italicStyles = availableStyles.filter((style) =>
-    style.toLowerCase().includes("italic")
-  );
-
-  console.log(`✅ Non-Italic Styles:`, nonItalicStyles);
-  console.log(`🔸 Italic Styles:`, italicStyles);
-
-  // Find the best match from the weight mapping
-  const preferredStyles = weightToStyleMap[fontWeight] || ["Regular"];
-
-  for (const styleName of preferredStyles) {
-    if (nonItalicStyles.includes(styleName)) {
-      console.log(`🎯 Matched Non-Italic Style: ${styleName}`);
-      return styleName;
-    }
-  }
-
-  // If no perfect match, try a partial match
-  for (const styleName of preferredStyles) {
-    const match = nonItalicStyles.find((s) =>
-      s.toLowerCase().includes(styleName.toLowerCase())
-    );
-    if (match) {
-      console.log(`🎯 Fuzzy Matched Non-Italic Style: ${match}`);
-      return match;
-    }
-  }
-
-  // Fallback: Try italics if no non-italic match is found
-  for (const styleName of preferredStyles) {
-    if (italicStyles.includes(styleName)) {
-      console.log(`🎯 Matched Italic Style: ${styleName}`);
-      return styleName;
-    }
-  }
-
-  // Last Fallback: Return first available style
-  console.warn(
-    `⚠️ No perfect match found. Using ${availableStyles[0] || "Regular"}.`
-  );
-  return availableStyles[0] || "Regular";
-}
-
-async function createTextStyle(fontFamily, fontWeight, styleName) {
-  const availableStyles = await listAvailableStyles(fontFamily);
-  const style = mapWeightToStyle(fontFamily, fontWeight, availableStyles);
-
-  console.log(`Loading style for ${style} first...`);
-
+async function createTextStyle(fontFamily, fontWeight) {
   const regularFontName = { family: fontFamily, style: "Regular" };
-  const fontName = { family: fontFamily, style: style };
+  const fontName = { family: fontFamily, style: fontWeight };
 
   try {
-    console.log(`Loading "Regular" style for ${fontFamily} first...`);
     await figma.loadFontAsync(regularFontName);
-
-    console.log(`Loading ${style} style for ${fontFamily}...`);
     await figma.loadFontAsync(fontName);
 
     const textStyle = figma.createTextStyle();
-    textStyle.name = styleName;
-    //textStyle.fontSize = 16;
+    textStyle.name = fontFamily + " " + fontWeight;
     textStyle.fontName = fontName;
 
-    console.log(`Text style "${styleName}" created successfully with ${style}`);
   } catch (error) {
     console.error(
-      `Failed to create text style for ${fontFamily} ${style}`,
+      `Failed to create text style for ${fontFamily} ${fontWeight}`,
       error
     );
   }

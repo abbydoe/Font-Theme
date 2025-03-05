@@ -1151,6 +1151,7 @@
       <div id="plugin-container"></div>
     </div>
     <script>
+      const loadedFonts = new Set();
       document.addEventListener("DOMContentLoaded", function () {
         const tabs = document.querySelectorAll(".tab");
         const contents = document.querySelectorAll(".content");
@@ -1422,13 +1423,13 @@
           weights.forEach((weight) => {
             let weightLabel = document.createElement("p");
             weightLabel.classList.add("font-weight");
-            weightLabel.textContent = getWeightName(weight);
+            weightLabel.textContent = weight;
 
             let weightSample = document.createElement("p");
             weightSample.classList.add("font-sample");
             weightSample.textContent = "AaBbDdEeGgMmOoRrSs\n1234567890!?@#$%";
             weightSample.style.fontFamily = fontName;
-            weightSample.style.fontWeight = weight;
+            weightSample.style.fontWeight = getFontWeight(weight);
 
             column.appendChild(weightLabel);
             column.appendChild(weightSample);
@@ -1673,13 +1674,37 @@
         }
       });
 
-      // ✅ Function to load Google Fonts dynamically
+      function getFontWeight(fontWeightName) {
+        const weightMap = {
+          "Thin": 100,
+          "ExtraLight": 200,
+          "Light": 300,
+          "Regular": 400,
+          "Medium": 500,
+          "SemiBold": 600,
+          "Bold": 700,
+          "ExtraBold": 800,
+          "Black": 900,
+        };
+
+        // Return the corresponding number or a default (e.g., 400 for Regular) if not found.
+        return weightMap[fontWeightName] || 400;
+      }
+
       async function loadGoogleFont(fontName) {
         if (!fontName) return;
+
+        if (loadedFonts.has(fontName)) {
+          return;
+        }
+
+        // Construct the Google Fonts URL
         const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(
           / /g,
           "+"
         )}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+
+        // Check if a link with this URL already exists in the document
         if (!document.querySelector(`link[href="${fontUrl}"]`)) {
           const link = document.createElement("link");
           link.href = fontUrl;
@@ -1687,22 +1712,9 @@
           document.head.appendChild(link);
           console.log(`Font ${fontName} loaded dynamically.`);
         }
-      }
 
-      // ✅ Function to convert font weight numbers to readable names
-      function getWeightName(weight) {
-        const weightMap = {
-          100: "Thin",
-          200: "Extra Light",
-          300: "Light",
-          400: "Regular",
-          500: "Medium",
-          600: "Semi Bold",
-          700: "Bold",
-          800: "Extra Bold",
-          900: "Black",
-        };
-        return weightMap[weight] || `Weight ${weight}`;
+        // Mark the font as loaded
+        loadedFonts.add(fontName);
       }
 
       function switchToResultsTab() {
@@ -1719,20 +1731,44 @@
           category: "Friendly and Approachable",
           pairs: [
             {
-              header: { font: "Fredoka", weights: [400, 500, 600, 700] },
-              body: { font: "Quicksand", weights: [300, 400, 500, 600, 700] },
+              header: {
+                font: "Fredoka",
+                weights: ["Regular", "Medium", "SemiBold", "Bold"],
+              },
+              body: {
+                font: "Quicksand",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Cabin", weights: [400, 500, 600, 700] },
-              body: { font: "Hind", weights: [300, 400, 500, 600, 700] },
+              header: {
+                font: "Cabin",
+                weights: ["Regular", "Medium", "SemiBold", "Bold"],
+              },
+              body: {
+                font: "Hind",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Baloo 2", weights: [400, 500, 600, 700, 800] },
-              body: { font: "Fira Sans", weights: [300, 400, 500, 600, 700] },
+              header: {
+                font: "Baloo 2",
+                weights: ["Regular", "Medium", "SemiBold", "Bold", "ExtraBold"],
+              },
+              body: {
+                font: "Fira Sans",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Manrope", weights: [400, 500, 600, 700, 800] },
-              body: { font: "Asap", weights: [300, 400, 500, 600, 700] },
+              header: {
+                font: "Manrope",
+                weights: ["Regular", "Medium", "SemiBold", "Bold", "ExtraBold"],
+              },
+              body: {
+                font: "Asap",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
           ],
         },
@@ -1740,25 +1776,64 @@
           category: "Elegant and Classic",
           pairs: [
             {
-              header: { font: "Prata", weights: [400] },
-              body: { font: "Domine", weights: [400, 500, 600, 700] },
+              header: {
+                font: "Prata",
+                weights: ["Regular"],
+              },
+              body: {
+                font: "Domine",
+                weights: ["Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Lustria", weights: [400] },
-              body: { font: "Cardo", weights: [400, 700] },
+              header: {
+                font: "Lustria",
+                weights: ["Regular"],
+              },
+              body: {
+                font: "Cardo",
+                weights: ["Regular", "Bold"],
+              },
             },
             {
               header: {
                 font: "Vollkorn",
-                weights: [400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
-              body: { font: "Neuton", weights: [200, 300, 400, 700, 800] },
+              body: {
+                font: "Neuton",
+                weights: [
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Bold",
+                  "ExtraBold",
+                ],
+              },
             },
             {
-              header: { font: "Libre Caslon Text", weights: [400, 700] },
+              header: {
+                font: "Libre Caslon Text",
+                weights: ["Regular", "Bold"],
+              },
               body: {
                 font: "Spectral",
-                weights: [200, 300, 400, 500, 600, 700, 800],
+                weights: [
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                ],
               },
             },
           ],
@@ -1767,37 +1842,87 @@
           category: "Modern and Minimalist",
           pairs: [
             {
-              header: { font: "Questrial", weights: [400] },
+              header: {
+                font: "Questrial",
+                weights: ["Regular"],
+              },
               body: {
                 font: "Exo 2",
-                weights: [300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
               header: {
                 font: "Barlow Condensed",
-                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Thin",
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
               body: {
                 font: "Heebo",
-                weights: [300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
               header: {
                 font: "Space Grotesk",
-                weights: [300, 400, 500, 600, 700],
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
               },
               body: {
                 font: "Public Sans",
-                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Thin",
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
-              header: { font: "Archivo", weights: [400, 500, 600, 700] },
+              header: {
+                font: "Archivo",
+                weights: ["Regular", "Medium", "SemiBold", "Bold"],
+              },
               body: {
                 font: "Rubik",
-                weights: [300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
           ],
@@ -1808,27 +1933,72 @@
             {
               header: {
                 font: "Oswald",
-                weights: [200, 300, 400, 500, 600, 700],
+                weights: [
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                ],
               },
-              body: { font: "Monda", weights: [400, 700] },
+              body: {
+                font: "Monda",
+                weights: ["Regular", "Bold"],
+              },
             },
             {
-              header: { font: "Anton", weights: [400] },
+              header: {
+                font: "Anton",
+                weights: ["Regular"],
+              },
               body: {
                 font: "Urbanist",
-                weights: [300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
-              header: { font: "Bebas Neue", weights: [400] },
+              header: {
+                font: "Bebas Neue",
+                weights: ["Regular"],
+              },
               body: {
                 font: "Kanit",
-                weights: [300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
-              header: { font: "Teko", weights: [300, 400, 500, 600, 700] },
-              body: { font: "Chivo", weights: [300, 400, 500, 600, 700, 900] },
+              header: {
+                font: "Teko",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
+              body: {
+                font: "Chivo",
+                weights: [
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "Black",
+                ],
+              },
             },
           ],
         },
@@ -1838,26 +2008,66 @@
             {
               header: {
                 font: "Orbitron",
-                weights: [400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
-              body: { font: "Rajdhani", weights: [300, 400, 500, 600, 700] },
+              body: {
+                font: "Rajdhani",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Audiowide", weights: [400] },
-              body: { font: "Teko", weights: [300, 400, 500, 600, 700] },
+              header: {
+                font: "Audiowide",
+                weights: ["Regular"],
+              },
+              body: {
+                font: "Teko",
+                weights: ["Light", "Regular", "Medium", "SemiBold", "Bold"],
+              },
             },
             {
-              header: { font: "Syncopate", weights: [400, 700] },
+              header: {
+                font: "Syncopate",
+                weights: ["Regular", "Bold"],
+              },
               body: {
                 font: "Saira",
-                weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
+                weights: [
+                  "Thin",
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                  "Black",
+                ],
               },
             },
             {
-              header: { font: "Electrolize", weights: [400] },
+              header: {
+                font: "Electrolize",
+                weights: ["Regular"],
+              },
               body: {
                 font: "Oxanium",
-                weights: [200, 300, 400, 500, 600, 700, 800],
+                weights: [
+                  "ExtraLight",
+                  "Light",
+                  "Regular",
+                  "Medium",
+                  "SemiBold",
+                  "Bold",
+                  "ExtraBold",
+                ],
               },
             },
           ],
