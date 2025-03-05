@@ -58,8 +58,6 @@ async function fetchFontPairings(pluginmessage) {
 
     const allFonts = await getAllFonts();
 
-    console.log("All fonts:", allFonts);
-
     const response = await fetch(
       "https://plugin.synergyapp.us/api/font-pairings",
       {
