@@ -91,6 +91,21 @@ async function fetchFontPairings(pluginmessage) {
             fontName.family.toLowerCase() === fontFamily.toLowerCase()
         );
 
+        if (matchingFonts.length === 0) {
+          // Find the first occurrence where the font family contains the target text
+          const firstOccurrence = allFonts.find(({ fontName }) =>
+            fontName.family.toLowerCase().includes(fontFamily.toLowerCase())
+          );
+          if (firstOccurrence) {
+            // Use the exact family from that first occurrence for a refined filter
+            matchingFonts = allFonts.filter(
+              ({ fontName }) =>
+                fontName.family.toLowerCase() ===
+                firstOccurrence.fontName.family.toLowerCase()
+            );
+          }
+        }
+
         // Create a set to avoid duplicates
         const availableWeights = new Set();
         matchingFonts.forEach(({ fontName }) => {
