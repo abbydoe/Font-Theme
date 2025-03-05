@@ -32,11 +32,11 @@ figma.showUI(__html__, { width: 800, height: 600 });
 const url = "https://plugin.synergyapp.us/api/font-pairings";
 figma.ui.onmessage = async (pluginmessage) => {
   console.log(pluginmessage);
-  
+
   if (pluginmessage.type == "find-font") {
     fetchFontPairings(pluginmessage);
   }
-  
+
   if (pluginmessage.type == "create-text-style") {
     const { fonts } = pluginmessage;
     console.log("Creating text styles for fonts:", fonts);
@@ -112,8 +112,6 @@ async function fetchFontPairings(pluginmessage) {
       });
     });
 
-    console.log("modified data from API:", data);
-
     figma.ui.postMessage({
       type: "font-pairings-response",
       data: data.fontPairs,
@@ -137,7 +135,6 @@ async function createTextStyle(fontFamily, fontWeight) {
     const textStyle = figma.createTextStyle();
     textStyle.name = fontFamily + " " + fontWeight;
     textStyle.fontName = fontName;
-
   } catch (error) {
     console.error(
       `Failed to create text style for ${fontFamily} ${fontWeight}`,
